@@ -1,0 +1,138 @@
+@font-face{
+	font-family: title;
+	src:url(../img/thinfont-thin.ttf);
+}
+
+@keyframes in{
+    0%{opacity:0;}
+
+    100%{opacity:1;}
+}
+
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body
+{
+    width: 100%;
+    height: 100%;
+    animation: in 0.5s ease backwards;
+}
+
+body{
+	background:url(../img/build.jpg);
+	background-size: cover;
+	background-position-x: -170px;
+}
+
+#main{
+	width: 100%;
+	height: 100%;
+	
+	background-image: linear-gradient(0deg, rgba(0,0,0,.01),rgba(0,137,167,.4));
+	overflow:hidden;
+}
+
+img{
+	position: absolute;
+	top: 20px;
+    left: 140px;
+}
+
+h1{
+	font-family: title;
+	text-align: center;
+	position: absolute;
+	top: 110px;
+    
+    left: 40px;
+}
+
+.loginInput{
+	margin: 0 auto;
+	width: 100%;
+	outline: none;
+    background: rgba(11,16,19,.5);
+    border: none;
+    height: 50px;
+    font-size: 20px;
+    color: white;
+    font-family: sans-serif;
+}
+
+.loginInput:first-of-type{
+	margin-top: 180px;
+	border-bottom: solid 1px rgb(55, 98, 107);
+}
+
+.button{
+	display: inline-block;
+    outline: none;
+    background: transparent;
+    text-decoration: none;
+    width: 100px;
+    height: 30px;
+    margin-left: 46px;
+    border-radius: 4px;
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.button:nth-of-type(1){
+	border: 1px solid #00AA90;
+	color: #00AA90;
+}
+
+.button:nth-of-type(2){
+	border: 1px solid #FFB11B;
+	color: #FFB11B;
+}
+
+.button:nth-of-type(1):hover{
+	color:white;
+	background: #00AA90;
+}
+
+.button:nth-of-type(2):hover{
+	color:white;
+	background: #FFB11B;
+}
+
+#topBar{
+	position: absolute;
+	width: 100%;
+	height: 50px;
+	-webkit-app-region: drag;
+}
+
+#min{
+	-webkit-app-region: no-drag;
+	width: 32px;
+	height: 32px;
+	background: url('../img/最小化 (4).png');
+	transition: all .5s;
+}
+
+#min:hover{
+	cursor: pointer;
+	background-color: : rgba(189,192,186,.4);
+}
+
+#close{
+	-webkit-app-region: no-drag;
+	float: right;
+	width: 32px;
+	height: 32px;
+	background: url('../img/loginClose.png');
+	transition: all .5s;
+}
+
+#close:hover{
+	cursor: pointer;
+	background-color: rgba(208,16,76,.7);
+}
