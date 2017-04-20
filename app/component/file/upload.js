@@ -6,6 +6,8 @@ var fs=require('fs')
 class Upload extends React.Component {
 	constructor(args) {
 		super(args)
+
+		this.state={path:''}
 	}
 
 	fileAl(e){
@@ -18,7 +20,6 @@ class Upload extends React.Component {
     	}
     	this.context.ipc.send('createT',path,options)
 
-
 	}
 
 	f(e){
@@ -27,16 +28,18 @@ class Upload extends React.Component {
 	}
 
 	render(){
-		return <div>
-		<div onDrop={this.fileAl.bind(this)} 
-		      style={{width:'200px',height:'200px',background:'blue'}}></div>
+		return <div className='mainSection'>
+		<div className='informationZone'>
+			<input name='name' className='info'/>
+		</div>
+		<div className='dropZone' 
+			onDrop={this.fileAl.bind(this)}></div>
 		</div>
 	}
 }
 
 Upload.contextTypes={
-	ipc:React.PropTypes.object,
-
+	ipc:React.PropTypes.object
 }
 
 

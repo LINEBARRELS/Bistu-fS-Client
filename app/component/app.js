@@ -1,7 +1,7 @@
 var React=require('react')
 
-import {Main} from "./Main.js";
-import {Side} from "./Side.js";
+import {Main} from "./main.js";
+import {Side} from "./side.js";
 
 class R extends React.Component {
 	constructor(args) {
@@ -22,7 +22,7 @@ class R extends React.Component {
 
 	// methods
 	render(){
-		console.log('store',this.props.store);
+		// console.log('store',this.props.store);
 		return <div onDrop={this.fa}><Main /><Side /></div>
 	}
 }

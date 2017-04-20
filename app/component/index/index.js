@@ -1,41 +1,45 @@
 var React=require('react')
 var fs=require('fs')
 import {file} from "../../dist/file.js";
+
+
+var CSSTransitionGroup=React.addons.CSSTransitionGroup
 class Index extends React.Component {
 	constructor(args) {
 		super(args)
 
-		this.state={user:'',temp:null};
+		this.state={search:''};
 	}
 
-	create(){
-		this.state.temp=fs.readFileSync('.././Files/'+this.state.user);
-	}
-
-	start(e){
-		// ipc.send('start',this.state.temp)
-		// var fm=new file(this.state.temp)
-		console.log(peerConnectByUser)
+	search(){
+		so.emit('search',this.state.search)
 	}
 
 
 
-	handleUser(e){
-		this.setState({user: event.target.value});
+
+	handleChange(e){
+		this.setState({search: event.target.value});
 	}
 
 	
 	render(){
-		return <div>
-		<div>
-        <input type="text" value={this.state.user} onChange={this.handleUser.bind(this)}name="torr" id='torr' placeholder='输入种子名称'></input>
-      	</div>
-      	<div>
-      	<button id='mission' onClick={this.create.bind(this)}>建立任务</button>
-        <button id='send' onClick={this.start.bind(this)}>开始</button>
-      	</div>
 
-		</div>
+		return <div className='mainSection'>
+			<div className='navBar'>
+				<span className='input'>
+					<input type='text' placeholder='搜索' onChange={this.handle.bind(this)}/>
+					<button>Search</button>
+				</span>
+			</div>
+			<div className='files'>
+				<div className='block'></div>
+				<div className='block'></div>
+				<div className='block'></div>
+				<div className='block'></div>
+			</div>
+			</div>
+
 	}
 }
 

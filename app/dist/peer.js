@@ -44,10 +44,7 @@
    			this.pc.ondatachannel = function(event) {
       			receiveChannel = event.channel;
       			console.log('data!');
-      			// if(!this.temp[receiveChannel.label]){
-      			// 	this.temp[receiveChannel.label]=Buffer.alloc(0);
-      			// 	console.log('没有缓存拉');
-      			// }
+
       			receiveChannel.onmessage = function(event) {
               var pd=JSON.parse(event.data)
       			 if (pd.file) {
@@ -67,10 +64,7 @@
                   throw 'wtf?'
                 }
                 console.log(sf.length,index,pd.piece);
-                // var tem=JSON.stringify({data:sf,fileName:pd.file,piece:pd.piece})
-                // if(!this.dc[pd.piece]){
-                //   this.dc[pd.piece]=this.;
-                // }
+
 
                 event.target.send(sf)
                 // totalFile=null;

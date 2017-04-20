@@ -4,6 +4,8 @@ import {TopBar} from "./topBar/topBar.js";
 import {pageAction} from "./Action/Page.js"
 import {List} from "./util/list.js"
 
+
+var CSSTransitionGroup=React.addons.CSSTransitionGroup
 class Side extends React.Component {
 	constructor(args){
 		super(args)

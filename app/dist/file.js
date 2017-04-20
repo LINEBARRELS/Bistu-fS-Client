@@ -10,18 +10,19 @@ class file {
 		// code
 		var parsedTorrent=parse(torr);
 		this.filePieces=parsedTorrent.pieces;
-		this.recode=parsedTorrent.pieces.concat()
+		this.recode=parsedTorrent.pieces.concat();
+		this.pieceNum=parsedTorrent.pieces.length;
 		this.pieces={};
 
-		this.fileName=parsedTorrent.name
+		this.fileName=parsedTorrent.name;
 		this.creator=parsedTorrent.createdBy;
 		this.total=parsedTorrent.length;
 		this.pieceLength=parsedTorrent.pieceLength;
-		this.last=parsedTorrent.lastPieceLength
+		this.last=parsedTorrent.lastPieceLength;
 
 
 
-		this.limit=20;
+		this.limit=100;
 		this.cur=0;
 		this.on=0;
 
@@ -33,9 +34,9 @@ class file {
 	// methods
 	start(){
 	this.watcher=setInterval(()=>{
-		if(this.filePieces.length!=0){
+		if(this.on<=this.limit&&this.filePieces.length!=0){
 			var piece=this.filePieces.shift()
-			
+			this.cur =this.cur+1;
 			// console.log(piece);
 			if (!peerConnectByUser[this.creator]) {
 				peerConnectByUser[this.creator]=peer(this.creator);
@@ -55,7 +56,7 @@ class file {
 			}
 
 			dc.pieceLength=this.pieceLength;
-			this.pieces[piece]=dc;
+			this.pieces[piece]=this.creator
 			peerConnectByUser[this.creator].dc[piece]=dc
 
 			dc.onopen=function(event){
@@ -79,22 +80,33 @@ class file {
 
               	var position=this.recode.indexOf(event.target.label)
               	console.log(position);
-               	// ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.creator].temp[event.target.label])
+               	ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.creator].temp[event.target.label])
                	// peerConnectByUser[this.creator].temp[event.target.label]=null;
                	console.log(l,'有新块下载');
                	dc.close();
                	// peerConnectByUser[this.creator].dc[event.target.label]=null;
-               	if(this.last==true){
-               		this.pause()
-               	}
+               	
 
             	}
 			}.bind(this)//onmessage
+
 			this.on =this.on+1;
 			
 		}
-	}, 50);
-	}
+	}, 50);//watcher
+
+	this.checker=setInterval(()=>{
+		if(this.cur===this.pieceNum){
+			for(let i in this.pieces){
+				if(peerConnectByUser[fm.pieces[i]].temp[i].length===0){
+					console.log('检测到部分异常');
+					var tem=JSON.stringify({file:this.fileName,piece:i,length:this.pieceLength})
+					peerConnectByUser[fm.pieces[i]].dc[i].send(tem)
+				}
+			}
+		}
+	}, 2000);
+	}//start
 
 	pause(){
 	window.clearInterval(this.watcher);

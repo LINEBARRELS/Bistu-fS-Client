@@ -15,21 +15,7 @@ let mainWindow = null,
 
 var createTorrent=require('create-torrent')
 
-// app.on('ready', function() {
-//     mainWindow = new BrowserWindow({
-//     	// resizable:false,
-//     	transparent: true,
-//     	frame: false,
-//         height: 600,
-//         width: 800
-//     });
-//     mainWindow.openDevTools();
-//     mainWindow.loadURL('file://' + __dirname + '/index.html');
-//     mainWindow.webContents.on('did-finish-load', function () {
-//     mainWindow.webContents.send('something', 'whoooooooh!')
-//   })
-    
-// });
+var temp={}
 
 app.on('ready', function() {
 	login=new BrowserWindow({
@@ -81,12 +67,20 @@ ipcMain.on('createT',function(event,arg,opt){
    
 })
 
-ipcMain.on('fileArrive', function(event,pass,file) {
-  fs.appendFile('../rec/'+pass, file, (err)=>{
+ipcMain.on('fileArrive', function(event,name,posi,file) {
+  fs.appendFile('../rec/'+name, file, (err)=>{
   if(err){
   console.log(err);
   }
   console.log('file到达');
   });
+  // if(!temp[name]){
+  //   temp[name]=fs.openSync('../rec/'+name,'w+')
+  // }
+  // var buff=Buffer.from(file)
+
+  // fs.write(temp[name],buff,0,buff.length,posi*buff.length,(err, written, buffer)=>{
+  //   mainWindow.webContents.send('fileWriteCom',written)
+  // })
 });
 

@@ -13,7 +13,7 @@ import {file} from './dist/file.js'
 
 window.file=file;
 var ipc =electron.ipcRenderer
-var GG ='gw2gwe4'
+var store = createStore(routerReducer)
 
 var username=null
 
@@ -27,7 +27,16 @@ ipc.on('userinfo',function(event,arg) {
 ipc.on('re',function(event,arg,name){
 
 	fs.writeFileSync('../'+name+'.torrent',new Buffer(arg));
+	so.emit('torrent',arg)
 })
+
+ipc.on('fileWriteCom',(event,mess)=>{
+	console.log(mess);
+})
+
+so.on('message',  function(data) {
+  	store.dispatch()
+});
 
 // var enter = document.querySelector('#enter'),
 //     send = document.querySelector('#send'),
@@ -54,7 +63,7 @@ window.ondragover=function(e){
 
 
 
-var store = createStore(routerReducer)
+
 console.log(store);
 ReactDOM.render(<R ipc={ipc} store={store} user={username}/>,layout)
 

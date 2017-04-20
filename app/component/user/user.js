@@ -6,7 +6,7 @@ class User extends React.Component {
 	}
 
 	render(){
-		return <div>User</div>
+		return <div className='mainSection'>User</div>
 	}
 }
 

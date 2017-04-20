@@ -6,7 +6,7 @@ class Download extends React.Component {
 	}
 
 	render(){
-		return <div>download</div>
+		return <div className='mainSection'>download</div>
 	}
 }
 

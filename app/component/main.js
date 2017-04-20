@@ -8,6 +8,10 @@ import {Upload} from "./file/upload.js";
 import {Download} from "./file/download.js";
 import {User} from "./user/user.js";
 import {Index} from "./index/index.js"
+import {Message} from "./util/message.js"
+
+var CSSTransitionGroup=React.addons.CSSTransitionGroup;
+
 
 class Main extends React.Component {
 
@@ -42,23 +46,32 @@ class Main extends React.Component {
 
 	render(){
 		// console.log(this.state.cur);
-
+		var content = null
 		switch(this.state.cur){
 	  		case 'index':
-	  		   
-	  		   	return <div id='main'><Index /></div>
+
+	  		   	content =<Index key='index'/>
+	  		   	break;
 	  		case 'download':
 	  		   
-	  		  	return <div id='main'><Download/></div>
+	  		  	content =<Download key='download'/>
+	  		  	break;
 	  		case 'upload':
 	  		   
-	  			return <div id='main'><Upload/></div>
+	  			content =<Upload key='upload'/>
+	  			break;
 	  		case 'user':
 	  		  
-	  			return <div id='main'><User/></div>
+	  			content =<User key='user'/>
+	  			break;
 	  	}
 
-
+	  	return <div id='main'><Message /><CSSTransitionGroup
+          transitionName="example"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}>
+			{content}
+        </CSSTransitionGroup></div>
 
 	  
 	}
