@@ -7,13 +7,13 @@ import {R} from "./component/app.js";
 
 
 import {createStore} from "redux";
-import {routerReducer} from "./component/Reducer/Router.js"
+import {rootReducer} from "./component/Reducer/Root.js"
 
 import {file} from './dist/file.js'
 
 window.file=file;
 var ipc =electron.ipcRenderer
-var store = createStore(routerReducer)
+var store = createStore(rootReducer)
 
 var username=null
 
@@ -24,19 +24,20 @@ ipc.on('userinfo',function(event,arg) {
 	so.emit('onLine',arg)
 });
 
-ipc.on('re',function(event,arg,name){
+ipc.on('torrentCreated',function(event,arg,name){
 
 	fs.writeFileSync('../'+name+'.torrent',new Buffer(arg));
 	so.emit('torrent',arg)
+	console.log(name,'种子生成完成');
 })
 
 ipc.on('fileWriteCom',(event,mess)=>{
 	console.log(mess);
 })
 
-so.on('message',  function(data) {
-  	store.dispatch()
-});
+// so.on('message',  function(data) {
+//   	store.dispatch()
+// });
 
 // var enter = document.querySelector('#enter'),
 //     send = document.querySelector('#send'),
@@ -64,7 +65,6 @@ window.ondragover=function(e){
 
 
 
-console.log(store);
 ReactDOM.render(<R ipc={ipc} store={store} user={username}/>,layout)
 
 

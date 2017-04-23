@@ -10,6 +10,8 @@ import {User} from "./user/user.js";
 import {Index} from "./index/index.js"
 import {Message} from "./util/message.js"
 
+import {fileAction} from "./Action/Files.js";
+
 var CSSTransitionGroup=React.addons.CSSTransitionGroup;
 
 
@@ -37,8 +39,18 @@ class Main extends React.Component {
 	componentDidMount(){
 		this.context.store.subscribe(()=>{
 			// console.log('cur改变');
-			this.setState({cur:this.context.store.getState().cur})
+			this.setState({cur:this.context.store.getState().routerReducer.cur})
 		})
+
+
+		so.on('message', (data)=>{
+			console.log(data);
+		});
+
+		so.on('searchResult', (data)=>{
+			console.log(data);
+			this.context.store.dispatch(fileAction(data))
+		});
 	}
 
 
@@ -46,6 +58,7 @@ class Main extends React.Component {
 
 	render(){
 		// console.log(this.state.cur);
+		// console.log(this.context.store.getState());
 		var content = null
 		switch(this.state.cur){
 	  		case 'index':
@@ -66,9 +79,9 @@ class Main extends React.Component {
 	  			break;
 	  	}
 
-	  	return <div id='main'><Message /><CSSTransitionGroup
+	  	return <div id='main'><div className='process'><div></div></div><Message /><CSSTransitionGroup
           transitionName="example"
-          transitionEnterTimeout={500}
+          transitionEnterTimeout={400}
           transitionLeaveTimeout={300}>
 			{content}
         </CSSTransitionGroup></div>

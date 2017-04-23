@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-const rootReducer=combineReducers({
+import * as reducers from './rs/reducers'
 
-})
+const rootReducer=combineReducers(reducers)
 
 
 export {rootReducer}

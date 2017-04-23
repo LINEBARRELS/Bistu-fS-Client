@@ -58,7 +58,7 @@ ipcMain.on('createT',function(event,arg,opt){
   		if(!err){
         var tem=arg.split('/');
         var name=tem.reverse()[0];
-  			mainWindow.webContents.send('re',torrent,name)
+  			mainWindow.webContents.send('torrentCreated',torrent,name)
   		}else{
   			console.log(err);
   		}
