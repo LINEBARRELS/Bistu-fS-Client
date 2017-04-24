@@ -37,5 +37,20 @@ export const fileReducer = (state={content:[]},action) =>{
 
 }
 
+export const processReducer =(state={process:0},action)=>{
+
+
+	switch(action.type){
+		case 'moving':
+		return Object.assign({},state,{
+			process:action.process
+		})
+		default:
+		return state
+	}
+
+
+}
+
 
 

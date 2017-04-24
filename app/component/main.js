@@ -39,6 +39,9 @@ class Main extends React.Component {
 	componentDidMount(){
 		this.context.store.subscribe(()=>{
 			// console.log('cur改变');
+			
+			this.refs.pro.style.right=100-this.context.store.getState().processReducer.process+'%'
+			
 			this.setState({cur:this.context.store.getState().routerReducer.cur})
 		})
 
@@ -48,7 +51,8 @@ class Main extends React.Component {
 		});
 
 		so.on('searchResult', (data)=>{
-			console.log(data);
+
+			console.log('接收到搜索结果',data);
 			this.context.store.dispatch(fileAction(data))
 		});
 	}
@@ -79,7 +83,7 @@ class Main extends React.Component {
 	  			break;
 	  	}
 
-	  	return <div id='main'><div className='process'><div></div></div><Message /><CSSTransitionGroup
+	  	return <div id='main'><div className='process'><div ref='pro'></div></div><Message /><CSSTransitionGroup
           transitionName="example"
           transitionEnterTimeout={400}
           transitionLeaveTimeout={300}>

@@ -257,6 +257,8 @@ body
     background-color: rgba(8,8,8,.7);
 
     flex: 1 1 0;
+
+    user-select: none;
 }
 
 .sideItem.on
@@ -430,7 +432,7 @@ body
     overflow: hidden;
 
 
-    height: 120px;
+    height: 220px;
     margin: 16px 10px;
 
     transition: all .4s;
@@ -445,12 +447,46 @@ body
 
     color: #FFE8D1;
     font-family: cnx;
-    font-size: large;
+
+    border-radius: 4px;
+
+    cursor: pointer;
 }
-/*
-.block:last-of-type{
-    max-width: 213.328px;
-}*/
+
+
+
+.block > div{
+    width: 100%;
+    height: 70%;
+    background-image: url(../img/C33D10379773DDA89B9B34F9C8F8E89C.jpg);
+    background-size: cover;
+}
+
+.block >div:hover{
+    transform: translateY(-5px;);
+}
+
+.block >span{
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2px 0;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.block >span:after{
+    content: '';
+    position: absolute;
+    height: 1px;
+    width: 100%;
+    top: 19px;
+    left: 0;
+    background: linear-gradient(90deg,rgba(17,255,255,.4),  rgba(17,50,133,.6) 50%, rgba(255,255,255,.2));
+}
 
 
 
@@ -497,16 +533,16 @@ body
     transition: all .15s;
 }
 
-.types:visited .typeIcon{
+.types .typeIcon:visited{
     color:#468189;
 }
 
-.types:hover .typeIcon{
+.types .typeIcon:hover{
     color:#6FC4C2;
     transform: translateY(1px);
 }
 
-.types:active .typeIcon{
+.types .typeIcon:active{
     color: #468189;
     transform: translateY(2px);
 }
@@ -594,11 +630,12 @@ body
 }
 
 .process > div{
-    width:100%;
+    width:700px;
     position: absolute;
     height: 100%;
     transition: all .3s;
     background: #68e3ec;
+    right: 100%;
 }
 
 

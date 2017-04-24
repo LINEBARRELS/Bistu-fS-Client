@@ -15,6 +15,8 @@ window.file=file;
 var ipc =electron.ipcRenderer
 var store = createStore(rootReducer)
 
+window.store=store;
+
 var username=null
 
 ipc.on('userinfo',function(event,arg) {
@@ -26,8 +28,8 @@ ipc.on('userinfo',function(event,arg) {
 
 ipc.on('torrentCreated',function(event,arg,name){
 
-	fs.writeFileSync('../'+name+'.torrent',new Buffer(arg));
-	so.emit('torrent',arg)
+	fs.writeFileSync('./'+name+'.torrent',new Buffer(arg));
+	so.emit('torrent',{torrent:arg,name:name})
 	console.log(name,'种子生成完成');
 })
 

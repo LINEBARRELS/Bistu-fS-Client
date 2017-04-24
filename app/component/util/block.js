@@ -5,8 +5,11 @@ class Block extends React.Component {
 		super(args)
 	}
 
+
+
 	render(){
-		return <div className='block'>
+		return <div className='block' >
+			<div></div>
 			<span>{this.props.fileName}</span>
 		</div>
 	}
