@@ -3132,10 +3132,12 @@ var Index = function (_React$Component) {
 		key: 'searchType',
 		value: function searchType(eve) {
 			console.log(eve.target);
-			if (document.querySelector('.typeOn')) {
-				document.querySelector('.typeOn').classList.remove('typeOn');
+			if (event.target.className === 'types') {
+				if (document.querySelector('.typeOn')) {
+					document.querySelector('.typeOn').classList.remove('typeOn');
+				}
+				eve.target.classList.add('typeOn');
 			}
-			eve.target.classList.add('typeOn');
 		}
 	}, {
 		key: 'handleChange',
@@ -3147,8 +3149,12 @@ var Index = function (_React$Component) {
 		value: function componentDidMount() {
 			var _this2 = this;
 
+			if (this.context.store.getState().fileReducer.content.length !== 0) {
+				this.setState({ files: this.context.store.getState().fileReducer.content });
+			}
+
 			this.context.store.subscribe(function () {
-				console.log(_this2.context.store.getState().fileReducer.content);
+				// console.log(this.context.store.getState().fileReducer.content);
 				if (!(0, _immutable.is)(_this2.context.store.getState().fileReducer.content, _this2.state.files)) {
 					_this2.setState({ files: _this2.context.store.getState().fileReducer.content });
 					// console.log('???');
@@ -3187,7 +3193,7 @@ var Index = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			// console.log(this.state.files);
+			console.log(this.state.files);
 			var blocks = [];
 
 			this.state.files.forEach(function (item, index) {
@@ -3262,7 +3268,7 @@ var Index = function (_React$Component) {
 				),
 				React.createElement(
 					'div',
-					{ className: 'files' },
+					{ className: 'files', key: 'fileRoot' },
 					React.createElement(
 						CSSTransitionGroup,
 						{

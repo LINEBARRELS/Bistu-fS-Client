@@ -21,10 +21,13 @@ class Index extends React.Component {
 
 	searchType(eve){
 		console.log(eve.target);
-		if(document.querySelector('.typeOn')){
-			document.querySelector('.typeOn').classList.remove('typeOn')
+		if(event.target.className==='types'){
+			if(document.querySelector('.typeOn')){
+				document.querySelector('.typeOn').classList.remove('typeOn')
+			}
+			eve.target.classList.add('typeOn')			
 		}
-		eve.target.classList.add('typeOn')
+
 	}
 
 
@@ -36,8 +39,12 @@ class Index extends React.Component {
 
 	componentDidMount() {
 
+		if (this.context.store.getState().fileReducer.content.length!==0) {
+			this.setState({files:this.context.store.getState().fileReducer.content})
+		}
+
 		this.context.store.subscribe(()=>{
-			console.log(this.context.store.getState().fileReducer.content);
+			// console.log(this.context.store.getState().fileReducer.content);
 			if(!is(this.context.store.getState().fileReducer.content,this.state.files)){
 				this.setState({files:this.context.store.getState().fileReducer.content})
 				// console.log('???');
@@ -75,7 +82,7 @@ shouldComponentUpdate(nextProps = {}, nextState = {}){
 
 	
 	render(){
-		// console.log(this.state.files);
+		console.log(this.state.files);
 		var blocks=[];
 
 		this.state.files.forEach((item,index)=>{
@@ -97,7 +104,7 @@ shouldComponentUpdate(nextProps = {}, nextState = {}){
 					<button onClick={this.search.bind(this)}>Search</button>
 				</span>
 			</div>
-			<div className='files'>
+			<div className='files' key='fileRoot'>
 			<CSSTransitionGroup
           		transitionName="example"
           		transitionEnterTimeout={400}
