@@ -2736,11 +2736,11 @@ ipc.on('userinfo', function (event, arg) {
 	so.emit('onLine', arg);
 });
 
-ipc.on('torrentCreated', function (event, arg, name) {
+ipc.on('torrentCreated', function (event, torrent, fileName, missionName) {
 
-	fs.writeFileSync('./' + name + '.torrent', new Buffer(arg));
-	so.emit('torrent', { torrent: arg, name: name });
-	console.log(name, '种子生成完成');
+	fs.writeFileSync('./torrents/' + missionName + '.torrent', new Buffer(torrent));
+	so.emit('torrent', { torrent: torrent, fileName: fileName, missionName: missionName, user: so.username });
+	console.log(missionName, '种子生成完成,文件为', fileName);
 });
 
 ipc.on('fileWriteCom', function (event, mess) {
@@ -3048,6 +3048,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -3065,41 +3067,117 @@ var Upload = function (_React$Component) {
 
 		var _this = _possibleConstructorReturn(this, (Upload.__proto__ || Object.getPrototypeOf(Upload)).call(this, args));
 
-		_this.state = { path: '' };
+		_this.state = { path: '', name: '', type: '', detail: '' };
+
+		_this.handleDesc = _this.handleDesc.bind(_this);
 		return _this;
 	}
 
 	_createClass(Upload, [{
-		key: 'fileAl',
-		value: function fileAl(e) {
+		key: 'fileSelect',
+		value: function fileSelect(e) {
 			e.preventDefault();
 
 			var path = e.dataTransfer.files[0].path.split('\\').join('/');
-			var options = {
-				createdBy: so.username,
-				pieceLength: 1048576
-			};
-			this.context.ipc.send('createT', path, options);
+			// this.context.ipc.send('createT',path,options)
+			this.setState({ path: path });
+
+			e.target.innerHTML = path;
 		}
 	}, {
-		key: 'f',
-		value: function f(e) {
-			e.preventDefault();
-			return false;
+		key: 'handleDesc',
+		value: function handleDesc(e) {
+			var target = event.target;
+			var value = target.value;
+			var name = target.name;
+
+			this.setState(_defineProperty({}, name, value));
+		}
+	}, {
+		key: 'submit',
+		value: function submit(e) {
+			var options = {
+				createdBy: so.username,
+				pieceLength: 1048576,
+				comment: this.state.detail
+			};
+			this.context.ipc.send('createT', this.state, options);
 		}
 	}, {
 		key: 'render',
 		value: function render() {
+
 			return React.createElement(
 				'div',
 				{ className: 'mainSection' },
 				React.createElement(
 					'div',
 					{ className: 'informationZone' },
-					React.createElement('input', { name: 'name', className: 'info' })
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement(
+							'label',
+							{ 'for': 'missionName' },
+							'\u4EFB\u52A1\u540D'
+						),
+						React.createElement('input', { type: 'text', id: 'missionName', name: 'name', onChange: this.handleDesc })
+					),
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement(
+							'label',
+							null,
+							'\u7C7B\u578B'
+						),
+						React.createElement(
+							'select',
+							{ name: 'type', onChange: this.handleDesc },
+							React.createElement(
+								'option',
+								{ value: 'music' },
+								'\u97F3\u4E50'
+							),
+							React.createElement(
+								'option',
+								{ value: 'movie' },
+								'\u7535\u5F71'
+							),
+							React.createElement(
+								'option',
+								{ value: 'game' },
+								'\u6E38\u620F'
+							),
+							React.createElement(
+								'option',
+								{ value: 'doc' },
+								'\u6587\u6863'
+							),
+							React.createElement(
+								'option',
+								{ value: 'other' },
+								'\u5176\u4ED6'
+							)
+						)
+					),
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement('textarea', { name: 'detail', onChange: this.handleDesc, placeholder: '\u7B80\u4ECB' })
+					),
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement(
+							'button',
+							{ id: 'torrentSubmit', onClick: this.submit.bind(this) },
+							'\u63D0\u4EA4'
+						)
+					)
 				),
 				React.createElement('div', { className: 'dropZone',
-					onDrop: this.fileAl.bind(this) })
+					onDrop: this.fileSelect.bind(this) })
 			);
 		}
 	}]);
@@ -3209,7 +3287,7 @@ var Index = function (_React$Component) {
 			var thisProps = this.props || {},
 			    thisState = this.state || {};
 			if (thisState['search'] !== nextState['search']) {
-				return false;
+				return true;
 			}
 
 			if (Object.keys(thisProps).length !== Object.keys(nextProps).length || Object.keys(thisState).length !== Object.keys(nextState).length) {
@@ -3232,11 +3310,11 @@ var Index = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			console.log('index绘制开始', this.state.files);
+			console.log('index绘制开始', this.state);
 			var blocks = [];
 
 			this.state.files.forEach(function (item, index) {
-				blocks.push(React.createElement(_block.Block, { key: index, fileName: item.filename }));
+				blocks.push(React.createElement(_block.Block, { key: index, fileName: item.fileName }));
 			});
 
 			return React.createElement(
@@ -3296,8 +3374,8 @@ var Index = function (_React$Component) {
 					),
 					React.createElement(
 						'span',
-						{ className: 'input' },
-						React.createElement('input', { type: 'text', placeholder: '\u641C\u7D22', onChange: this.handleChange.bind(this) }),
+						{ className: 'input search' },
+						React.createElement('input', { type: 'text', placeholder: '\u641C\u7D22', value: this.state.search, onChange: this.handleChange.bind(this) }),
 						React.createElement(
 							'button',
 							{ onClick: this.search.bind(this) },
@@ -3717,7 +3795,10 @@ var Block = function (_React$Component) {
 					'span',
 					null,
 					this.props.fileName
-				)
+				),
+				React.createElement('h4', null),
+				React.createElement('small', null),
+				React.createElement('span', { className: 'more' })
 			);
 		}
 	}]);

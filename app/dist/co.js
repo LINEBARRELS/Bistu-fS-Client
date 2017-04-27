@@ -5,7 +5,7 @@ var fileMission={}
 var peerConnectByUser={}
 
 
-window.so =  io.connect('http://192.168.1.103:8080');
+window.so =  io.connect('http://10.16.66.85:8080');
 window.fs = require('fs')
 window.parse=require('parse-torrent')
 

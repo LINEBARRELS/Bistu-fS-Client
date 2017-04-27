@@ -53,19 +53,22 @@ ipcMain.on('mini',function(event){
     mainWindow.minimize();
 }) 
 
-ipcMain.on('createT',function(event,arg,opt){
-  	createTorrent(arg,opt,function(err,torrent){
+ipcMain.on('createT',function(event,args,opt){
+    
+
+  	createTorrent(args.path,opt,function(err,torrent){
   		if(!err){
-        var tem=arg.split('/');
+        var tem=args.path.split('/');
         var name=tem.reverse()[0];
-  			mainWindow.webContents.send('torrentCreated',torrent,name)
+  			mainWindow.webContents.send('torrentCreated',torrent,name,args.name)
   		}else{
   			console.log(err);
   		}
   		
   	})
-   
 })
+
+
 
 ipcMain.on('fileArrive', function(event,name,posi,file) {
   fs.appendFile('../rec/'+name, file, (err)=>{

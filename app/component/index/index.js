@@ -60,7 +60,7 @@ class Index extends React.Component {
 	shouldComponentUpdate(nextProps = {}, nextState = {}){
   	const thisProps = this.props || {}, thisState = this.state || {};
   		if (thisState['search']!==nextState['search']) {
-  			return false;
+  			return true;
   		}
 
   		if (Object.keys(thisProps).length !== Object.keys(nextProps).length ||
@@ -84,11 +84,11 @@ class Index extends React.Component {
 
 	
 	render(){
-		console.log('index绘制开始',this.state.files);
+		console.log('index绘制开始',this.state);
 		var blocks=[];
 
 		this.state.files.forEach((item,index)=>{
-			blocks.push(<Block key={index} fileName={item.filename}></Block>)
+			blocks.push(<Block key={index} fileName={item.fileName}></Block>)
 		})
 
 
@@ -101,8 +101,8 @@ class Index extends React.Component {
 					<li className='types' ><a className='typeIcon' data-type='doc'>文档</a></li>
 					<li className='types' ><a className='typeIcon' data-type='other'>其他</a></li>
 				</ul>
-				<span className='input'>
-					<input type='text' placeholder='搜索' onChange={this.handleChange.bind(this)}/>
+				<span className='input search'>
+					<input type='text' placeholder='搜索' value={this.state.search} onChange={this.handleChange.bind(this)}/>
 					<button onClick={this.search.bind(this)}>Search</button>
 				</span>
 			</div>

@@ -26,11 +26,11 @@ ipc.on('userinfo',function(event,arg) {
 	so.emit('onLine',arg)
 });
 
-ipc.on('torrentCreated',function(event,arg,name){
+ipc.on('torrentCreated',function(event,torrent,fileName,missionName){
 
-	fs.writeFileSync('./'+name+'.torrent',new Buffer(arg));
-	so.emit('torrent',{torrent:arg,name:name})
-	console.log(name,'种子生成完成');
+	fs.writeFileSync('./torrents/'+missionName+'.torrent',new Buffer(torrent));
+	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username})
+	console.log(missionName,'种子生成完成,文件为',fileName);
 })
 
 ipc.on('fileWriteCom',(event,mess)=>{
