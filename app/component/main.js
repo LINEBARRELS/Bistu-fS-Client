@@ -39,10 +39,12 @@ class Main extends React.Component {
 	componentDidMount(){
 		this.context.store.subscribe(()=>{
 			// console.log('cur改变');
+			let next = this.context.store.getState();
+			if(next.processReducer.process!==this.refs.pro.style.width){
+				this.refs.pro.style.width=next.processReducer.process+'%'
+			}
 			
-			this.refs.pro.style.right=100-this.context.store.getState().processReducer.process+'%'
-			
-			this.setState({cur:this.context.store.getState().routerReducer.cur})
+			this.setState({cur:next.routerReducer.cur})
 		})
 
 
@@ -83,7 +85,7 @@ class Main extends React.Component {
 	  			break;
 	  	}
 
-	  	return <div id='main'><div className='process'><div ref='pro'></div></div><Message /><CSSTransitionGroup
+	  	return <div id='main'><div className='process'refs='proBar'><div ref='pro'></div></div><Message /><CSSTransitionGroup
           transitionName="example"
           transitionEnterTimeout={400}
           transitionLeaveTimeout={300}>

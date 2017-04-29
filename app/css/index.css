@@ -466,6 +466,11 @@ body
     height: 70%;
     background-image: url(../img/C33D10379773DDA89B9B34F9C8F8E89C.jpg);
     background-size: cover;
+    transition: .3s;
+}
+
+.block.on >div{
+    height: 0;
 }
 
 
@@ -495,8 +500,10 @@ body
 .block > h4{
     font-weight: 100;
     padding: 8px 0 0 10px;
-    font-size: 23px;
-    width: 80px;
+    width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .block > small{
@@ -507,7 +514,7 @@ body
 
 .more{
     background: url('../img/more.png');
-    width: 24px;
+    width: 32px;
     height: 32px;
     position: absolute;
     /* top: 0; */
@@ -848,7 +855,7 @@ body
 
 
 .process{
-    width: 100%;
+    width: 700px;
     height: 3px;
     position: fixed;
     overflow-x: hidden;
@@ -857,12 +864,12 @@ body
 }
 
 .process > div{
-    width:700px;
+    width:0%;
     position: absolute;
     height: 100%;
     transition: all .3s;
     background: #68e3ec;
-    right: 100%;
+    transition: all .1s;
 }
 
 

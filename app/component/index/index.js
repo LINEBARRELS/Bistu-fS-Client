@@ -17,19 +17,28 @@ class Index extends React.Component {
 	}
 
 	search(){
-		this.context.store.dispatch(processAction(0))
+		
 		so.emit('search',this.state.search)
 	}
 
-	searchType(eve){
-		console.log(eve.target.getAttribute('data-type'));
+	searchType(e){
+		
 		if(event.target.className==='typeIcon'){
 			if(document.querySelector('.typeOn')){
 				document.querySelector('.typeOn').classList.remove('typeOn')
 			}
-			eve.target.classList.add('typeOn')			
+			e.target.classList.add('typeOn')
+			console.log(e.target.getAttribute('data-type'));
+			this.context.store.dispatch(processAction(0))
+			so.emit('searchType',e.target.getAttribute('data-type'))			
 		}
 
+	}
+
+	downLoad(e){
+		e.stopPropagation();
+		so.emit('downLoad',e.target.getAttribute('data-value'))
+		
 	}
 
 
@@ -84,12 +93,14 @@ class Index extends React.Component {
 
 	
 	render(){
-		console.log('index绘制开始',this.state);
+		// console.log('index绘制开始',this.state);
 		var blocks=[];
 
 		this.state.files.forEach((item,index)=>{
-			blocks.push(<Block key={index} fileName={item.fileName}></Block>)
+			blocks.push(<Block key={item['_id']} fileName={item.fileName} missionName={item.missionName} type={item.type} onClick={this.downLoad.bind(this)}></Block>)
 		})
+
+		this.context.store.dispatch(processAction(60))
 
 
 		return <div className='mainSection'>
@@ -106,7 +117,7 @@ class Index extends React.Component {
 					<button onClick={this.search.bind(this)}>Search</button>
 				</span>
 			</div>
-			<div className='files' key='fileRoot'>
+			<div className='files' key='fileRoot' >
 			<CSSTransitionGroup
           		transitionName="example"
           		transitionEnterTimeout={400}

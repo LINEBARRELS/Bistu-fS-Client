@@ -14,7 +14,7 @@ class file {
 		this.pieceNum=parsedTorrent.pieces.length;
 		this.pieces={};
 
-		this.fileName=parsedTorrent.name;
+		this.fileName=parsedTorrent.fileName;
 		this.creator=parsedTorrent.createdBy;
 		this.total=parsedTorrent.length;
 		this.pieceLength=parsedTorrent.pieceLength;
@@ -28,7 +28,7 @@ class file {
 
 		this.watcher=null;
 
-		fileMission[parsedTorrent.name]=this;
+		fileMission[parsedTorrent.fileName]=this;
 	}
 
 	// methods

@@ -7,7 +7,7 @@ var peerConnectByUser={}
 
 window.so =  io.connect('http://10.16.66.85:8080');
 window.fs = require('fs')
-window.parse=require('parse-torrent')
+var parse=require('parse-torrent')
 
    
 so.on('icecandidate',  function(data) {
@@ -35,11 +35,13 @@ so.on('answered', function(data) {
 
   peerConnectByUser[data.from].setRomote(data.sdp,data.from)
 
-  
-	
 });
 
 so.on('roommess', function(data) {
    console.log(data.from);
 });
+
+so.on('torrentArrive',function(data){
+  new file(Buffer.from(data))
+})
 

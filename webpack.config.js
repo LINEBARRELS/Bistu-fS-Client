@@ -23,6 +23,5 @@ module.exports = {
    react:'window.React',
    reactdom:'window.ReactDOM',
    parseT:'require("parse-torrent")'
-
  }
 }

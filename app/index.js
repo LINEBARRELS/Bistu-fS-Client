@@ -1,6 +1,7 @@
 var fs=require('fs')
 var electron= require('electron')
 var ReactDOM=require('reactdom')
+var parse =require('parseT')
 
 
 import {R} from "./component/app.js";
@@ -17,37 +18,36 @@ var store = createStore(rootReducer)
 
 window.store=store;
 
-var username=null
+
 
 ipc.on('userinfo',function(event,arg) {
 	console.log(arg);
-	username=arg
 	so.username=arg;
 	so.emit('onLine',arg)
+	ipc.send('so',so)
 });
 
-ipc.on('torrentCreated',function(event,torrent,fileName,missionName){
+ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType){
 
 	fs.writeFileSync('./torrents/'+missionName+'.torrent',new Buffer(torrent));
-	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username})
+	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username,fileType:fileType})
 	console.log(missionName,'种子生成完成,文件为',fileName);
 })
 
+
 ipc.on('fileWriteCom',(event,mess)=>{
 	console.log(mess);
-})
+})//写文件完成
 
-// so.on('message',  function(data) {
-//   	store.dispatch()
-// });
+ipc.on('torrentBuffered', function(event,torrent) {
+	console.log(torrent);
+});
 
-// var enter = document.querySelector('#enter'),
-//     send = document.querySelector('#send'),
-//     start=document.querySelector('#filestart'),
-//     layout=document.querySelector('#layout')
 
-// console.log(Main,Side,'ream');
-// console.log(__dirname,'dir');
+
+
+
+
 
 window.ondrop=function(e){
 	try{
@@ -67,7 +67,7 @@ window.ondragover=function(e){
 
 
 
-ReactDOM.render(<R ipc={ipc} store={store} user={username}/>,layout)
+ReactDOM.render(<R ipc={ipc} store={store}/>,layout)
 
 
 
