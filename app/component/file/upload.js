@@ -36,7 +36,7 @@ class Upload extends React.Component {
 	submit(e){
 		var options={
       		createdBy:so.username,
-      		pieceLength: 1048576,
+      		pieceLength: 131072,
       		comment:this.state.detail
     	}
 		this.context.ipc.send('createT',this.state,options)

@@ -110,7 +110,7 @@ var file = function () {
 		this.pieceNum = parsedTorrent.pieces.length;
 		this.pieces = {};
 
-		this.fileName = parsedTorrent.fileName;
+		this.fileName = parsedTorrent.files[0].name;
 		this.creator = parsedTorrent.createdBy;
 		this.total = parsedTorrent.length;
 		this.pieceLength = parsedTorrent.pieceLength;
@@ -122,7 +122,7 @@ var file = function () {
 
 		this.watcher = null;
 
-		fileMission[parsedTorrent.fileName] = this;
+		fileMission[this.fileName] = this;
 	}
 
 	// methods
@@ -160,7 +160,8 @@ var file = function () {
 
 					dc.onopen = function (event) {
 						console.log(piece, '连接开始');
-						var tem = JSON.stringify({ file: this.fileName, piece: piece, length: this.pieceLength });
+
+						var tem = JSON.stringify({ file: this.fileName, piece: this.recode.indexOf(piece), length: this.pieceLength });
 						dc.send(tem);
 						this.on = this.on - 1;
 					}.bind(_this);
@@ -169,7 +170,7 @@ var file = function () {
 
 						var data = Buffer.from(event.data);
 						// console.log(data);
-						// console.log('接收方收到数据');
+						console.log('接收方收到数据');
 						peerConnectByUser[this.creator].temp[event.target.label] = Buffer.concat([peerConnectByUser[this.creator].temp[event.target.label], data]);
 
 						var l = peerConnectByUser[this.creator].temp[event.target.label].length;
@@ -180,7 +181,7 @@ var file = function () {
 							ipc.send('fileArrive', this.fileName, position, peerConnectByUser[this.creator].temp[event.target.label]);
 							// peerConnectByUser[this.creator].temp[event.target.label]=null;
 							console.log(l, '有新块下载');
-							dc.close();
+							// dc.close();
 							// peerConnectByUser[this.creator].dc[event.target.label]=null;
 
 						}
@@ -190,17 +191,17 @@ var file = function () {
 				}
 			}, 50); //watcher
 
-			this.checker = setInterval(function () {
-				if (_this.cur === _this.pieceNum) {
-					for (var i in _this.pieces) {
-						if (peerConnectByUser[fm.pieces[i]].temp[i].length === 0) {
-							console.log('检测到部分异常');
-							var tem = JSON.stringify({ file: _this.fileName, piece: i, length: _this.pieceLength });
-							peerConnectByUser[fm.pieces[i]].dc[i].send(tem);
-						}
-					}
-				}
-			}, 2000);
+			// this.checker=setInterval(()=>{
+			// 	if(this.cur===this.pieceNum){
+			// 		for(let i in this.pieces){
+			// 			if(peerConnectByUser[fm.pieces[i]].temp[i].length===0){
+			// 				console.log('检测到部分异常');
+			// 				var tem=JSON.stringify({file:this.fileName,piece:i,length:this.pieceLength})
+			// 				peerConnectByUser[fm.pieces[i]].dc[i].send(tem)
+			// 			}
+			// 		}
+			// 	}
+			// }, 2000);
 		} //start
 
 	}, {
@@ -2758,14 +2759,16 @@ ipc.on('torrentBuffered', function (event, torrent) {
 
 window.ondrop = function (e) {
 	try {
-		e.preventDefault();return false;
+		e.preventDefault();
+		return false;
 	} catch (e) {
 		console.log(e);
 	}
 };
 window.ondragover = function (e) {
 	try {
-		e.preventDefault();return false;
+		e.preventDefault();
+		return false;
 	} catch (e) {
 		console.log(e);
 	}
@@ -3095,7 +3098,7 @@ var Upload = function (_React$Component) {
 		value: function submit(e) {
 			var options = {
 				createdBy: so.username,
-				pieceLength: 1048576,
+				pieceLength: 131072,
 				comment: this.state.detail
 			};
 			this.context.ipc.send('createT', this.state, options);

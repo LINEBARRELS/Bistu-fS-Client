@@ -47,23 +47,24 @@
 
       			receiveChannel.onmessage = function(event) {
               var pd=JSON.parse(event.data)
+              console.log(event.target);
       			 if (pd.file) {
                 // console.log('发送方收到收据');
                 // console.log(event);
-                if(!this.t){
-                  this.t=fs.readFileSync('../'+pd.file+'.torrent');
-                }
+                // if(!this.t){
+                //   this.t=fs.readFileSync('../'+pd.file+'.torrent');
+                // }
                 if (!this.totalFile) {
-                  this.totalFile=fs.readFileSync('../Files/'+pd.file);
+                  this.totalFile=fs.readFileSync('.././Files/'+pd.file);
                 }
                 
-                var pieces=parse(this.t).pieces,
-                index=pieces.indexOf(pd.piece),
-                sf=this.totalFile.slice(index*pd.length,(index+1)*pd.length);
+                // var pieces=parse(this.t).pieces,
+                // index=pieces.indexOf(pd.piece),
+                sf=this.totalFile.slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
                 if (sf.length==0) {
                   throw 'wtf?'
                 }
-                console.log(sf.length,index,pd.piece);
+                console.log(sf.length,pd.piece);
 
 
                 event.target.send(sf)
