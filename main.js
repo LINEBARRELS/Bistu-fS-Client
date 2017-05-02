@@ -72,21 +72,26 @@ ipcMain.on('createT',function(event,args,opt){
 
 
 
-ipcMain.on('fileArrive', function(event,name,posi,file) {
-  fs.appendFile('../rec/'+name, file, (err)=>{
-  if(err){
-  console.log(err);
-  }
-  console.log('file到达');
-  });
-  // if(!temp[name]){
-  //   temp[name]=fs.openSync('../rec/'+name,'w+')
+ipcMain.on('fileArrive', function(event,name,posi,file,length) {
+  // fs.appendFile('../rec/'+name, file, (err)=>{
+  // if(err){
+  // console.log(err);
   // }
+  // console.log('file到达');
+  // });
+  if(!temp[name]){
+    temp[name]=fs.openSync('../rec/'+name,'w+')
+  }
   // var buff=Buffer.from(file)
 
-  // fs.write(temp[name],buff,0,buff.length,posi*buff.length,(err, written, buffer)=>{
-  //   mainWindow.webContents.send('fileWriteCom',written)
-  // })
+  fs.write(temp[name],file,0,file.length,posi*length,(err, written, buffer)=>{
+    mainWindow.webContents.send('fileWriteCom',written)
+  })
 });
 
 
+ipcMain.on('roomInit',function(event,name) {
+  fs.readdir('../Files', function(err,files){
+    mainWindow.webContents.send('haha',files)
+  });
+});

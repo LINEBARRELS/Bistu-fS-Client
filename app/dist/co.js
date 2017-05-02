@@ -5,7 +5,7 @@ var fileMission={}
 var peerConnectByUser={}
 
 
-window.so =  io.connect('http://10.16.66.85:8080');
+window.so =  io.connect('http://192.168.1.103:8080');
 window.fs = require('fs')
 var parse=require('parse-torrent')
 
@@ -45,3 +45,11 @@ so.on('torrentArrive',function(data){
   new file(Buffer.from(data))
 })
 
+so.on('broadcast',function(data){
+  console.log(data.from+' send a message:'+data.file)
+  so.emit('privateReply',{file:'hi!',to:data.from})
+})
+
+so.on('privateReply',function(data){
+  console.log(data.from+' reply a message:'+data.file)
+})

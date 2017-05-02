@@ -24,7 +24,7 @@ ipc.on('userinfo',function(event,arg) {
 	console.log(arg);
 	so.username=arg;
 	so.emit('onLine',arg);
-	ipc.send('so',so);
+	ipc.send('roomInit',so.username)
 });
 
 ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType){
@@ -44,7 +44,9 @@ ipc.on('torrentBuffered', function(event,torrent) {
 });
 
 
-
+ipc.on('haha',function(event,data) {
+	so.emit('join',data)
+});
 
 
 

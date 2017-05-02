@@ -108,7 +108,7 @@ var file = function () {
 		this.filePieces = parsedTorrent.pieces;
 		this.recode = parsedTorrent.pieces.concat();
 		this.pieceNum = parsedTorrent.pieces.length;
-		this.pieces = {};
+		this.piecesBelong = {};
 
 		this.fileName = parsedTorrent.files[0].name;
 		this.creator = parsedTorrent.createdBy;
@@ -120,9 +120,7 @@ var file = function () {
 		this.cur = 0;
 		this.on = 0;
 
-		this.watcher = null;
-
-		fileMission[this.fileName] = this;
+		this.watcher = null, this.checker = null, fileMission[this.fileName] = this;
 	}
 
 	// methods
@@ -137,59 +135,29 @@ var file = function () {
 				if (_this.on <= _this.limit && _this.filePieces.length != 0) {
 					var piece = _this.filePieces.shift();
 					_this.cur = _this.cur + 1;
-					// console.log(piece);
-					if (!peerConnectByUser[_this.creator]) {
-						peerConnectByUser[_this.creator] = peer(_this.creator);
-						peerConnectByUser[_this.creator].startOffer();
-					}
 
-					if (!peerConnectByUser[_this.creator].temp[piece]) {
-						peerConnectByUser[_this.creator].temp[piece] = Buffer.allocUnsafe(0);
-						// console.log('接收方建立dc缓存');
-					}
+					_this.piecesBelong[piece] = _this.creator;
 
-					var dc = peerConnectByUser[_this.creator].pc.createDataChannel(piece);
+					if (!_this.piecesBelong[piece]) {
+						_this.filePieces.push(piece);
+						_this.cur = _this.cur - 1;
+					} else {
 
-					if (_this.filePieces.length == 0) {
-						dc.last = true;
-					}
-
-					dc.pieceLength = _this.pieceLength;
-					_this.pieces[piece] = _this.creator;
-					peerConnectByUser[_this.creator].dc[piece] = dc;
-
-					dc.onopen = function (event) {
-						console.log(piece, '连接开始');
-
-						var tem = JSON.stringify({ file: this.fileName, piece: this.recode.indexOf(piece), length: this.pieceLength });
-						dc.send(tem);
-						this.on = this.on - 1;
-					}.bind(_this);
-
-					dc.onmessage = function (event) {
-
-						var data = Buffer.from(event.data);
-						// console.log(data);
-						console.log('接收方收到数据');
-						peerConnectByUser[this.creator].temp[event.target.label] = Buffer.concat([peerConnectByUser[this.creator].temp[event.target.label], data]);
-
-						var l = peerConnectByUser[this.creator].temp[event.target.label].length;
-						if (l == this.pieceLength || l == this.last) {
-
-							var position = this.recode.indexOf(event.target.label);
-							console.log(position);
-							ipc.send('fileArrive', this.fileName, position, peerConnectByUser[this.creator].temp[event.target.label]);
-							// peerConnectByUser[this.creator].temp[event.target.label]=null;
-							console.log(l, '有新块下载');
-							// dc.close();
-							// peerConnectByUser[this.creator].dc[event.target.label]=null;
-
+						if (!peerConnectByUser[_this.piecesBelong[piece]]) {
+							peerConnectByUser[_this.piecesBelong[piece]] = peer(_this.piecesBelong[piece]);
+							peerConnectByUser[_this.piecesBelong[piece]].startOffer();
 						}
-					}.bind(_this); //onmessage
 
-					_this.on = _this.on + 1;
-				}
+						if (!peerConnectByUser[_this.piecesBelong[piece]].temp[piece]) {
+							peerConnectByUser[_this.piecesBelong[piece]].temp[piece] = Buffer.allocUnsafe(0);
+							// console.log('接收方建立dc缓存');
+						}
+
+						_this.handle(piece);
+					} //pieceHolder 
+				} //first if
 			}, 50); //watcher
+
 
 			// this.checker=setInterval(()=>{
 			// 	if(this.cur===this.pieceNum){
@@ -201,12 +169,58 @@ var file = function () {
 			// 			}
 			// 		}
 			// 	}
-			// }, 2000);
+			// }, 2000);//checker
 		} //start
+
+
+	}, {
+		key: 'handle',
+		value: function handle(piece) {
+			var dc = peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
+
+			if (this.filePieces.length == 0) {
+				dc.last = true;
+			}
+
+			dc.pieceLength = this.pieceLength;
+			// this.pieces[piece]=this.creator;           //importent
+			peerConnectByUser[this.piecesBelong[piece]].dc[piece] = dc;
+
+			dc.onopen = function (event) {
+				console.log(piece, '连接开始');
+
+				var tem = JSON.stringify({ file: this.fileName, piece: this.recode.indexOf(piece), length: this.pieceLength });
+				dc.send(tem);
+				this.on = this.on - 1;
+			}.bind(this);
+
+			dc.onmessage = function (event) {
+
+				var data = Buffer.from(event.data);
+				// console.log(data);
+				console.log('接收方收到数据');
+				peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label] = Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label], data]);
+
+				var l = peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label].length;
+				if (l == this.pieceLength || l == this.last) {
+
+					var position = this.recode.indexOf(event.target.label);
+					console.log(position);
+					ipc.send('fileArrive', this.fileName, position, peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label], this.pieceLength);
+					// peerConnectByUser[this.creator].temp[event.target.label]=null;
+					console.log(l, '有新块下载');
+					dc.close();
+					peerConnectByUser[this.piecesBelong[piece]].dc[event.target.label] = null;
+				}
+			}.bind(this); //onmessage
+
+			this.on = this.on + 1;
+		} //handle
 
 	}, {
 		key: 'pause',
 		value: function pause() {
+
 			window.clearInterval(this.watcher);
 		}
 	}]);
@@ -2739,7 +2753,7 @@ ipc.on('userinfo', function (event, arg) {
 	console.log(arg);
 	so.username = arg;
 	so.emit('onLine', arg);
-	ipc.send('so', so);
+	ipc.send('roomInit', so.username);
 });
 
 ipc.on('torrentCreated', function (event, torrent, fileName, missionName, fileType) {
@@ -2755,6 +2769,10 @@ ipc.on('fileWriteCom', function (event, mess) {
 
 ipc.on('torrentBuffered', function (event, torrent) {
 	console.log(torrent);
+});
+
+ipc.on('haha', function (event, data) {
+	so.emit('join', data);
 });
 
 window.ondrop = function (e) {
@@ -3098,7 +3116,7 @@ var Upload = function (_React$Component) {
 		value: function submit(e) {
 			var options = {
 				createdBy: so.username,
-				pieceLength: 131072,
+				pieceLength: 4194304,
 				comment: this.state.detail
 			};
 			this.context.ipc.send('createT', this.state, options);

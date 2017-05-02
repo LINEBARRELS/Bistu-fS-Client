@@ -47,7 +47,6 @@
 
       			receiveChannel.onmessage = function(event) {
               var pd=JSON.parse(event.data)
-              console.log(event.target);
       			 if (pd.file) {
                 // console.log('发送方收到收据');
                 // console.log(event);

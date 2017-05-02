@@ -12,7 +12,7 @@ class file {
 		this.filePieces=parsedTorrent.pieces;
 		this.recode=parsedTorrent.pieces.concat();
 		this.pieceNum=parsedTorrent.pieces.length;
-		this.pieces={};
+		this.piecesBelong={};
 
 		this.fileName=parsedTorrent.files[0].name;
 		this.creator=parsedTorrent.createdBy;
@@ -26,38 +26,70 @@ class file {
 		this.cur=0;
 		this.on=0;
 
-		this.watcher=null;
+		this.watcher=null,
+		this.checker=null,
 
 		fileMission[this.fileName]=this;
 	}
 
 	// methods
 	start(){
-	this.watcher=setInterval(()=>{
+
+
+ 	
+		this.watcher=setInterval(()=>{
 		if(this.on<=this.limit&&this.filePieces.length!=0){
 			var piece=this.filePieces.shift();
 			this.cur =this.cur+1;
-			// console.log(piece);
-			if (!peerConnectByUser[this.creator]) {
-				peerConnectByUser[this.creator]=peer(this.creator);
-				peerConnectByUser[this.creator].startOffer()
-			}
+
+
+			if(!this.piecesBelong[piece]){
+				this.filePieces.push(piece);
+				this.cur =this.cur-1;
+			}else{
+
+				if (!peerConnectByUser[this.piecesBelong[piece]]) {
+					peerConnectByUser[this.piecesBelong[piece]]=peer(this.piecesBelong[piece]);
+					peerConnectByUser[this.piecesBelong[piece]].startOffer()
+				}
 			
 
-			if(!peerConnectByUser[this.creator].temp[piece]){
-      				peerConnectByUser[this.creator].temp[piece]=Buffer.allocUnsafe(0);
-      				// console.log('接收方建立dc缓存');
-      		}
+				if(!peerConnectByUser[this.piecesBelong[piece]].temp[piece]){
+      					peerConnectByUser[this.piecesBelong[piece]].temp[piece]=Buffer.allocUnsafe(0);
+      					// console.log('接收方建立dc缓存');
+      			}
 
-			var dc=peerConnectByUser[this.creator].pc.createDataChannel(piece);
+				this.handle(piece)
+			}//pieceHolder 
+		}//first if
+		}, 50);//watcher
+
+
+
+		// this.checker=setInterval(()=>{
+		// 	if(this.cur===this.pieceNum){
+		// 		for(let i in this.pieces){
+		// 			if(peerConnectByUser[fm.pieces[i]].temp[i].length===0){
+		// 				console.log('检测到部分异常');
+		// 				var tem=JSON.stringify({file:this.fileName,piece:i,length:this.pieceLength})
+		// 				peerConnectByUser[fm.pieces[i]].dc[i].send(tem)
+		// 			}
+		// 		}
+		// 	}
+		// }, 2000);//checker
+	}//start
+
+
+	handle(piece){
+			var dc=peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
 
 			if(this.filePieces.length==0){
 				dc.last=true;
 			}
 
 			dc.pieceLength=this.pieceLength;
-			this.pieces[piece]=this.creator;
-			peerConnectByUser[this.creator].dc[piece]=dc;
+			// this.pieces[piece]=this.creator;           //importent
+			peerConnectByUser[this.piecesBelong[piece]].dc[piece]=dc;
 
 			dc.onopen=function(event){
 				console.log(piece,'连接开始');
@@ -73,44 +105,30 @@ class file {
               	var data=Buffer.from(event.data);
               	// console.log(data);
               	console.log('接收方收到数据');
-              	peerConnectByUser[this.creator].temp[event.target.label]=Buffer.concat([peerConnectByUser[this.creator].temp[event.target.label],data])
+              	peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label]=Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label],data])
 
 
-              	var l=peerConnectByUser[this.creator].temp[event.target.label].length;
+              	var l=peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label].length;
               	if (l==this.pieceLength||l==this.last) {
 
               	var position=this.recode.indexOf(event.target.label);
               	console.log(position);
-               	ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.creator].temp[event.target.label])
+               	ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label],this.pieceLength)
                	// peerConnectByUser[this.creator].temp[event.target.label]=null;
                	console.log(l,'有新块下载');
-               	// dc.close();
-               	// peerConnectByUser[this.creator].dc[event.target.label]=null;
+               	dc.close();
+               	peerConnectByUser[this.piecesBelong[piece]].dc[event.target.label]=null;
                	
 
             	}
 			}.bind(this)//onmessage
 
 			this.on =this.on+1;
-			
-		}
-	}, 50);//watcher
-
-	// this.checker=setInterval(()=>{
-	// 	if(this.cur===this.pieceNum){
-	// 		for(let i in this.pieces){
-	// 			if(peerConnectByUser[fm.pieces[i]].temp[i].length===0){
-	// 				console.log('检测到部分异常');
-	// 				var tem=JSON.stringify({file:this.fileName,piece:i,length:this.pieceLength})
-	// 				peerConnectByUser[fm.pieces[i]].dc[i].send(tem)
-	// 			}
-	// 		}
-	// 	}
-	// }, 2000);
-	}//start
+	}//handle
 
 	pause(){
-	window.clearInterval(this.watcher);
+		
+		window.clearInterval(this.watcher);
 	}
 }
 
