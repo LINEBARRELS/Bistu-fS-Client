@@ -46,10 +46,11 @@ so.on('torrentArrive',function(data){
 })
 
 so.on('broadcast',function(data){
-  console.log(data.from+' send a message:'+data.file)
-  so.emit('privateReply',{file:'hi!',to:data.from})
+  console.log('someone if searching for:'+data.file,data.piece)
+  so.emit('pieceSearch_Result',{file:data.file,piece:data.piece,holder:so.username})
 })
 
-so.on('privateReply',function(data){
-  console.log(data.from+' reply a message:'+data.file)
+so.on('rrr',function(data){
+  console.log(data);
 })
+

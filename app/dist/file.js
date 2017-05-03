@@ -20,34 +20,39 @@ class file {
 		this.pieceLength=parsedTorrent.pieceLength;
 		this.last=parsedTorrent.lastPieceLength;
 
-
+		this.pieceMessage={}
 
 		this.limit=100;
 		this.cur=0;
 		this.on=0;
+		this.searching=0;
 
 		this.watcher=null,
 		this.checker=null,
 
 		fileMission[this.fileName]=this;
+
+		so.emit('join',this.fileName)
 	}
 
 	// methods
 	start(){
-
-
- 	
 		this.watcher=setInterval(()=>{
-		if(this.on<=this.limit&&this.filePieces.length!=0){
+		if(this.on<=this.limit&&this.cur!=this.pieceNum){
 			var piece=this.filePieces.shift();
 			this.cur =this.cur+1;
 
+			this.piecesBelong[piece]=this.pieceMessage[piece]||null;
 
 			if(!this.piecesBelong[piece]){
+				console.log(piece,',没有文件持有者信息');
+				// let upRange = (this.searching+100)>this.pieceNum?this.pieceNum:(this.searching+100),
+				// 	searchPiece=this.recode.slice(this.searching,upRange);
+
+				so.emit('pieceSearch',this.fileName,piece)
 				this.filePieces.push(piece);
 				this.cur =this.cur-1;
 			}else{
-
 				if (!peerConnectByUser[this.piecesBelong[piece]]) {
 					peerConnectByUser[this.piecesBelong[piece]]=peer(this.piecesBelong[piece]);
 					peerConnectByUser[this.piecesBelong[piece]].startOffer()
@@ -62,7 +67,7 @@ class file {
 				this.handle(piece)
 			}//pieceHolder 
 		}//first if
-		}, 50);//watcher
+		}, 10);//watcher
 
 
 
@@ -77,7 +82,10 @@ class file {
 		// 		}
 		// 	}
 		// }, 2000);//checker
+
 	}//start
+
+
 
 
 	handle(piece){

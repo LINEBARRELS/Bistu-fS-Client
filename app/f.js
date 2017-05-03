@@ -116,11 +116,16 @@ var file = function () {
 		this.pieceLength = parsedTorrent.pieceLength;
 		this.last = parsedTorrent.lastPieceLength;
 
+		this.pieceMessage = {};
+
 		this.limit = 100;
 		this.cur = 0;
 		this.on = 0;
+		this.searching = 0;
 
 		this.watcher = null, this.checker = null, fileMission[this.fileName] = this;
+
+		so.emit('join', this.fileName);
 	}
 
 	// methods
@@ -132,17 +137,21 @@ var file = function () {
 			var _this = this;
 
 			this.watcher = setInterval(function () {
-				if (_this.on <= _this.limit && _this.filePieces.length != 0) {
+				if (_this.on <= _this.limit && _this.cur != _this.pieceNum) {
 					var piece = _this.filePieces.shift();
 					_this.cur = _this.cur + 1;
 
-					_this.piecesBelong[piece] = _this.creator;
+					_this.piecesBelong[piece] = _this.pieceMessage[piece] || null;
 
 					if (!_this.piecesBelong[piece]) {
+						console.log(piece, ',没有文件持有者信息');
+						// let upRange = (this.searching+100)>this.pieceNum?this.pieceNum:(this.searching+100),
+						// 	searchPiece=this.recode.slice(this.searching,upRange);
+
+						so.emit('pieceSearch', _this.fileName, piece);
 						_this.filePieces.push(piece);
 						_this.cur = _this.cur - 1;
 					} else {
-
 						if (!peerConnectByUser[_this.piecesBelong[piece]]) {
 							peerConnectByUser[_this.piecesBelong[piece]] = peer(_this.piecesBelong[piece]);
 							peerConnectByUser[_this.piecesBelong[piece]].startOffer();
@@ -156,7 +165,7 @@ var file = function () {
 						_this.handle(piece);
 					} //pieceHolder 
 				} //first if
-			}, 50); //watcher
+			}, 10); //watcher
 
 
 			// this.checker=setInterval(()=>{
@@ -2771,8 +2780,14 @@ ipc.on('torrentBuffered', function (event, torrent) {
 	console.log(torrent);
 });
 
-ipc.on('haha', function (event, data) {
+ipc.on('fileList', function (event, data) {
 	so.emit('join', data);
+});
+
+so.on('pieceUpdate', function (data) {
+	// ipc.send('pieceMessage',data.file,data.piece,data.holder)
+	console.log('有块请求被回应');
+	fileMission[data.file].pieceMessage[data.piece] = data.holder;
 });
 
 window.ondrop = function (e) {

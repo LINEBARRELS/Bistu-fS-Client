@@ -44,11 +44,15 @@ ipc.on('torrentBuffered', function(event,torrent) {
 });
 
 
-ipc.on('haha',function(event,data) {
+ipc.on('fileList',function(event,data) {
 	so.emit('join',data)
 });
 
-
+so.on('pieceUpdate', function(data) {
+	// ipc.send('pieceMessage',data.file,data.piece,data.holder)
+	console.log('有块请求被回应');
+	fileMission[data.file].pieceMessage[data.piece]=data.holder
+});
 
 
 window.ondrop=function(e){

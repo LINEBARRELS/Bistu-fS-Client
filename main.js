@@ -1,20 +1,21 @@
 'use strict';
 
-const electron = require('electron')
+const electron = require('electron');
 const fs=require('fs')
 // const {so} = require('socket.io-client')
-const parse = require('parse-torrent')
+const parse = require('parse-torrent');
 // 控制应用生命周期的模块。
-const {app} = electron
-const {BrowserWindow} = electron
-const {ipcMain} =electron
+const {app} = electron;
+const {BrowserWindow} = electron;
+const {ipcMain} =electron;
 // const {ipc} = electron
 
 let mainWindow = null,
 	login =null;
 
-var createTorrent=require('create-torrent')
+var createTorrent=require('create-torrent');
 
+var piece_message = {};
 var temp={}
 
 
@@ -26,11 +27,11 @@ app.on('ready', function() {
 		width:350
 	})
 	// login.openDevTools()
-	login.loadURL('file://'+__dirname+'/login.html')
+	login.loadURL('file://'+__dirname+'/login.html');
 });
 
 ipcMain.on('success',function(event,user){
-	login.hide()
+	login.hide();
 	mainWindow = new BrowserWindow({
     	// resizable:false,
     	transparent: true,
@@ -41,7 +42,7 @@ ipcMain.on('success',function(event,user){
     mainWindow.openDevTools();
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     mainWindow.webContents.on('did-finish-load', function () {
-    mainWindow.webContents.send('userinfo',user)
+    mainWindow.webContents.send('userinfo',user);
   	})
   	mainWindow.show()
 })
@@ -85,13 +86,25 @@ ipcMain.on('fileArrive', function(event,name,posi,file,length) {
   // var buff=Buffer.from(file)
 
   fs.write(temp[name],file,0,file.length,posi*length,(err, written, buffer)=>{
-    mainWindow.webContents.send('fileWriteCom',written)
+    mainWindow.webContents.send('fileWriteCom',written);
   })
 });
 
 
 ipcMain.on('roomInit',function(event,name) {
   fs.readdir('../Files', function(err,files){
-    mainWindow.webContents.send('haha',files)
+    mainWindow.webContents.send('fileList',files);
   });
 });
+
+// ipcMain.on('pieceMessage',function(event,name,piece,holder){
+//   if(!piece_message[name]){
+//     piece_message[name]={};
+//   }
+//   piece_message[name][piece] = holder;
+// })
+
+
+// ipcMain.on('pieceSearch', (event, name,piece) => {
+//   event.returnValue = piece_message[name][piece]||null;
+// })
