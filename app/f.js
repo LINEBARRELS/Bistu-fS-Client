@@ -118,12 +118,15 @@ var file = function () {
 
 		this.pieceMessage = {};
 
+		this.downloading = [];
+
 		this.limit = 100;
 		this.cur = 0;
 		this.on = 0;
-		this.searching = 0;
 
-		this.watcher = null, this.checker = null, fileMission[this.fileName] = this;
+		this.watcher = null, this.checker = null;
+
+		fileMission[this.fileName] = this;
 
 		so.emit('join', this.fileName);
 	}
@@ -161,45 +164,88 @@ var file = function () {
 							peerConnectByUser[_this.piecesBelong[piece]].temp[piece] = Buffer.allocUnsafe(0);
 							// console.log('接收方建立dc缓存');
 						}
+						console.log(peerConnectByUser[_this.piecesBelong[piece]].pc.signalingState);
 
-						_this.handle(piece);
+						console.log(peerConnectByUser[_this.piecesBelong[piece]].dc['test'].readyState);
+
+						if (peerConnectByUser[_this.piecesBelong[piece]].dc['test'].readyState === 'open') {
+							_this.handle(piece);
+						} else {
+							_this.filePieces.push(piece);
+							_this.cur = _this.cur - 1;
+						}
 					} //pieceHolder 
 				} //first if
 			}, 10); //watcher
 
 
-			// this.checker=setInterval(()=>{
-			// 	if(this.cur===this.pieceNum){
-			// 		for(let i in this.pieces){
-			// 			if(peerConnectByUser[fm.pieces[i]].temp[i].length===0){
-			// 				console.log('检测到部分异常');
-			// 				var tem=JSON.stringify({file:this.fileName,piece:i,length:this.pieceLength})
-			// 				peerConnectByUser[fm.pieces[i]].dc[i].send(tem)
-			// 			}
-			// 		}
-			// 	}
-			// }, 2000);//checker
+			this.checker = setInterval(function () {
+				if (_this.cur === _this.pieceNum) {
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+
+						for (var _iterator = _this.recode[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var i = _step.value;
+
+							if (peerConnectByUser[_this.piecesBelong[i]].temp[i].length === 0) {
+								console.log(i, '检测到部分异常');
+								_this.piecesBelong[i] = _this.pieceMessage[i];
+								if (!peerConnectByUser[_this.piecesBelong[i]]) {
+									peerConnectByUser[_this.piecesBelong[i]] = peer(_this.piecesBelong[i]);
+									peerConnectByUser[_this.piecesBelong[i]].startOffer();
+								}
+
+								if (!peerConnectByUser[_this.piecesBelong[i]].temp[i]) {
+									peerConnectByUser[_this.piecesBelong[i]].temp[i] = Buffer.allocUnsafe(0);
+									// console.log('接收方建立dc缓存');
+								}
+
+								_this.handle(i);
+							}
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator.return) {
+								_iterator.return();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+				}
+			}, 2000); //checker
 		} //start
 
 
 	}, {
 		key: 'handle',
 		value: function handle(piece) {
+
 			var dc = peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
 
-			if (this.filePieces.length == 0) {
-				dc.last = true;
-			}
+			// if(this.filePieces.length==0){
+			// 	dc.last=true;
+			// }
 
 			dc.pieceLength = this.pieceLength;
 			// this.pieces[piece]=this.creator;           //importent
 			peerConnectByUser[this.piecesBelong[piece]].dc[piece] = dc;
 
-			dc.onopen = function (event) {
-				console.log(piece, '连接开始');
+			console.log(dc);
+
+			dc.onopen = function (eventO) {
+				console.log(piece, '连接开始', eventO);
 
 				var tem = JSON.stringify({ file: this.fileName, piece: this.recode.indexOf(piece), length: this.pieceLength });
-				dc.send(tem);
+				eventO.currentTarget.send(tem);
 				this.on = this.on - 1;
 			}.bind(this);
 
@@ -207,19 +253,19 @@ var file = function () {
 
 				var data = Buffer.from(event.data);
 				// console.log(data);
-				console.log('接收方收到数据');
-				peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label] = Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label], data]);
+				console.log('接收方收到数据', event);
+				peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label] = Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label], data]);
 
-				var l = peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label].length;
+				var l = peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label].length;
+				console.log(l);
 				if (l == this.pieceLength || l == this.last) {
 
 					var position = this.recode.indexOf(event.target.label);
-					console.log(position);
-					ipc.send('fileArrive', this.fileName, position, peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label], this.pieceLength);
-					// peerConnectByUser[this.creator].temp[event.target.label]=null;
-					console.log(l, '有新块下载');
-					dc.close();
-					peerConnectByUser[this.piecesBelong[piece]].dc[event.target.label] = null;
+
+					ipc.send('fileArrive', this.fileName, position, peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label], this.pieceLength);
+					console.log(position, l, '有新块下载');
+					event.currentTarget.close();
+					// peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
 				}
 			}.bind(this); //onmessage
 
@@ -3131,7 +3177,7 @@ var Upload = function (_React$Component) {
 		value: function submit(e) {
 			var options = {
 				createdBy: so.username,
-				pieceLength: 4194304,
+				pieceLength: 262144,
 				comment: this.state.detail
 			};
 			this.context.ipc.send('createT', this.state, options);

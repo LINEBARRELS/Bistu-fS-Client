@@ -63,16 +63,17 @@
                 if (sf.length==0) {
                   throw 'wtf?'
                 }
-                console.log(sf.length,pd.piece);
+                console.log(sf.length,pd.piece,event);
 
 
                 event.target.send(sf)
+
                 // totalFile=null;
                 // t=null;
                 sf=null;
 
              }
-             // console.log(pd);
+            
             
 
       			}.bind(this);//onmessage		
