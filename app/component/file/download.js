@@ -1,5 +1,5 @@
 var React=require('react')
-import {file} from "../../dist/file.js";
+// import {file} from "../../dist/file.js";
 class Download extends React.Component {
 	constructor(args) {
 		super(args)

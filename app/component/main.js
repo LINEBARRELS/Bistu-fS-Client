@@ -48,15 +48,20 @@ class Main extends React.Component {
 		})
 
 
-		so.on('message', (data)=>{
-			console.log(data);
-		});
+		// so.on('message', (data)=>{
+		// 	console.log(data);
+		// });
 
-		so.on('searchResult', (data)=>{
+		// so.on('searchResult', (data)=>{
 
+		// 	console.log('接收到搜索结果',data);
+		// 	this.context.store.dispatch(fileAction(data))
+		// });
+
+		this.context.ipc.on('searchResult',(event,data)=>{
 			console.log('接收到搜索结果',data);
 			this.context.store.dispatch(fileAction(data))
-		});
+		})
 	}
 
 
@@ -98,7 +103,8 @@ class Main extends React.Component {
 
 
 Main.contextTypes={
-	store:React.PropTypes.object
+	store:React.PropTypes.object,
+	ipc:React.PropTypes.object
 }
 
 

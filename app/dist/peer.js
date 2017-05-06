@@ -1,4 +1,4 @@
-(function(window){
+(function(global){
 
 	var configuration = {
    	'iceServers': [{
@@ -140,7 +140,7 @@
     
     peer.fn.init.prototype = peer.prototype;
 
-    window.peer = peer
+    global.peer = peer
 
 // export {peer}
-})(window)
+})(global)

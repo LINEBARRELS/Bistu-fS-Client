@@ -1,12 +1,12 @@
-var parse =require('parseT')
+var parse =require('parse-torrent')
 var fs=require('fs')
 var electron =require('electron')
 
-var ipc=electron.ipcRenderer
+// var ipc=electron.ipcRenderer
 
 
-class file {
-	constructor(torr) {
+function file (torr,fm,so){
+	// constructor {
 		// code
 		var parsedTorrent=parse(torr);
 		this.filePieces=parsedTorrent.pieces;
@@ -31,13 +31,14 @@ class file {
 		this.watcher=null,
 		this.checker=null;
 
-		fileMission[this.fileName]=this;
+		fm[this.fileName]=this;
 
 		so.emit('join',this.fileName)
-	}
+	// }
 
+}
 	// methods
-	start(){
+	file.prototype.start=function(){
 		this.watcher=setInterval(()=>{
 		if(this.on<=this.limit&&this.cur!=this.pieceNum){
 			let piece=this.filePieces.shift();
@@ -100,8 +101,9 @@ class file {
       					// console.log('接收方建立dc缓存');
       					}
 
-
-      					this.handle(i)
+      					if(peerConnectByUser[this.piecesBelong[i]].dc['test'].readyState==='open'){
+      						this.handle(i);   
+      					}
       					
 					}
 					
@@ -114,7 +116,7 @@ class file {
 
 
 
-	handle(piece){
+	file.prototype.handle=function(piece){
 
 			let dc=peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
 
@@ -153,9 +155,9 @@ class file {
 
               		var position=this.recode.indexOf(event.target.label);
 
-               		ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
+               		eventCore.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
                		console.log(position,l,'有新块下载');
-               		event.currentTarget.close();
+               		dc.close();
                		// peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
             		}
 			}.bind(this)//onmessage
@@ -165,10 +167,11 @@ class file {
 
 	}//handle
 
-	pause(){
+	file.prototype.pause=function(){
 		
 		window.clearInterval(this.watcher);
 	}
-}
 
-export {file}
+
+module.exports=file;
+// export {file}

@@ -1,6 +1,6 @@
 var React=require('react')
 var fs=require('fs')
-import {file} from "../../dist/file.js";
+// import {file} from "../../dist/file.js";
 import {Block} from "../util/block.js";
 
 import {fileAction} from "../Action/Files.js";
@@ -18,7 +18,8 @@ class Index extends React.Component {
 
 	search(){
 		
-		so.emit('search',this.state.search)
+		this.context.ipc.send('search',this.state.search)
+		
 	}
 
 	searchType(e){
@@ -30,14 +31,14 @@ class Index extends React.Component {
 			e.target.classList.add('typeOn')
 			console.log(e.target.getAttribute('data-type'));
 			this.context.store.dispatch(processAction(0))
-			so.emit('searchType',e.target.getAttribute('data-type'))			
+			this.context.ipc.send('searchType',e.target.getAttribute('data-type'))			
 		}
 
 	}
 
 	downLoad(e){
 		e.stopPropagation();
-		so.emit('downLoad',e.target.getAttribute('data-value'))
+		this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
 		
 	}
 
