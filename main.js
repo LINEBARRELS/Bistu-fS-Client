@@ -1,32 +1,38 @@
 'use strict';
 
 const electron = require('electron');
-const fs=require('fs')
-const event=require('events')
-// const {so} = require('socket.io-client')
+const fs=require('fs');
+const event=require('events');
+
 const parse = require('parse-torrent');
 // 控制应用生命周期的模块。
 const {app} = electron;
 const {BrowserWindow} = electron;
 const {ipcMain} =electron;
-// const {ipc} = electron
 
-var io=require('socket.io-client')
+
+
 
 let mainWindow = null,
-	login =null;
+  login =null,
+  back=null;
 
 var createTorrent=require('create-torrent');
 
 var file=require('./app/dist/file.js')
 
+// global.peer =require('./app/dist/peer.js')
+// var test=require('./test.js')
+
 var piece_message = {};
 var temp={};
 
 
-var fileMission={};
-var peerConnectByUser={};
-var so=null;
+// global.fileMission={};
+// global.peerConnectByUser={};
+// global.so=null;
+
+
 
 var eventCore=new event();
 
@@ -41,6 +47,12 @@ app.on('ready', function() {
 	login.loadURL('file://'+__dirname+'/login.html');
 });
 
+app.on('before-quit',function(){
+  // for(let i of fileMission){
+  //   i.pause()
+  // }
+})
+
 ipcMain.on('success',function(event,user){
 	login.hide();
 	mainWindow = new BrowserWindow({
@@ -50,78 +62,39 @@ ipcMain.on('success',function(event,user){
         height: 600,
         width: 800
     });
+
+  back=new BrowserWindow({
+
+    height:500,
+    width:500
+  })
+    back.openDevTools();
+    back.loadURL('file://' + __dirname + '/back.html');
+    // back.hide();
+
     mainWindow.openDevTools();
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-    so=io.connect('http://10.16.66.85:8080');
 
-    so.username=user
-    /////////////////////////////////////////////////////////////////////
-
-    so.on('icecandidate',  function(data) {
-      peerConnectByUser[data.from].addCandidate(data.candidate)
-      // console.log('new candicate!');
-    });
-
-    so.on('newOffer', function(data) {
-
-      if (!peerConnectByUser[data.from]) {
-        console.log('无现有peerconnection 创建');
-        peerConnectByUser[data.from]=peer(data.from)
-      }
-  
-
-      peerConnectByUser[data.from].setRomote(data.sdp,data.from)
-
-      peerConnectByUser[data.from].answer();
-
-    });
-
-    so.on('answered', function(data) {
-
-      peerConnectByUser[data.from].setRomote(data.sdp,data.from)
-
-    });
-
-    so.on('roommess', function(data) {
-      console.log(data.from);
-    });
-
-    so.on('torrentArrive',function(data){
-      new file(Buffer.from(data),fileMission,so)
-    });
-
-    so.on('broadcast',function(data){
-      console.log('someone if searching for:'+data.file,data.piece)
-      so.emit('pieceSearch_Result',{file:data.file,piece:data.piece,holder:so.username})
-    });
-
-    so.on('rrr',function(data){
-      console.log(data);
-    });
-
-
-    so.on('pieceUpdate', function(data) {
-      // ipc.send('pieceMessage',data.file,data.piece,data.holder)
-      console.log('有块请求被回应');
-      fileMission[data.file].pieceMessage[data.piece]=data.holder
-    });
-
-    so.on('searchResult',  function(data) {
-      mainWindow.webContents.send('searchResult',data);
-    });
+    
 
     ////////////////////////////////////////////////////////////////////////////////////////////
+    back.webContents.on('did-finish-load',  function() {
+        back.webContents.send('socketInit',user);
+    });
+
     mainWindow.webContents.on('did-finish-load', function () {
 
-    mainWindow.webContents.send('userinfo',user,so);
-    so.emit('onLine',user);
+      mainWindow.webContents.send('userinfo',user);
+
   	});
   	mainWindow.show()
 });//
 
 
 ipcMain.on('quit', function(event) {
+  mainWindow.close();
+  back.close();
 	app.quit();
 });
 
@@ -136,8 +109,7 @@ ipcMain.on('createT',function(event,args,opt){
   		if(!err){
         var tem=args.path.split('/');
         var name=tem.reverse()[0];
-  			mainWindow.webContents.send('torrentCreated',torrent,name,args.name,args.type)
-        so.emit('torrent',{torrent:torrent,fileName:name,missionName:args.name,user:so.username,fileType:args.type});
+  			back.webContents.send('torrentCreated',torrent,name,args.name,args.type)
   		}else{
   			console.log(err);
   		}
@@ -148,12 +120,11 @@ ipcMain.on('createT',function(event,args,opt){
 
 ipcMain.on('roomInit',function(event,name) {
   fs.readdir('../Files', function(err,files){
-    // mainWindow.webContents.send('fileList',files);
-    so.emit('join',files)
+    back.webContents.send('roomInited',files);
   });
 });
 
-eventCore.on('fileArrive', function(name,posi,file,length) {
+ipcMain.on('fileArrive', function(name,posi,file,length) {
   // fs.appendFile('../rec/'+name, file, (err)=>{
   // if(err){
   // console.log(err);
@@ -171,30 +142,51 @@ eventCore.on('fileArrive', function(name,posi,file,length) {
 });
 
 ////////////////////////////////////////////////////////////
+
+//Main ---->  Back
+
 ipcMain.on('search', function(event,search) {
 
-  so.emit('search',search);
+  back.webContents.send('search',search)
+
 });
 
 ipcMain.on('searchType', function(event,search) {
-  so.emit('searchType',search);
+
+  back.webContents.send('searchType',search)
 
 });
 
 ipcMain.on('downLoad', function(event,name) {
-  so.emit('downLoad',name);
+
+  back.webContents.send('downLoad',name)
 
 });
 
-ipcMain.on('addSoEvent',function(event,name,callback){
-  so.on(name,callback);
+
+//////////////////////////////////////////////////////////
+
+//Back ------>Main
+
+ipcMain.on('searchResult',function(event,data){
+  mainWindow.webContents.send('searchResult',data);
+})
+
+
+//////////////////////////////////////////////////////
+
+ipcMain.on('start',function(event,name){
+  fileMission[name].start();
 })
 
 ipcMain.on('watchMs',function(event){
-  mainWindow.webContents.send('msResult',fileMission)
+  mainWindow.webContents.send('message',fileMission);
 })
 
 ipcMain.on('watchPeer',function(event){
-  mainWindow.webContents.send('peerResult',peerConnectByUser)
+  mainWindow.webContents.send('message',peerConnectByUser);
 })
 
+ipcMain.on('watchinit',function(event){
+  mainWindow.webContents.send('message');
+})

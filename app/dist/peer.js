@@ -1,4 +1,4 @@
-(function(global){
+// var peerInital=function(){
 
 	var configuration = {
    	'iceServers': [{
@@ -6,9 +6,9 @@
    	}]
   	};
 
-  	var peer=function(remote){
+  var peer=function(remote){
     	return new peer.fn.init(remote);
-  	}
+  }
 
 	peer.fn=peer.prototype={
   		constructor:peer,
@@ -140,7 +140,11 @@
     
     peer.fn.init.prototype = peer.prototype;
 
-    global.peer = peer
+    // global.peer = peer
 
 // export {peer}
-})(global)
+// }
+
+
+
+module.exports=peer;

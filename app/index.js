@@ -20,7 +20,7 @@ window.store=store;
 window.ipc =ipc;
 
 
-ipc.on('userinfo',function(event,arg,so) {
+ipc.on('userinfo',function(event,arg) {
 	console.log(arg);
 	// window.so=so
 	// so.username=arg;
@@ -31,24 +31,17 @@ ipc.on('userinfo',function(event,arg,so) {
 	ReactDOM.render(<R ipc={ipc} store={store}/>,layout);
 });
 
-ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType){
 
-	fs.writeFileSync('./torrents/'+missionName+'.torrent',new Buffer(torrent));
-	// so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username,fileType:fileType});
-	console.log(missionName,'种子生成完成,文件为',fileName);
-})
 
 
 ipc.on('fileWriteCom',(event,mess)=>{
 	console.log(mess);
 })//写文件完成
 
-ipc.on('msResult',(event,data)=>{
-	console.log(data);
-})
 
-ipc.on('peerResult',(event,data)=>{
-	console.log(data);
+
+ipc.on('message',(event,mess)=>{
+	console.log(mess);
 })
 
 window.ondrop=function(e){
@@ -65,7 +58,7 @@ window.ondragover=function(e){
 	return false;
 	}catch(e){
 	console.log(e);
-}
+	}
 }
 
 

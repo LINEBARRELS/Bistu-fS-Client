@@ -1,11 +1,12 @@
 var parse =require('parse-torrent')
 var fs=require('fs')
-var electron =require('electron')
+// var electron =require('electron')
+const {electron} = require('electron')
+var peer =require('./peer.js')
 
-// var ipc=electron.ipcRenderer
+var ipc=electron.ipcRender;
 
-
-function file (torr,fm,so){
+function file (torr){
 	// constructor {
 		// code
 		var parsedTorrent=parse(torr);
@@ -20,9 +21,13 @@ function file (torr,fm,so){
 		this.pieceLength=parsedTorrent.pieceLength;
 		this.last=parsedTorrent.lastPieceLength;
 
+
+
+
 		this.pieceMessage={}
 
 		this.downloading=[]
+
 
 		this.limit=100;
 		this.cur=0;
@@ -31,10 +36,15 @@ function file (torr,fm,so){
 		this.watcher=null,
 		this.checker=null;
 
-		fm[this.fileName]=this;
+		fileMission[this.fileName]=this;
 
 		so.emit('join',this.fileName)
-	// }
+
+
+		console.log(this.fileName+'mission init complete');
+
+	// }		
+
 
 }
 	// methods
@@ -47,9 +57,9 @@ function file (torr,fm,so){
 			this.piecesBelong[piece]=this.pieceMessage[piece]||null;
 
 			if(!this.piecesBelong[piece]){
-				console.log(piece,',没有文件持有者信息');
-				// let upRange = (this.searching+100)>this.pieceNum?this.pieceNum:(this.searching+100),
-				// 	searchPiece=this.recode.slice(this.searching,upRange);
+				// console.log(piece+',没有文件持有者信息');
+				console.log(piece+',没有文件持有者信息')
+
 
 				so.emit('pieceSearch',this.fileName,piece)
 				this.filePieces.push(piece);
@@ -78,10 +88,9 @@ function file (torr,fm,so){
   
 			}//pieceHolder 
 		}//first if
+			// this.cons.send('message',peerConnectByUser)
 		}, 10);//watcher
 
-
-				
 
 
 		this.checker=setInterval(()=>{
@@ -89,7 +98,8 @@ function file (torr,fm,so){
 
 				for(let i of this.recode){
 					if(peerConnectByUser[this.piecesBelong[i]].temp[i].length===0){
-						console.log(i,'检测到部分异常');
+						// console.log(i,'检测到部分异常');
+
 						this.piecesBelong[i]=this.pieceMessage[i];
 						if(!peerConnectByUser[this.piecesBelong[i]]){
 							peerConnectByUser[this.piecesBelong[i]]=peer(this.piecesBelong[i]);
@@ -120,20 +130,18 @@ function file (torr,fm,so){
 
 			let dc=peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
 
-			// if(this.filePieces.length==0){
-			// 	dc.last=true;
-			// }
+
 
 			dc.pieceLength=this.pieceLength;
-			// this.pieces[piece]=this.creator;           //importent
+
 			peerConnectByUser[this.piecesBelong[piece]].dc[piece]=dc;
 
 			console.log(dc);
 
 
 			dc.onopen=function(eventO){
-				console.log(piece,'连接开始',eventO);
-				
+				// console.log(piece,'连接开始',eventO);
+				console.log(piece+',连接开始')
 				var tem=JSON.stringify({file:this.fileName,piece:this.recode.indexOf(piece),length:this.pieceLength})
 				eventO.currentTarget.send(tem);
 				this.on=this.on-1;
@@ -155,7 +163,7 @@ function file (torr,fm,so){
 
               		var position=this.recode.indexOf(event.target.label);
 
-               		eventCore.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
+               		ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
                		console.log(position,l,'有新块下载');
                		dc.close();
                		// peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
@@ -169,7 +177,7 @@ function file (torr,fm,so){
 
 	file.prototype.pause=function(){
 		
-		window.clearInterval(this.watcher);
+		clearInterval(this.watcher);
 	}
 
 

@@ -810,12 +810,9 @@ ipc.on('fileWriteCom', function (event, mess) {
 	console.log(mess);
 }); //写文件完成
 
-ipc.on('msResult', function (event, data) {
-	console.log(data);
-});
 
-ipc.on('peerResult', function (event, data) {
-	console.log(data);
+ipc.on('message', function (event, mess) {
+	console.log(mess);
 });
 
 window.ondrop = function (e) {
