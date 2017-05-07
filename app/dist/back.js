@@ -1,14 +1,13 @@
 var fs=require('fs');
-
-
-var file=require('./file.js')
+var electron= require('electron');
+var ipc =electron.ipcRenderer;
 
 var fileMission={};
 var peerConnectByUser={};
 
 
 
-ipc.on('socket', function(event,username) {
+ipc.on('socketInit', function(event,username) {
 	so.username=username
 	so.emit('onLine',so.username);
 	
@@ -18,6 +17,10 @@ ipc.on('socket', function(event,username) {
 
 ipc.on('roomInited',function(event,files){
 	so.emit('join',files)
+})
+
+ipc.on('quit',function(event){
+	so.disconnect();
 })
 
 ipc.on('search', function(event,search) {

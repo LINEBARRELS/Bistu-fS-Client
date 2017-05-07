@@ -1,10 +1,9 @@
 var parse =require('parse-torrent')
 var fs=require('fs')
 // var electron =require('electron')
-const {electron} = require('electron')
-var peer =require('./peer.js')
+// const {electron} = require('electron')
+// var peer =require('./peer.js')
 
-var ipc=electron.ipcRender;
 
 function file (torr){
 	// constructor {
@@ -58,7 +57,7 @@ function file (torr){
 
 			if(!this.piecesBelong[piece]){
 				// console.log(piece+',没有文件持有者信息');
-				console.log(piece+',没有文件持有者信息')
+				console.log(piece,',没有文件持有者信息')
 
 
 				so.emit('pieceSearch',this.fileName,piece)
@@ -164,7 +163,7 @@ function file (torr){
               		var position=this.recode.indexOf(event.target.label);
 
                		ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
-               		console.log(position,l,'有新块下载');
+               		console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
                		dc.close();
                		// peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
             		}
@@ -180,6 +179,6 @@ function file (torr){
 		clearInterval(this.watcher);
 	}
 
-
-module.exports=file;
+// window.file=file;
+// module.exports=file;
 // export {file}

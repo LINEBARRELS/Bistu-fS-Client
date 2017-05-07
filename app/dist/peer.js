@@ -63,7 +63,7 @@
                 if (sf.length==0) {
                   throw 'wtf?'
                 }
-                console.log(sf.length,pd.piece,event);
+                console.log(sf.length,pd.piece,sf);
 
 
                 event.target.send(sf)
@@ -147,4 +147,4 @@
 
 
 
-module.exports=peer;
+// module.exports=peer;

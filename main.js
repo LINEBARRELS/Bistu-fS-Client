@@ -45,12 +45,14 @@ app.on('ready', function() {
 	})
 	// login.openDevTools()
 	login.loadURL('file://'+__dirname+'/login.html');
+  // login.openDevTools();
 });
 
-app.on('before-quit',function(){
+app.on('quit',function(){
   // for(let i of fileMission){
   //   i.pause()
   // }
+
 })
 
 ipcMain.on('success',function(event,user){
@@ -68,6 +70,11 @@ ipcMain.on('success',function(event,user){
     height:500,
     width:500
   })
+
+  back.on('close',function(){
+    back.webContents.send('quit');
+  })
+
     back.openDevTools();
     back.loadURL('file://' + __dirname + '/back.html');
     // back.hide();
@@ -124,7 +131,7 @@ ipcMain.on('roomInit',function(event,name) {
   });
 });
 
-ipcMain.on('fileArrive', function(name,posi,file,length) {
+ipcMain.on('fileArrive', function(event,name,posi,file,length) {
   // fs.appendFile('../rec/'+name, file, (err)=>{
   // if(err){
   // console.log(err);
@@ -137,8 +144,15 @@ ipcMain.on('fileArrive', function(name,posi,file,length) {
   // var buff=Buffer.from(file)
 
   fs.write(temp[name],file,0,file.length,posi*length,(err, written, buffer)=>{
-    mainWindow.webContents.send('fileWriteCom',written);
+    if(!err){
+      mainWindow.webContents.send('fileWriteCom',written);
+    }else{
+      mainWindow.webContents.send('fileWriteCom',err);
+    }
+    
   })
+
+   mainWindow.webContents.send('fileWriteCom',file);
 });
 
 ////////////////////////////////////////////////////////////

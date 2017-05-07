@@ -14,7 +14,8 @@ login.addEventListener('click',  function(event) {
 	var head=new Headers()
 	head.set('username',user.value);
 	head.set('password',pass.value);
-	fetch("http://10.16.66.85:8080/login",{
+
+    fetch("http://10.16.66.85:8080/login",{
 	method:'post',
 	headers:head
 	}).then(
@@ -28,14 +29,17 @@ login.addEventListener('click',  function(event) {
             	if (data.loginResult==='success'){
             		ipc.send('success',user.value)
             	}else{
-            		alert('你个傻吊 登录错误\n你个傻吊 登录错误\n你个傻吊 登录错误\n你个傻吊 登录错误\n')
+            		alert('登录失败')
             	}
-        	});
-    	}
+        	})
+    	},function(reject){
+            throw reject
+        }
 	)
 	.catch(function(err){
     	console.log("Fetch错误:"+err);
 	});
+
 });
 
 regist.addEventListener('click',  function(event) {
@@ -60,7 +64,7 @@ regist.addEventListener('click',  function(event) {
             	}else{
             		alert('注册失败')
             	}
-        	});
+        	})
     	}
 	)
 	.catch(function(err){

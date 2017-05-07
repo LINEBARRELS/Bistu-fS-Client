@@ -1,16 +1,17 @@
 // import {peer} from "./peer.js";
 
 //现存的peerconnection
-var electron= require('electron');
+
 var io=require('socket.io-client')
 
-// window.so =  io.connect('http://10.16.66.85:8080');
+// var file=require('./file.js')
+
 var fs = require('fs')
 var parse=require('parse-torrent')
 
-var ipc =electron.ipcRenderer;
 
-so=io.connect('http://10.16.66.85:8080');
+
+var so=io.connect('http://10.16.66.85:8080');
 
 
     /////////////////////////////////////////////////////////////////////
@@ -48,7 +49,7 @@ so=io.connect('http://10.16.66.85:8080');
       new file(Buffer.from(data))
     });
 
-    so.on('broadcast',function(data){
+    so.on('pieceSearch',function(data){
       // console.log(data.piece)
       console.log('someone is searching for:'+data.file);
       so.emit('pieceSearch_Result',{file:data.file,piece:data.piece,holder:so.username})
@@ -61,7 +62,7 @@ so=io.connect('http://10.16.66.85:8080');
 
     so.on('pieceUpdate', function(data) {
       // ipc.send('pieceMessage',data.file,data.piece,data.holder)
-      console.log(有块请求被回应');
+      console.log('有块请求被回应');
       fileMission[data.file].pieceMessage[data.piece]=data.holder
     });
 
