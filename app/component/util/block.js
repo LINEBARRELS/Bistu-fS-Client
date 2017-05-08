@@ -5,19 +5,27 @@ class Block extends React.Component {
 		super(args)
 	}
 
-	detail(e){
-		console.log(this.refs.pic);
+
+
+	trigger(e){
+
+		if(this.refs.pic.clientHeight > 0){
+			this.refs.block.classList.add('on')
+		}else{
+			this.refs.block.classList.remove('on')
+		}
 	}
 
 
 
 	render(){
-		return <div className='block' >
-			<div ref='pic' onClick={this.detail.bind(this)}></div>
-			<span onClick={this.props.onClick} data-value={this.props.missionName}>{this.props.missionName}</span>
-			<h4>{this.props.fileName}</h4>
+		return <div className='block' ref='block'>
+			<div ref='pic' onClick={this.trigger.bind(this)}></div>
+			<span >{this.props.missionName}</span>
+			<h4 onClick={this.trigger.bind(this)}>{this.props.fileName}</h4>
 			<small>{this.props.type}</small>
-			<span className='more' ></span>
+			<p>vserhwerherhwGaeehae</p>
+			<span className='more' data-value={this.props.missionName} onClick={this.props.onClick}></span>
 		</div>
 	}
 }

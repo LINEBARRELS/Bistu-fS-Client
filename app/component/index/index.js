@@ -38,8 +38,10 @@ class Index extends React.Component {
 
 	downLoad(e){
 		e.stopPropagation();
-		this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
-		
+		if(e.target.className==='more'){
+			console.log(e.target.getAttribute('data-value'));
+		}
+		// this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
 	}
 
 
@@ -97,11 +99,15 @@ class Index extends React.Component {
 		// console.log('index绘制开始',this.state);
 		var blocks=[];
 
+		if(this.state.files.length>0){
 		this.state.files.forEach((item,index)=>{
-			blocks.push(<Block key={item['_id']} fileName={item.fileName} missionName={item.missionName} type={item.type} onClick={this.downLoad.bind(this)}></Block>)
+			blocks.push(<Block key={item['_id']} fileName={item.fileName} missionName={item.missionName} type={item.type}></Block>)
 		})
+		}else{
+			blocks.push(<div id='nothing'>没有搜索结果,去搜点别的东西去吧 #滑稽</div>)
+		}
 
-		this.context.store.dispatch(processAction(60))
+		this.context.store.dispatch(processAction(100))
 
 
 		return <div className='mainSection'>
@@ -118,7 +124,7 @@ class Index extends React.Component {
 					<button onClick={this.search.bind(this)}>Search</button>
 				</span>
 			</div>
-			<div className='files' key='fileRoot' >
+			<div className='files' key='fileRoot' onClick={this.downLoad.bind(this)}>
 			<CSSTransitionGroup
           		transitionName="example"
           		transitionEnterTimeout={400}

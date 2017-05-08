@@ -152,7 +152,7 @@ ipcMain.on('fileArrive', function(event,name,posi,file,length) {
     
   })
 
-   mainWindow.webContents.send('fileWriteCom',file);
+   // mainWindow.webContents.send('fileWriteCom',file);
 });
 
 ////////////////////////////////////////////////////////////

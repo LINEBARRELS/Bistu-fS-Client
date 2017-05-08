@@ -10,6 +10,10 @@
     	return new peer.fn.init(remote);
   }
 
+  var pieces_create=function(total){
+
+  }
+
 	peer.fn=peer.prototype={
   		constructor:peer,
   		init:function(remote){
@@ -65,8 +69,12 @@
                 }
                 console.log(sf.length,pd.piece,sf);
 
-
-                event.target.send(sf)
+                if(sf.length<=262144){
+                  event.target.send(sf)
+                }else{
+                  
+                }
+                
 
                 // totalFile=null;
                 // t=null;

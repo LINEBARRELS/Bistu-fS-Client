@@ -130,6 +130,9 @@ h1{
 	height: 32px;
 	background: url('../img/loginClose.png');
 	transition: all .5s;
+
+	user-select: none;
+    -webkit-user-drag: none;
 }
 
 #close:hover{

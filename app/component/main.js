@@ -92,8 +92,8 @@ class Main extends React.Component {
 
 	  	return <div id='main'><div className='process'refs='proBar'><div ref='pro'></div></div><Message /><CSSTransitionGroup
           transitionName="example"
-          transitionEnterTimeout={400}
-          transitionLeaveTimeout={300}>
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={150}>
 			{content}
         </CSSTransitionGroup></div>
 

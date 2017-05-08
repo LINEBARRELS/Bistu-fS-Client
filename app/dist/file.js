@@ -43,8 +43,6 @@ function file (torr){
 		console.log(this.fileName+'mission init complete');
 
 	// }		
-
-
 }
 	// methods
 	file.prototype.start=function(){

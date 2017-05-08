@@ -1067,7 +1067,27 @@ var Download = function (_React$Component) {
 			return React.createElement(
 				'div',
 				{ className: 'mainSection' },
-				'download'
+				React.createElement(
+					'div',
+					{ className: 'downloadSec' },
+					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/game.png' }),
+					React.createElement('div', null)
+				),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' }),
+				React.createElement('div', { className: 'downloadSec' })
 			);
 		}
 	}]);
@@ -1308,7 +1328,10 @@ var Index = function (_React$Component) {
 		key: 'downLoad',
 		value: function downLoad(e) {
 			e.stopPropagation();
-			this.context.ipc.send('downLoad', e.target.getAttribute('data-value'));
+			if (e.target.className === 'more') {
+				console.log(e.target.getAttribute('data-value'));
+			}
+			// this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
 		}
 	}, {
 		key: 'handleChange',
@@ -1364,16 +1387,22 @@ var Index = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this3 = this;
-
 			// console.log('index绘制开始',this.state);
 			var blocks = [];
 
-			this.state.files.forEach(function (item, index) {
-				blocks.push(React.createElement(_block.Block, { key: item['_id'], fileName: item.fileName, missionName: item.missionName, type: item.type, onClick: _this3.downLoad.bind(_this3) }));
-			});
+			if (this.state.files.length > 0) {
+				this.state.files.forEach(function (item, index) {
+					blocks.push(React.createElement(_block.Block, { key: item['_id'], fileName: item.fileName, missionName: item.missionName, type: item.type }));
+				});
+			} else {
+				blocks.push(React.createElement(
+					'div',
+					{ id: 'nothing' },
+					'\u6CA1\u6709\u641C\u7D22\u7ED3\u679C,\u53BB\u641C\u70B9\u522B\u7684\u4E1C\u897F\u53BB\u5427 #\u6ED1\u7A3D'
+				));
+			}
 
-			this.context.store.dispatch((0, _Process.processAction)(60));
+			this.context.store.dispatch((0, _Process.processAction)(100));
 
 			return React.createElement(
 				'div',
@@ -1443,7 +1472,7 @@ var Index = function (_React$Component) {
 				),
 				React.createElement(
 					'div',
-					{ className: 'files', key: 'fileRoot' },
+					{ className: 'files', key: 'fileRoot', onClick: this.downLoad.bind(this) },
 					React.createElement(
 						CSSTransitionGroup,
 						{
@@ -1598,8 +1627,8 @@ var Main = function (_React$Component) {
 					CSSTransitionGroup,
 					{
 						transitionName: 'example',
-						transitionEnterTimeout: 400,
-						transitionLeaveTimeout: 300 },
+						transitionEnterTimeout: 300,
+						transitionLeaveTimeout: 150 },
 					content
 				)
 			);
@@ -1851,25 +1880,30 @@ var Block = function (_React$Component) {
 	}
 
 	_createClass(Block, [{
-		key: 'detail',
-		value: function detail(e) {
-			console.log(this.refs.pic);
+		key: 'trigger',
+		value: function trigger(e) {
+
+			if (this.refs.pic.clientHeight > 0) {
+				this.refs.block.classList.add('on');
+			} else {
+				this.refs.block.classList.remove('on');
+			}
 		}
 	}, {
 		key: 'render',
 		value: function render() {
 			return React.createElement(
 				'div',
-				{ className: 'block' },
-				React.createElement('div', { ref: 'pic', onClick: this.detail.bind(this) }),
+				{ className: 'block', ref: 'block' },
+				React.createElement('div', { ref: 'pic', onClick: this.trigger.bind(this) }),
 				React.createElement(
 					'span',
-					{ onClick: this.props.onClick, 'data-value': this.props.missionName },
+					null,
 					this.props.missionName
 				),
 				React.createElement(
 					'h4',
-					null,
+					{ onClick: this.trigger.bind(this) },
 					this.props.fileName
 				),
 				React.createElement(
@@ -1877,7 +1911,12 @@ var Block = function (_React$Component) {
 					null,
 					this.props.type
 				),
-				React.createElement('span', { className: 'more' })
+				React.createElement(
+					'p',
+					null,
+					'vserhwerherhwGaeehae'
+				),
+				React.createElement('span', { className: 'more', 'data-value': this.props.missionName, onClick: this.props.onClick })
 			);
 		}
 	}]);
