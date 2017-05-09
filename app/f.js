@@ -780,7 +780,7 @@ var ReactDOM = __webpack_require__(45);
 var parse = __webpack_require__(44);
 
 // import {file} from './dist/file.js';
-
+var mission = {};
 // window.file=file;
 var ipc = electron.ipcRenderer;
 var store = (0, _redux.createStore)(_Root.rootReducer);
@@ -1069,25 +1069,63 @@ var Download = function (_React$Component) {
 				{ className: 'mainSection' },
 				React.createElement(
 					'div',
-					{ className: 'downloadSec' },
+					{ className: 'downloadBlock' },
 					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/game.png' }),
+					React.createElement(
+						'div',
+						null,
+						React.createElement(
+							'h3',
+							null,
+							'Nobu.jpg'
+						),
+						React.createElement(
+							'div',
+							{ className: 'downloadProcess' },
+							React.createElement('div', null)
+						),
+						React.createElement(
+							'p',
+							null,
+							React.createElement(
+								'span',
+								null,
+								'100M'
+							),
+							'   of    ',
+							React.createElement(
+								'span',
+								null,
+								'1244M'
+							)
+						),
+						React.createElement('span', null)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'downloadBlock' },
+					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/movie.png' }),
 					React.createElement('div', null)
 				),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' }),
-				React.createElement('div', { className: 'downloadSec' })
+				React.createElement(
+					'div',
+					{ className: 'downloadBlock' },
+					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/music.png' }),
+					React.createElement('div', null)
+				),
+				React.createElement(
+					'div',
+					{ className: 'downloadBlock' },
+					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/doc.png' }),
+					React.createElement('div', null)
+				),
+				React.createElement(
+					'div',
+					{ className: 'downloadBlock' },
+					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/other.png' }),
+					React.createElement('div', null)
+				)
 			);
 		}
 	}]);
@@ -1147,8 +1185,16 @@ var Upload = function (_React$Component) {
 			var path = e.dataTransfer.files[0].path.split('\\').join('/');
 			// this.context.ipc.send('createT',path,options)
 			this.setState({ path: path });
-
-			e.target.innerHTML = path;
+			e.target.classList.add('active');
+			e.target.innerHTML = '文件为' + path;
+		}
+	}, {
+		key: 'cancelFile',
+		value: function cancelFile(e) {
+			e.preventDefault();
+			e.target.classList.remove('active');
+			e.target.innerHTML = '';
+			this.setState({ path: '' });
 		}
 	}, {
 		key: 'handleDesc',
@@ -1170,6 +1216,18 @@ var Upload = function (_React$Component) {
 			this.context.ipc.send('createT', this.state, options);
 		}
 	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _this2 = this;
+
+			this.context.ipc.on('torrentCreated', function (data, name) {
+				_this2.setState({ path: '', name: '', type: '', detail: '' });
+				var myNotification = new Notification('种子生成完成', {
+					body: name + '种子生成完成,上传马上完成'
+				});
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 
@@ -1187,7 +1245,7 @@ var Upload = function (_React$Component) {
 							{ 'for': 'missionName' },
 							'\u4EFB\u52A1\u540D'
 						),
-						React.createElement('input', { type: 'text', id: 'missionName', name: 'name', onChange: this.handleDesc })
+						React.createElement('input', { type: 'text', id: 'missionName', name: 'name', onChange: this.handleDesc, placeholder: '\u5C0F\u4E8E30\u4E2A\u5B57\u7B26', value: this.state.name })
 					),
 					React.createElement(
 						'span',
@@ -1199,7 +1257,7 @@ var Upload = function (_React$Component) {
 						),
 						React.createElement(
 							'select',
-							{ name: 'type', onChange: this.handleDesc },
+							{ name: 'type', onChange: this.handleDesc, value: this.state.type },
 							React.createElement(
 								'option',
 								{ value: 'music' },
@@ -1230,7 +1288,7 @@ var Upload = function (_React$Component) {
 					React.createElement(
 						'span',
 						{ className: 'input' },
-						React.createElement('textarea', { name: 'detail', onChange: this.handleDesc, placeholder: '\u7B80\u4ECB' })
+						React.createElement('textarea', { name: 'detail', onChange: this.handleDesc, placeholder: '\u7B80\u4ECB,\u5C0F\u4E8E120', value: this.state.detail })
 					),
 					React.createElement(
 						'span',

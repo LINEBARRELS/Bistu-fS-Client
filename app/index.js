@@ -11,7 +11,7 @@ import {createStore} from "redux";
 import {rootReducer} from "./component/Reducer/Root.js";
 
 // import {file} from './dist/file.js';
-
+var mission={}
 // window.file=file;
 var ipc =electron.ipcRenderer;
 var store = createStore(rootReducer);

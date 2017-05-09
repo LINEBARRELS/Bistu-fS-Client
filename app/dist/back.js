@@ -48,3 +48,7 @@ ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType){
 	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username,fileType:fileType});
 	console.log(missionName,'种子生成完成,文件为',fileName);
 })
+
+ipc.on('err',function(event,e,arg){
+	console.log(e,arg);
+})

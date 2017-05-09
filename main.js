@@ -100,8 +100,13 @@ ipcMain.on('success',function(event,user){
 
 
 ipcMain.on('quit', function(event) {
-  mainWindow.close();
-  back.close();
+  if(mainWindow){
+    mainWindow.close();
+  }
+  if(back){
+    back.close();
+  }
+  
 	app.quit();
 });
 
@@ -116,9 +121,10 @@ ipcMain.on('createT',function(event,args,opt){
   		if(!err){
         var tem=args.path.split('/');
         var name=tem.reverse()[0];
-  			back.webContents.send('torrentCreated',torrent,name,args.name,args.type)
+  			mainWindow.webContents.send('torrentCreated',torrent,name,args.name,args.type)
+        back.webContents.send('torrentCreated',torrent,name,args.name,args.type)
   		}else{
-  			console.log(err);
+  			back.webContents.send('err',err,args)
   		}
   		
   	});

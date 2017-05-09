@@ -18,8 +18,19 @@ class Upload extends React.Component {
     	var path=e.dataTransfer.files[0].path.split('\\').join('/');
     	// this.context.ipc.send('createT',path,options)
     	this.setState({path:path})
+    	e.target.classList.add('active')
+    	e.target.innerHTML='文件为'+path;
 
-    	e.target.innerHTML=path;
+
+	}
+
+	cancelFile(e){
+		e.preventDefault()
+		e.target.classList.remove('active')
+		e.target.innerHTML='';
+		this.setState({path:''})
+
+		
 	}
 
 	handleDesc(e){
@@ -30,6 +41,8 @@ class Upload extends React.Component {
     	this.setState({
       		[name]: value
     	});
+
+    	
     	
 	}
 
@@ -42,18 +55,28 @@ class Upload extends React.Component {
 		this.context.ipc.send('createT',this.state,options)
 	}
 
+	componentDidMount(){
+		this.context.ipc.on('torrentCreated',(data,name)=>{
+			this.setState({path:'',name:'',type:'',detail:''});
+			var myNotification = new Notification('种子生成完成', {
+  			body: name+'种子生成完成,上传马上完成'
+			})
+		})
+	}
+
 
 	render(){
+
 
 		return <div className='mainSection'>
 		<div className='informationZone'>
 			<span className='input'>
 				<label for='missionName'>任务名</label>
-				<input type='text'  id='missionName' name='name' onChange={this.handleDesc}/>
+				<input type='text'  id='missionName' name='name' onChange={this.handleDesc} placeholder='小于30个字符' value={this.state.name}/>
 			</span>
 			<span className='input'>
 				<label>类型</label>
-				<select name='type' onChange={this.handleDesc}>
+				<select name='type' onChange={this.handleDesc} value={this.state.type}>
 					<option value='music'>音乐</option>
 					<option value='movie'>电影</option>
 					<option value='game'>游戏</option>
@@ -62,14 +85,14 @@ class Upload extends React.Component {
 				</select>
 			</span>
 			<span className='input'>
-				<textarea name='detail' onChange={this.handleDesc} placeholder='简介'></textarea>
+				<textarea name='detail' onChange={this.handleDesc} placeholder='简介,小于120' value={this.state.detail}></textarea>
 			</span>
 			<span className='input'>
 				<button id='torrentSubmit' onClick={this.submit.bind(this)} >提交</button>
 			</span>
 		</div>
 		<div className='dropZone' 
-			onDrop={this.fileSelect.bind(this)}></div>
+			onDrop={this.fileSelect.bind(this)} ></div>
 		</div>
 	}
 }
