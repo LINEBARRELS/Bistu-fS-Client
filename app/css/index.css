@@ -4,44 +4,53 @@
     padding: 0;
 }
 
+@import url(https://fonts.googleapis.com/css?family=Raleway:500);
+
 @font-face
 {
     font-family: side;
 
-    src: url(../img/DancingScript-Regular.otf);
+    src: url(../font/DancingScript-Regular.otf);
+}
+
+@font-face
+{
+    font-family: avr;
+
+    src: url(../font/AvenirLTStd-Book.otf);
 }
 
 @font-face
 {
     font-family: bla;
 
-    src:url(../img/SourceHanSansCN-ExtraLight.otf)
+    src:url(../font/SourceHanSansCN-ExtraLight.otf)
 }
 
 @font-face
 {
     font-family: Chao;
 
-    src:url('../img/Chrobot.otf');
+    src:url('../font/Chrobot.otf');
 }
 
 @font-face{
     font-family: cnX;
 
-    src:url('../img/cnX.ttf')
+    src:url('../font/cnX.ttf')
 
 }
 
 @font-face{
     font-family: enY;
 
-    src:url('../img/Inconsolata.otf')
+    src:url('../font/Inconsolata.otf')
 }
 
 @font-face{
     font-family: jpZ;
 
-    src:url('../img/A-OTF-KyokaICAPro-Regular.otf')
+    src:url('../font/A-OTF-KyokaICAPro-Regular.otf')
 }
 
 
@@ -521,6 +530,9 @@ body
     overflow: hidden;
 
     transition: all .15s;
+
+    font-family: Microsoft YaHei;
+    line-height: 1em;
 }
 
 .block >span:first-of-type:after{
@@ -541,12 +553,17 @@ body
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+
+    font-family: Arial;
+    font-size: small;
 }
 
 .block > small{
     cursor: default;
     text-align: center;
     padding-left: 10px;
+    font-family: avr;
+    font-size: 12px;
 }
 
 .block > p{
@@ -989,7 +1006,7 @@ body
 }
 
 #torrentSubmit{
-    font-size: 18px;
+    font-size: 14px;
 
     float: right;
 }

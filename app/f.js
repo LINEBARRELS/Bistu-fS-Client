@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 46);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -80,2033 +80,6 @@ module.exports = require("fs");
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-var fileAction = function fileAction(con) {
-	return {
-		type: 'searched',
-		content: con
-	};
-};
-
-exports.fileAction = fileAction;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__root_js__ = __webpack_require__(34);
-
-
-/** Built-in value references. */
-var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
-
-/* harmony default export */ __webpack_exports__["a"] = Symbol;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getPrototype_js__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(35);
-
-
-
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @since 0.8.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__["a" /* default */])(value) || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__["a" /* default */])(value) != objectTag) {
-    return false;
-  }
-  var proto = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__getPrototype_js__["a" /* default */])(value);
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-  return typeof Ctor == 'function' && Ctor instanceof Ctor &&
-    funcToString.call(Ctor) == objectCtorString;
-}
-
-/* harmony default export */ __webpack_exports__["a"] = isPlainObject;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = compose;
-/**
- * Composes single-argument functions from right to left. The rightmost
- * function can take multiple arguments as it provides the signature for
- * the resulting composite function.
- *
- * @param {...Function} funcs The functions to compose.
- * @returns {Function} A function obtained by composing the argument functions
- * from right to left. For example, compose(f, g, h) is identical to doing
- * (...args) => f(g(h(...args))).
- */
-
-function compose() {
-  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
-    funcs[_key] = arguments[_key];
-  }
-
-  if (funcs.length === 0) {
-    return function (arg) {
-      return arg;
-    };
-  }
-
-  if (funcs.length === 1) {
-    return funcs[0];
-  }
-
-  var last = funcs[funcs.length - 1];
-  var rest = funcs.slice(0, -1);
-  return function () {
-    return rest.reduceRight(function (composed, f) {
-      return f(composed);
-    }, last.apply(undefined, arguments));
-  };
-}
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_symbol_observable__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ActionTypes; });
-/* harmony export (immutable) */ __webpack_exports__["a"] = createStore;
-
-
-
-/**
- * These are private action types reserved by Redux.
- * For any unknown actions, you must return the current state.
- * If the current state is undefined, you must return the initial state.
- * Do not reference these action types directly in your code.
- */
-var ActionTypes = {
-  INIT: '@@redux/INIT'
-};
-
-/**
- * Creates a Redux store that holds the state tree.
- * The only way to change the data in the store is to call `dispatch()` on it.
- *
- * There should only be a single store in your app. To specify how different
- * parts of the state tree respond to actions, you may combine several reducers
- * into a single reducer function by using `combineReducers`.
- *
- * @param {Function} reducer A function that returns the next state tree, given
- * the current state tree and the action to handle.
- *
- * @param {any} [preloadedState] The initial state. You may optionally specify it
- * to hydrate the state from the server in universal apps, or to restore a
- * previously serialized user session.
- * If you use `combineReducers` to produce the root reducer function, this must be
- * an object with the same shape as `combineReducers` keys.
- *
- * @param {Function} enhancer The store enhancer. You may optionally specify it
- * to enhance the store with third-party capabilities such as middleware,
- * time travel, persistence, etc. The only store enhancer that ships with Redux
- * is `applyMiddleware()`.
- *
- * @returns {Store} A Redux store that lets you read the state, dispatch actions
- * and subscribe to changes.
- */
-function createStore(reducer, preloadedState, enhancer) {
-  var _ref2;
-
-  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
-    enhancer = preloadedState;
-    preloadedState = undefined;
-  }
-
-  if (typeof enhancer !== 'undefined') {
-    if (typeof enhancer !== 'function') {
-      throw new Error('Expected the enhancer to be a function.');
-    }
-
-    return enhancer(createStore)(reducer, preloadedState);
-  }
-
-  if (typeof reducer !== 'function') {
-    throw new Error('Expected the reducer to be a function.');
-  }
-
-  var currentReducer = reducer;
-  var currentState = preloadedState;
-  var currentListeners = [];
-  var nextListeners = currentListeners;
-  var isDispatching = false;
-
-  function ensureCanMutateNextListeners() {
-    if (nextListeners === currentListeners) {
-      nextListeners = currentListeners.slice();
-    }
-  }
-
-  /**
-   * Reads the state tree managed by the store.
-   *
-   * @returns {any} The current state tree of your application.
-   */
-  function getState() {
-    return currentState;
-  }
-
-  /**
-   * Adds a change listener. It will be called any time an action is dispatched,
-   * and some part of the state tree may potentially have changed. You may then
-   * call `getState()` to read the current state tree inside the callback.
-   *
-   * You may call `dispatch()` from a change listener, with the following
-   * caveats:
-   *
-   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
-   * If you subscribe or unsubscribe while the listeners are being invoked, this
-   * will not have any effect on the `dispatch()` that is currently in progress.
-   * However, the next `dispatch()` call, whether nested or not, will use a more
-   * recent snapshot of the subscription list.
-   *
-   * 2. The listener should not expect to see all state changes, as the state
-   * might have been updated multiple times during a nested `dispatch()` before
-   * the listener is called. It is, however, guaranteed that all subscribers
-   * registered before the `dispatch()` started will be called with the latest
-   * state by the time it exits.
-   *
-   * @param {Function} listener A callback to be invoked on every dispatch.
-   * @returns {Function} A function to remove this change listener.
-   */
-  function subscribe(listener) {
-    if (typeof listener !== 'function') {
-      throw new Error('Expected listener to be a function.');
-    }
-
-    var isSubscribed = true;
-
-    ensureCanMutateNextListeners();
-    nextListeners.push(listener);
-
-    return function unsubscribe() {
-      if (!isSubscribed) {
-        return;
-      }
-
-      isSubscribed = false;
-
-      ensureCanMutateNextListeners();
-      var index = nextListeners.indexOf(listener);
-      nextListeners.splice(index, 1);
-    };
-  }
-
-  /**
-   * Dispatches an action. It is the only way to trigger a state change.
-   *
-   * The `reducer` function, used to create the store, will be called with the
-   * current state tree and the given `action`. Its return value will
-   * be considered the **next** state of the tree, and the change listeners
-   * will be notified.
-   *
-   * The base implementation only supports plain object actions. If you want to
-   * dispatch a Promise, an Observable, a thunk, or something else, you need to
-   * wrap your store creating function into the corresponding middleware. For
-   * example, see the documentation for the `redux-thunk` package. Even the
-   * middleware will eventually dispatch plain object actions using this method.
-   *
-   * @param {Object} action A plain object representing “what changed”. It is
-   * a good idea to keep actions serializable so you can record and replay user
-   * sessions, or use the time travelling `redux-devtools`. An action must have
-   * a `type` property which may not be `undefined`. It is a good idea to use
-   * string constants for action types.
-   *
-   * @returns {Object} For convenience, the same action object you dispatched.
-   *
-   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
-   * return something else (for example, a Promise you can await).
-   */
-  function dispatch(action) {
-    if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__["a" /* default */])(action)) {
-      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
-    }
-
-    if (typeof action.type === 'undefined') {
-      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
-    }
-
-    if (isDispatching) {
-      throw new Error('Reducers may not dispatch actions.');
-    }
-
-    try {
-      isDispatching = true;
-      currentState = currentReducer(currentState, action);
-    } finally {
-      isDispatching = false;
-    }
-
-    var listeners = currentListeners = nextListeners;
-    for (var i = 0; i < listeners.length; i++) {
-      listeners[i]();
-    }
-
-    return action;
-  }
-
-  /**
-   * Replaces the reducer currently used by the store to calculate the state.
-   *
-   * You might need this if your app implements code splitting and you want to
-   * load some of the reducers dynamically. You might also need this if you
-   * implement a hot reloading mechanism for Redux.
-   *
-   * @param {Function} nextReducer The reducer for the store to use instead.
-   * @returns {void}
-   */
-  function replaceReducer(nextReducer) {
-    if (typeof nextReducer !== 'function') {
-      throw new Error('Expected the nextReducer to be a function.');
-    }
-
-    currentReducer = nextReducer;
-    dispatch({ type: ActionTypes.INIT });
-  }
-
-  /**
-   * Interoperability point for observable/reactive libraries.
-   * @returns {observable} A minimal observable of state changes.
-   * For more information, see the observable proposal:
-   * https://github.com/zenparsing/es-observable
-   */
-  function observable() {
-    var _ref;
-
-    var outerSubscribe = subscribe;
-    return _ref = {
-      /**
-       * The minimal observable subscription method.
-       * @param {Object} observer Any object that can be used as an observer.
-       * The observer object should have a `next` method.
-       * @returns {subscription} An object with an `unsubscribe` method that can
-       * be used to unsubscribe the observable from the store, and prevent further
-       * emission of values from the observable.
-       */
-      subscribe: function subscribe(observer) {
-        if (typeof observer !== 'object') {
-          throw new TypeError('Expected the observer to be an object.');
-        }
-
-        function observeState() {
-          if (observer.next) {
-            observer.next(getState());
-          }
-        }
-
-        observeState();
-        var unsubscribe = outerSubscribe(observeState);
-        return { unsubscribe: unsubscribe };
-      }
-    }, _ref[__WEBPACK_IMPORTED_MODULE_1_symbol_observable___default.a] = function () {
-      return this;
-    }, _ref;
-  }
-
-  // When a store is created, an "INIT" action is dispatched so that every
-  // reducer returns their initial state. This effectively populates
-  // the initial state tree.
-  dispatch({ type: ActionTypes.INIT });
-
-  return _ref2 = {
-    dispatch: dispatch,
-    subscribe: subscribe,
-    getState: getState,
-    replaceReducer: replaceReducer
-  }, _ref2[__WEBPACK_IMPORTED_MODULE_1_symbol_observable___default.a] = observable, _ref2;
-}
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(9);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return __WEBPACK_IMPORTED_MODULE_0__createStore__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return __WEBPACK_IMPORTED_MODULE_1__combineReducers__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return __WEBPACK_IMPORTED_MODULE_4__compose__["a"]; });
-
-
-
-
-
-
-
-/*
-* This is a dummy function to check if the function name has been altered by minification.
-* If the function has been minified and NODE_ENV !== 'production', warn the user.
-*/
-function isCrushed() {}
-
-if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
-  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_warning__["a" /* default */])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
-}
-
-
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(5)))
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = warning;
-/**
- * Prints a warning in the console if it exists.
- *
- * @param {String} message The warning message.
- * @returns {void}
- */
-function warning(message) {
-  /* eslint-disable no-console */
-  if (typeof console !== 'undefined' && typeof console.error === 'function') {
-    console.error(message);
-  }
-  /* eslint-enable no-console */
-  try {
-    // This error was thrown as a convenience so that if you enable
-    // "break on all exceptions" in your console,
-    // it would pause the execution at this line.
-    throw new Error(message);
-    /* eslint-disable no-empty */
-  } catch (e) {}
-  /* eslint-enable no-empty */
-}
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _app = __webpack_require__(16);
-
-var _redux = __webpack_require__(8);
-
-var _Root = __webpack_require__(14);
-
-var fs = __webpack_require__(1);
-var electron = __webpack_require__(43);
-var ReactDOM = __webpack_require__(45);
-var parse = __webpack_require__(44);
-
-// import {file} from './dist/file.js';
-var mission = {};
-// window.file=file;
-var ipc = electron.ipcRenderer;
-var store = (0, _redux.createStore)(_Root.rootReducer);
-
-window.store = store;
-window.ipc = ipc;
-
-ipc.on('userinfo', function (event, arg) {
-	console.log(arg);
-	// window.so=so
-	// so.username=arg;
-	window.username = arg;
-	// so.emit('onLine',arg);
-	// ipc.send('roomInit',so.username)
-
-	ReactDOM.render(React.createElement(_app.R, { ipc: ipc, store: store }), layout);
-});
-
-ipc.on('fileWriteCom', function (event, mess) {
-	console.log(mess);
-}); //写文件完成
-
-
-ipc.on('message', function (event, mess) {
-	console.log(mess);
-});
-
-window.ondrop = function (e) {
-	try {
-		e.preventDefault();
-		return false;
-	} catch (e) {
-		console.log(e);
-	}
-};
-window.ondragover = function (e) {
-	try {
-		e.preventDefault();
-		return false;
-	} catch (e) {
-		console.log(e);
-	}
-};
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-var pageAction = function pageAction(tar) {
-	return {
-		type: 'change',
-		cur: tar
-	};
-};
-
-exports.pageAction = pageAction;
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-var processAction = function processAction(pro) {
-	return {
-		type: 'moving',
-		process: pro
-	};
-};
-
-exports.processAction = processAction;
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.rootReducer = undefined;
-
-var _redux = __webpack_require__(8);
-
-var _reducers = __webpack_require__(15);
-
-var reducers = _interopRequireWildcard(_reducers);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var rootReducer = (0, _redux.combineReducers)(reducers);
-
-exports.rootReducer = rootReducer;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-var routerReducer = exports.routerReducer = function routerReducer() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cur: 'index' };
-	var action = arguments[1];
-
-	switch (action.type) {
-		case 'change':
-			return Object.assign({}, state, {
-				cur: action.cur
-			});
-		default:
-			return state;
-	}
-};
-
-var messageReducer = exports.messageReducer = function messageReducer() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	var action = arguments[1];
-
-	switch (action.type) {
-		case 'newMess':
-			return Object.assign({}, state, {
-				toast: action.toast
-			});
-		default:
-			return state;
-	}
-};
-
-var fileReducer = exports.fileReducer = function fileReducer() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { content: [] };
-	var action = arguments[1];
-
-
-	switch (action.type) {
-		case 'searched':
-			return Object.assign({}, state, {
-				content: action.content
-			});
-		default:
-			return state;
-	}
-};
-
-var processReducer = exports.processReducer = function processReducer() {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { process: 0 };
-	var action = arguments[1];
-
-
-	switch (action.type) {
-		case 'moving':
-			return Object.assign({}, state, {
-				process: action.process
-			});
-		default:
-			return state;
-	}
-};
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.R = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _main = __webpack_require__(20);
-
-var _side = __webpack_require__(21);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-
-var R = function (_React$Component) {
-  _inherits(R, _React$Component);
-
-  function R(args) {
-    _classCallCheck(this, R);
-
-    return _possibleConstructorReturn(this, (R.__proto__ || Object.getPrototypeOf(R)).call(this, args));
-  }
-
-  _createClass(R, [{
-    key: "getChildContext",
-    value: function getChildContext() {
-      return {
-        store: this.props.store,
-        ipc: this.props.ipc
-      };
-    }
-  }, {
-    key: "fa",
-    value: function fa(e) {
-      e.preventDefault();
-      return false;
-    }
-
-    // methods
-
-  }, {
-    key: "render",
-    value: function render() {
-      // console.log('store',this.props.store);
-      return React.createElement(
-        "div",
-        { onDrop: this.fa },
-        React.createElement(_main.Main, null),
-        React.createElement(_side.Side, null)
-      );
-    }
-  }]);
-
-  return R;
-}(React.Component);
-
-R.childContextTypes = {
-  store: React.PropTypes.object,
-  ipc: React.PropTypes.object
-};
-
-exports.R = R;
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-// import {file} from "../../dist/file.js";
-
-var Download = function (_React$Component) {
-	_inherits(Download, _React$Component);
-
-	function Download(args) {
-		_classCallCheck(this, Download);
-
-		return _possibleConstructorReturn(this, (Download.__proto__ || Object.getPrototypeOf(Download)).call(this, args));
-	}
-
-	_createClass(Download, [{
-		key: 'render',
-		value: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'mainSection' },
-				React.createElement(
-					'div',
-					{ className: 'downloadBlock' },
-					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/game.png' }),
-					React.createElement(
-						'div',
-						null,
-						React.createElement(
-							'h3',
-							null,
-							'Nobu.jpg'
-						),
-						React.createElement(
-							'div',
-							{ className: 'downloadProcess' },
-							React.createElement('div', null)
-						),
-						React.createElement(
-							'p',
-							null,
-							React.createElement(
-								'span',
-								null,
-								'100M'
-							),
-							'   of    ',
-							React.createElement(
-								'span',
-								null,
-								'1244M'
-							)
-						),
-						React.createElement('span', null)
-					)
-				),
-				React.createElement(
-					'div',
-					{ className: 'downloadBlock' },
-					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/movie.png' }),
-					React.createElement('div', null)
-				),
-				React.createElement(
-					'div',
-					{ className: 'downloadBlock' },
-					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/music.png' }),
-					React.createElement('div', null)
-				),
-				React.createElement(
-					'div',
-					{ className: 'downloadBlock' },
-					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/doc.png' }),
-					React.createElement('div', null)
-				),
-				React.createElement(
-					'div',
-					{ className: 'downloadBlock' },
-					React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/other.png' }),
-					React.createElement('div', null)
-				)
-			);
-		}
-	}]);
-
-	return Download;
-}(React.Component);
-
-Download.contextTypes = {
-	ipc: React.PropTypes.object
-
-};
-exports.Download = Download;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-var fs = __webpack_require__(1);
-
-var Upload = function (_React$Component) {
-	_inherits(Upload, _React$Component);
-
-	function Upload(args) {
-		_classCallCheck(this, Upload);
-
-		var _this = _possibleConstructorReturn(this, (Upload.__proto__ || Object.getPrototypeOf(Upload)).call(this, args));
-
-		_this.state = { path: '', name: '', type: '', detail: '' };
-
-		_this.handleDesc = _this.handleDesc.bind(_this);
-		return _this;
-	}
-
-	_createClass(Upload, [{
-		key: 'fileSelect',
-		value: function fileSelect(e) {
-			e.preventDefault();
-
-			var path = e.dataTransfer.files[0].path.split('\\').join('/');
-			// this.context.ipc.send('createT',path,options)
-			this.setState({ path: path });
-			e.target.classList.add('active');
-			e.target.innerHTML = '文件为' + path;
-		}
-	}, {
-		key: 'cancelFile',
-		value: function cancelFile(e) {
-			e.preventDefault();
-			e.target.classList.remove('active');
-			e.target.innerHTML = '';
-			this.setState({ path: '' });
-		}
-	}, {
-		key: 'handleDesc',
-		value: function handleDesc(e) {
-			var target = event.target;
-			var value = target.value;
-			var name = target.name;
-
-			this.setState(_defineProperty({}, name, value));
-		}
-	}, {
-		key: 'submit',
-		value: function submit(e) {
-			var options = {
-				createdBy: username,
-				pieceLength: 262144,
-				comment: this.state.detail
-			};
-			this.context.ipc.send('createT', this.state, options);
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			var _this2 = this;
-
-			this.context.ipc.on('torrentCreated', function (data, name) {
-				_this2.setState({ path: '', name: '', type: '', detail: '' });
-				var myNotification = new Notification('种子生成完成', {
-					body: name + '种子生成完成,上传马上完成'
-				});
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-
-			return React.createElement(
-				'div',
-				{ className: 'mainSection' },
-				React.createElement(
-					'div',
-					{ className: 'informationZone' },
-					React.createElement(
-						'span',
-						{ className: 'input' },
-						React.createElement(
-							'label',
-							{ 'for': 'missionName' },
-							'\u4EFB\u52A1\u540D'
-						),
-						React.createElement('input', { type: 'text', id: 'missionName', name: 'name', onChange: this.handleDesc, placeholder: '\u5C0F\u4E8E30\u4E2A\u5B57\u7B26', value: this.state.name })
-					),
-					React.createElement(
-						'span',
-						{ className: 'input' },
-						React.createElement(
-							'label',
-							null,
-							'\u7C7B\u578B'
-						),
-						React.createElement(
-							'select',
-							{ name: 'type', onChange: this.handleDesc, value: this.state.type },
-							React.createElement(
-								'option',
-								{ value: 'music' },
-								'\u97F3\u4E50'
-							),
-							React.createElement(
-								'option',
-								{ value: 'movie' },
-								'\u7535\u5F71'
-							),
-							React.createElement(
-								'option',
-								{ value: 'game' },
-								'\u6E38\u620F'
-							),
-							React.createElement(
-								'option',
-								{ value: 'doc' },
-								'\u6587\u6863'
-							),
-							React.createElement(
-								'option',
-								{ value: 'other' },
-								'\u5176\u4ED6'
-							)
-						)
-					),
-					React.createElement(
-						'span',
-						{ className: 'input' },
-						React.createElement('textarea', { name: 'detail', onChange: this.handleDesc, placeholder: '\u7B80\u4ECB,\u5C0F\u4E8E120', value: this.state.detail })
-					),
-					React.createElement(
-						'span',
-						{ className: 'input' },
-						React.createElement(
-							'button',
-							{ id: 'torrentSubmit', onClick: this.submit.bind(this) },
-							'\u63D0\u4EA4'
-						)
-					)
-				),
-				React.createElement('div', { className: 'dropZone',
-					onDrop: this.fileSelect.bind(this) })
-			);
-		}
-	}]);
-
-	return Upload;
-}(React.Component);
-
-Upload.contextTypes = {
-	ipc: React.PropTypes.object
-};
-
-exports.Upload = Upload;
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.Index = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _block = __webpack_require__(24);
-
-var _Files = __webpack_require__(2);
-
-var _Process = __webpack_require__(13);
-
-var _immutable = __webpack_require__(27);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-var fs = __webpack_require__(1);
-// import {file} from "../../dist/file.js";
-
-
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
-
-var Index = function (_React$Component) {
-	_inherits(Index, _React$Component);
-
-	function Index(args) {
-		_classCallCheck(this, Index);
-
-		var _this = _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).call(this, args));
-
-		_this.state = { search: '', files: [] };
-		return _this;
-	}
-
-	_createClass(Index, [{
-		key: 'search',
-		value: function search() {
-
-			this.context.ipc.send('search', this.state.search);
-		}
-	}, {
-		key: 'searchType',
-		value: function searchType(e) {
-
-			if (event.target.className === 'typeIcon') {
-				if (document.querySelector('.typeOn')) {
-					document.querySelector('.typeOn').classList.remove('typeOn');
-				}
-				e.target.classList.add('typeOn');
-				console.log(e.target.getAttribute('data-type'));
-				this.context.store.dispatch((0, _Process.processAction)(0));
-				this.context.ipc.send('searchType', e.target.getAttribute('data-type'));
-			}
-		}
-	}, {
-		key: 'downLoad',
-		value: function downLoad(e) {
-			e.stopPropagation();
-			if (e.target.className === 'more') {
-				console.log(e.target.getAttribute('data-value'));
-			}
-			// this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
-		}
-	}, {
-		key: 'handleChange',
-		value: function handleChange(e) {
-			this.setState({ search: event.target.value });
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			var _this2 = this;
-
-			if (this.context.store.getState().fileReducer.content.length !== 0) {
-				this.setState({ files: this.context.store.getState().fileReducer.content });
-			}
-
-			this.context.store.subscribe(function () {
-				// console.log(this.context.store.getState().fileReducer.content);
-				if (!(0, _immutable.is)(_this2.context.store.getState().fileReducer.content, _this2.state.files)) {
-					_this2.setState({ files: _this2.context.store.getState().fileReducer.content });
-					// console.log('???');
-				}
-			});
-		}
-	}, {
-		key: 'shouldComponentUpdate',
-		value: function shouldComponentUpdate() {
-			var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-			var nextState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-			var thisProps = this.props || {},
-			    thisState = this.state || {};
-			if (thisState['search'] !== nextState['search']) {
-				return true;
-			}
-
-			if (Object.keys(thisProps).length !== Object.keys(nextProps).length || Object.keys(thisState).length !== Object.keys(nextState).length) {
-				return true;
-			}
-
-			for (var key in nextProps) {
-				if (thisProps[key] !== nextProps[key] || !(0, _immutable.is)(thisProps[key], nextProps[key])) {
-					return true;
-				}
-			}
-
-			for (var _key in nextState) {
-				if (thisState[_key] !== nextState[_key] || !(0, _immutable.is)(thisState[_key], nextState[_key])) {
-					return true;
-				}
-			}
-			return false;
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			// console.log('index绘制开始',this.state);
-			var blocks = [];
-
-			if (this.state.files.length > 0) {
-				this.state.files.forEach(function (item, index) {
-					blocks.push(React.createElement(_block.Block, { key: item['_id'], fileName: item.fileName, missionName: item.missionName, type: item.type }));
-				});
-			} else {
-				blocks.push(React.createElement(
-					'div',
-					{ id: 'nothing' },
-					'\u6CA1\u6709\u641C\u7D22\u7ED3\u679C,\u53BB\u641C\u70B9\u522B\u7684\u4E1C\u897F\u53BB\u5427 #\u6ED1\u7A3D'
-				));
-			}
-
-			this.context.store.dispatch((0, _Process.processAction)(100));
-
-			return React.createElement(
-				'div',
-				{ className: 'mainSection' },
-				React.createElement(
-					'div',
-					{ className: 'navBar' },
-					React.createElement(
-						'ul',
-						{ className: 'fileType', onClick: this.searchType.bind(this) },
-						React.createElement(
-							'li',
-							{ className: 'types' },
-							React.createElement(
-								'a',
-								{ className: 'typeIcon', 'data-type': 'music' },
-								'\u97F3\u4E50'
-							)
-						),
-						React.createElement(
-							'li',
-							{ className: 'types' },
-							React.createElement(
-								'a',
-								{ className: 'typeIcon', 'data-type': 'movie' },
-								'\u7535\u5F71'
-							)
-						),
-						React.createElement(
-							'li',
-							{ className: 'types' },
-							React.createElement(
-								'a',
-								{ className: 'typeIcon', 'data-type': 'game' },
-								'\u6E38\u620F'
-							)
-						),
-						React.createElement(
-							'li',
-							{ className: 'types' },
-							React.createElement(
-								'a',
-								{ className: 'typeIcon', 'data-type': 'doc' },
-								'\u6587\u6863'
-							)
-						),
-						React.createElement(
-							'li',
-							{ className: 'types' },
-							React.createElement(
-								'a',
-								{ className: 'typeIcon', 'data-type': 'other' },
-								'\u5176\u4ED6'
-							)
-						)
-					),
-					React.createElement(
-						'span',
-						{ className: 'input search' },
-						React.createElement('input', { type: 'text', placeholder: '\u641C\u7D22', value: this.state.search, onChange: this.handleChange.bind(this) }),
-						React.createElement(
-							'button',
-							{ onClick: this.search.bind(this) },
-							'Search'
-						)
-					)
-				),
-				React.createElement(
-					'div',
-					{ className: 'files', key: 'fileRoot', onClick: this.downLoad.bind(this) },
-					React.createElement(
-						CSSTransitionGroup,
-						{
-							transitionName: 'example',
-							transitionEnterTimeout: 400,
-							transitionLeaveTimeout: 300 },
-						blocks
-					)
-				)
-			);
-		}
-	}]);
-
-	return Index;
-}(React.Component);
-
-Index.contextTypes = {
-	store: React.PropTypes.object,
-	ipc: React.PropTypes.object
-
-};
-
-exports.Index = Index;
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.Main = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _upload = __webpack_require__(18);
-
-var _download = __webpack_require__(17);
-
-var _user = __webpack_require__(23);
-
-var _index = __webpack_require__(19);
-
-var _message = __webpack_require__(26);
-
-var _Files = __webpack_require__(2);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-var fs = __webpack_require__(1);
-
-// import {peer} from "../dist/peer.js"
-
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
-
-var Main = function (_React$Component) {
-	_inherits(Main, _React$Component);
-
-	function Main(props) {
-		_classCallCheck(this, Main);
-
-		var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
-
-		_this.state = { room: '', cur: 'index' };
-
-		return _this;
-	}
-
-	_createClass(Main, [{
-		key: 'shouldComponentUpdate',
-		value: function shouldComponentUpdate(nextProp, nextState) {
-			// console.log('should',nextState);
-			if (nextState.cur === this.state.cur) {
-				return false;
-			} else {
-				return true;
-			}
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			var _this2 = this;
-
-			this.context.store.subscribe(function () {
-				// console.log('cur改变');
-				var next = _this2.context.store.getState();
-				if (next.processReducer.process !== _this2.refs.pro.style.width) {
-					_this2.refs.pro.style.width = next.processReducer.process + '%';
-				}
-
-				_this2.setState({ cur: next.routerReducer.cur });
-			});
-
-			// so.on('message', (data)=>{
-			// 	console.log(data);
-			// });
-
-			// so.on('searchResult', (data)=>{
-
-			// 	console.log('接收到搜索结果',data);
-			// 	this.context.store.dispatch(fileAction(data))
-			// });
-
-			this.context.ipc.on('searchResult', function (event, data) {
-				console.log('接收到搜索结果', data);
-				_this2.context.store.dispatch((0, _Files.fileAction)(data));
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			// console.log(this.state.cur);
-			// console.log(this.context.store.getState());
-			var content = null;
-			switch (this.state.cur) {
-				case 'index':
-
-					content = React.createElement(_index.Index, { key: 'index' });
-					break;
-				case 'download':
-
-					content = React.createElement(_download.Download, { key: 'download' });
-					break;
-				case 'upload':
-
-					content = React.createElement(_upload.Upload, { key: 'upload' });
-					break;
-				case 'user':
-
-					content = React.createElement(_user.User, { key: 'user' });
-					break;
-			}
-
-			return React.createElement(
-				'div',
-				{ id: 'main' },
-				React.createElement(
-					'div',
-					{ className: 'process', refs: 'proBar' },
-					React.createElement('div', { ref: 'pro' })
-				),
-				React.createElement(_message.Message, null),
-				React.createElement(
-					CSSTransitionGroup,
-					{
-						transitionName: 'example',
-						transitionEnterTimeout: 300,
-						transitionLeaveTimeout: 150 },
-					content
-				)
-			);
-		}
-	}]);
-
-	return Main;
-}(React.Component);
-
-Main.contextTypes = {
-	store: React.PropTypes.object,
-	ipc: React.PropTypes.object
-};
-
-exports.Main = Main;
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.Side = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _topBar = __webpack_require__(22);
-
-var _Page = __webpack_require__(12);
-
-var _list = __webpack_require__(25);
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
-
-var Side = function (_React$Component) {
-	_inherits(Side, _React$Component);
-
-	function Side(args) {
-		_classCallCheck(this, Side);
-
-		var _this = _possibleConstructorReturn(this, (Side.__proto__ || Object.getPrototypeOf(Side)).call(this, args));
-
-		_this.changePage = _this.changePage.bind(_this);
-		return _this;
-	}
-
-	_createClass(Side, [{
-		key: "changePage",
-		value: function changePage(event) {
-			// console.log(event.target);
-			this.context.store.dispatch((0, _Page.pageAction)(event.target.innerHTML));
-			if (document.querySelector('.sideItem.on')) {
-				document.querySelector('.sideItem.on').classList.remove('on');
-			}
-
-			event.target.classList.add('on');
-		}
-	}, {
-		key: "render",
-		value: function render() {
-
-			var items = ['index', 'download', 'upload', 'user'],
-			    itemClass = 'sideItem',
-			    ulClass = 'sideBar';
-			var events = {
-				Click: this.changePage,
-				MouseEnter: null,
-				MouseOut: null
-			};
-			return React.createElement(
-				"div",
-				{ id: "side" },
-				React.createElement(_topBar.TopBar, null),
-				React.createElement(_list.List, { items: items, itemClass: itemClass, ulClass: ulClass, event: events })
-			);
-		}
-	}]);
-
-	return Side;
-}(React.Component);
-
-Side.contextTypes = {
-	store: React.PropTypes.object
-};
-
-exports.Side = Side;
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-
-var TopBar = function (_React$Component) {
-	_inherits(TopBar, _React$Component);
-
-	function TopBar(props) {
-		_classCallCheck(this, TopBar);
-
-		return _possibleConstructorReturn(this, (TopBar.__proto__ || Object.getPrototypeOf(TopBar)).call(this, props));
-
-		// this.state={icon:'index'}
-	}
-
-	_createClass(TopBar, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-
-			this.context.store.subscribe(function () {
-				this.refs.icon.style.backgroundImage = 'url(./app/img/' + this.context.store.getState().routerReducer.cur + '.png)';
-			}.bind(this));
-		}
-	}, {
-		key: 'quit',
-		value: function quit() {
-			this.context.ipc.send('quit');
-		}
-	}, {
-		key: 'minmize',
-		value: function minmize() {
-			this.context.ipc.send('mini');
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-
-			return React.createElement(
-				'div',
-				null,
-				React.createElement('div', { className: 'drag' }),
-				React.createElement('span', { id: 'icon', ref: 'icon' }),
-				React.createElement('span', { id: 'min', onClick: this.minmize.bind(this) }),
-				React.createElement('span', { id: 'close', onClick: this.quit.bind(this) })
-			);
-		}
-	}]);
-
-	return TopBar;
-}(React.Component);
-
-TopBar.contextTypes = {
-	store: React.PropTypes.object,
-	ipc: React.PropTypes.object
-};
-
-exports.TopBar = TopBar;
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-
-var User = function (_React$Component) {
-	_inherits(User, _React$Component);
-
-	function User(args) {
-		_classCallCheck(this, User);
-
-		return _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, args));
-	}
-
-	_createClass(User, [{
-		key: 'render',
-		value: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'mainSection' },
-				'User'
-			);
-		}
-	}]);
-
-	return User;
-}(React.Component);
-
-exports.User = User;
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-
-var Block = function (_React$Component) {
-	_inherits(Block, _React$Component);
-
-	function Block(args) {
-		_classCallCheck(this, Block);
-
-		return _possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).call(this, args));
-	}
-
-	_createClass(Block, [{
-		key: 'trigger',
-		value: function trigger(e) {
-
-			if (this.refs.pic.clientHeight > 0) {
-				this.refs.block.classList.add('on');
-			} else {
-				this.refs.block.classList.remove('on');
-			}
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'block', ref: 'block' },
-				React.createElement('div', { ref: 'pic', onClick: this.trigger.bind(this) }),
-				React.createElement(
-					'span',
-					null,
-					this.props.missionName
-				),
-				React.createElement(
-					'h4',
-					{ onClick: this.trigger.bind(this) },
-					this.props.fileName
-				),
-				React.createElement(
-					'small',
-					null,
-					this.props.type
-				),
-				React.createElement(
-					'p',
-					null,
-					'vserhwerherhwGaeehae'
-				),
-				React.createElement('span', { className: 'more', 'data-value': this.props.missionName, onClick: this.props.onClick })
-			);
-		}
-	}]);
-
-	return Block;
-}(React.Component);
-
-exports.Block = Block;
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-
-var List = function (_React$Component) {
-	_inherits(List, _React$Component);
-
-	function List(args) {
-		_classCallCheck(this, List);
-
-		return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, args));
-	}
-
-	_createClass(List, [{
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			var nav = [];
-
-			this.props.items.forEach(function (item, index) {
-				nav.push(React.createElement(
-					'li',
-					{ className: _this2.props.itemClass,
-						onClick: _this2.props.event.Click,
-						onMouseEnter: _this2.props.event.MouseEnter,
-						onMouseOut: _this2.props.event.MouseOut },
-					item
-				));
-			});
-
-			return React.createElement(
-				'ul',
-				{ className: this.props.ulClass },
-				nav
-			);
-		}
-
-		// methods
-
-	}]);
-
-	return List;
-}(React.Component);
-
-exports.List = List;
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var React = __webpack_require__(0);
-
-var Message = function (_React$Component) {
-	_inherits(Message, _React$Component);
-
-	function Message(args) {
-		_classCallCheck(this, Message);
-
-		return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, args));
-	}
-
-	_createClass(Message, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			// this.context.store.subscribe(function(){
-			// 	this.refs.icon.style.backgroundImage='url(./app/img/'+this.context.store.getState().cur+'.png)'
-			// }.bind(this))
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'toast' },
-				'AWETGAWE'
-			);
-		}
-	}]);
-
-	return Message;
-}(React.Component);
-
-Message.contextTypes = {
-	store: React.PropTypes.object
-};
-
-exports.Message = Message;
-
-/***/ }),
-/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -7090,13 +5063,2134 @@ exports.Message = Message;
 }));
 
 /***/ }),
-/* 28 */
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var fileAction = function fileAction(con) {
+	return {
+		type: 'searched',
+		content: con
+	};
+};
+
+exports.fileAction = fileAction;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getRawTag_js__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__objectToString_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__root_js__ = __webpack_require__(35);
+
+
+/** Built-in value references. */
+var Symbol = __WEBPACK_IMPORTED_MODULE_0__root_js__["a" /* default */].Symbol;
+
+/* harmony default export */ __webpack_exports__["a"] = Symbol;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getPrototype_js__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__ = __webpack_require__(36);
+
+
+
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__isObjectLike_js__["a" /* default */])(value) || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__baseGetTag_js__["a" /* default */])(value) != objectTag) {
+    return false;
+  }
+  var proto = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__getPrototype_js__["a" /* default */])(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return typeof Ctor == 'function' && Ctor instanceof Ctor &&
+    funcToString.call(Ctor) == objectCtorString;
+}
+
+/* harmony default export */ __webpack_exports__["a"] = isPlainObject;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = compose;
+/**
+ * Composes single-argument functions from right to left. The rightmost
+ * function can take multiple arguments as it provides the signature for
+ * the resulting composite function.
+ *
+ * @param {...Function} funcs The functions to compose.
+ * @returns {Function} A function obtained by composing the argument functions
+ * from right to left. For example, compose(f, g, h) is identical to doing
+ * (...args) => f(g(h(...args))).
+ */
+
+function compose() {
+  for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+    funcs[_key] = arguments[_key];
+  }
+
+  if (funcs.length === 0) {
+    return function (arg) {
+      return arg;
+    };
+  }
+
+  if (funcs.length === 1) {
+    return funcs[0];
+  }
+
+  var last = funcs[funcs.length - 1];
+  var rest = funcs.slice(0, -1);
+  return function () {
+    return rest.reduceRight(function (composed, f) {
+      return f(composed);
+    }, last.apply(undefined, arguments));
+  };
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_symbol_observable__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ActionTypes; });
+/* harmony export (immutable) */ __webpack_exports__["a"] = createStore;
+
+
+
+/**
+ * These are private action types reserved by Redux.
+ * For any unknown actions, you must return the current state.
+ * If the current state is undefined, you must return the initial state.
+ * Do not reference these action types directly in your code.
+ */
+var ActionTypes = {
+  INIT: '@@redux/INIT'
+};
+
+/**
+ * Creates a Redux store that holds the state tree.
+ * The only way to change the data in the store is to call `dispatch()` on it.
+ *
+ * There should only be a single store in your app. To specify how different
+ * parts of the state tree respond to actions, you may combine several reducers
+ * into a single reducer function by using `combineReducers`.
+ *
+ * @param {Function} reducer A function that returns the next state tree, given
+ * the current state tree and the action to handle.
+ *
+ * @param {any} [preloadedState] The initial state. You may optionally specify it
+ * to hydrate the state from the server in universal apps, or to restore a
+ * previously serialized user session.
+ * If you use `combineReducers` to produce the root reducer function, this must be
+ * an object with the same shape as `combineReducers` keys.
+ *
+ * @param {Function} enhancer The store enhancer. You may optionally specify it
+ * to enhance the store with third-party capabilities such as middleware,
+ * time travel, persistence, etc. The only store enhancer that ships with Redux
+ * is `applyMiddleware()`.
+ *
+ * @returns {Store} A Redux store that lets you read the state, dispatch actions
+ * and subscribe to changes.
+ */
+function createStore(reducer, preloadedState, enhancer) {
+  var _ref2;
+
+  if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = preloadedState;
+    preloadedState = undefined;
+  }
+
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('Expected the enhancer to be a function.');
+    }
+
+    return enhancer(createStore)(reducer, preloadedState);
+  }
+
+  if (typeof reducer !== 'function') {
+    throw new Error('Expected the reducer to be a function.');
+  }
+
+  var currentReducer = reducer;
+  var currentState = preloadedState;
+  var currentListeners = [];
+  var nextListeners = currentListeners;
+  var isDispatching = false;
+
+  function ensureCanMutateNextListeners() {
+    if (nextListeners === currentListeners) {
+      nextListeners = currentListeners.slice();
+    }
+  }
+
+  /**
+   * Reads the state tree managed by the store.
+   *
+   * @returns {any} The current state tree of your application.
+   */
+  function getState() {
+    return currentState;
+  }
+
+  /**
+   * Adds a change listener. It will be called any time an action is dispatched,
+   * and some part of the state tree may potentially have changed. You may then
+   * call `getState()` to read the current state tree inside the callback.
+   *
+   * You may call `dispatch()` from a change listener, with the following
+   * caveats:
+   *
+   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+   * If you subscribe or unsubscribe while the listeners are being invoked, this
+   * will not have any effect on the `dispatch()` that is currently in progress.
+   * However, the next `dispatch()` call, whether nested or not, will use a more
+   * recent snapshot of the subscription list.
+   *
+   * 2. The listener should not expect to see all state changes, as the state
+   * might have been updated multiple times during a nested `dispatch()` before
+   * the listener is called. It is, however, guaranteed that all subscribers
+   * registered before the `dispatch()` started will be called with the latest
+   * state by the time it exits.
+   *
+   * @param {Function} listener A callback to be invoked on every dispatch.
+   * @returns {Function} A function to remove this change listener.
+   */
+  function subscribe(listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('Expected listener to be a function.');
+    }
+
+    var isSubscribed = true;
+
+    ensureCanMutateNextListeners();
+    nextListeners.push(listener);
+
+    return function unsubscribe() {
+      if (!isSubscribed) {
+        return;
+      }
+
+      isSubscribed = false;
+
+      ensureCanMutateNextListeners();
+      var index = nextListeners.indexOf(listener);
+      nextListeners.splice(index, 1);
+    };
+  }
+
+  /**
+   * Dispatches an action. It is the only way to trigger a state change.
+   *
+   * The `reducer` function, used to create the store, will be called with the
+   * current state tree and the given `action`. Its return value will
+   * be considered the **next** state of the tree, and the change listeners
+   * will be notified.
+   *
+   * The base implementation only supports plain object actions. If you want to
+   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+   * wrap your store creating function into the corresponding middleware. For
+   * example, see the documentation for the `redux-thunk` package. Even the
+   * middleware will eventually dispatch plain object actions using this method.
+   *
+   * @param {Object} action A plain object representing “what changed”. It is
+   * a good idea to keep actions serializable so you can record and replay user
+   * sessions, or use the time travelling `redux-devtools`. An action must have
+   * a `type` property which may not be `undefined`. It is a good idea to use
+   * string constants for action types.
+   *
+   * @returns {Object} For convenience, the same action object you dispatched.
+   *
+   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+   * return something else (for example, a Promise you can await).
+   */
+  function dispatch(action) {
+    if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__["a" /* default */])(action)) {
+      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+    }
+
+    if (typeof action.type === 'undefined') {
+      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+    }
+
+    if (isDispatching) {
+      throw new Error('Reducers may not dispatch actions.');
+    }
+
+    try {
+      isDispatching = true;
+      currentState = currentReducer(currentState, action);
+    } finally {
+      isDispatching = false;
+    }
+
+    var listeners = currentListeners = nextListeners;
+    for (var i = 0; i < listeners.length; i++) {
+      listeners[i]();
+    }
+
+    return action;
+  }
+
+  /**
+   * Replaces the reducer currently used by the store to calculate the state.
+   *
+   * You might need this if your app implements code splitting and you want to
+   * load some of the reducers dynamically. You might also need this if you
+   * implement a hot reloading mechanism for Redux.
+   *
+   * @param {Function} nextReducer The reducer for the store to use instead.
+   * @returns {void}
+   */
+  function replaceReducer(nextReducer) {
+    if (typeof nextReducer !== 'function') {
+      throw new Error('Expected the nextReducer to be a function.');
+    }
+
+    currentReducer = nextReducer;
+    dispatch({ type: ActionTypes.INIT });
+  }
+
+  /**
+   * Interoperability point for observable/reactive libraries.
+   * @returns {observable} A minimal observable of state changes.
+   * For more information, see the observable proposal:
+   * https://github.com/zenparsing/es-observable
+   */
+  function observable() {
+    var _ref;
+
+    var outerSubscribe = subscribe;
+    return _ref = {
+      /**
+       * The minimal observable subscription method.
+       * @param {Object} observer Any object that can be used as an observer.
+       * The observer object should have a `next` method.
+       * @returns {subscription} An object with an `unsubscribe` method that can
+       * be used to unsubscribe the observable from the store, and prevent further
+       * emission of values from the observable.
+       */
+      subscribe: function subscribe(observer) {
+        if (typeof observer !== 'object') {
+          throw new TypeError('Expected the observer to be an object.');
+        }
+
+        function observeState() {
+          if (observer.next) {
+            observer.next(getState());
+          }
+        }
+
+        observeState();
+        var unsubscribe = outerSubscribe(observeState);
+        return { unsubscribe: unsubscribe };
+      }
+    }, _ref[__WEBPACK_IMPORTED_MODULE_1_symbol_observable___default.a] = function () {
+      return this;
+    }, _ref;
+  }
+
+  // When a store is created, an "INIT" action is dispatched so that every
+  // reducer returns their initial state. This effectively populates
+  // the initial state tree.
+  dispatch({ type: ActionTypes.INIT });
+
+  return _ref2 = {
+    dispatch: dispatch,
+    subscribe: subscribe,
+    getState: getState,
+    replaceReducer: replaceReducer
+  }, _ref2[__WEBPACK_IMPORTED_MODULE_1_symbol_observable___default.a] = observable, _ref2;
+}
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__combineReducers__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__compose__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__utils_warning__ = __webpack_require__(10);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return __WEBPACK_IMPORTED_MODULE_0__createStore__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return __WEBPACK_IMPORTED_MODULE_1__combineReducers__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "bindActionCreators", function() { return __WEBPACK_IMPORTED_MODULE_2__bindActionCreators__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "applyMiddleware", function() { return __WEBPACK_IMPORTED_MODULE_3__applyMiddleware__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return __WEBPACK_IMPORTED_MODULE_4__compose__["a"]; });
+
+
+
+
+
+
+
+/*
+* This is a dummy function to check if the function name has been altered by minification.
+* If the function has been minified and NODE_ENV !== 'production', warn the user.
+*/
+function isCrushed() {}
+
+if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__utils_warning__["a" /* default */])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+}
+
+
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = warning;
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */
+function warning(message) {
+  /* eslint-disable no-console */
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+  /* eslint-enable no-console */
+  try {
+    // This error was thrown as a convenience so that if you enable
+    // "break on all exceptions" in your console,
+    // it would pause the execution at this line.
+    throw new Error(message);
+    /* eslint-disable no-empty */
+  } catch (e) {}
+  /* eslint-enable no-empty */
+}
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _app = __webpack_require__(17);
+
+var _redux = __webpack_require__(9);
+
+var _Root = __webpack_require__(15);
+
+var fs = __webpack_require__(1);
+var electron = __webpack_require__(44);
+var ReactDOM = __webpack_require__(46);
+var parse = __webpack_require__(45);
+
+// import {file} from './dist/file.js';
+var mission = {};
+// window.file=file;
+var ipc = electron.ipcRenderer;
+var store = (0, _redux.createStore)(_Root.rootReducer);
+
+// window.store=store;
+// window.ipc =ipc;
+
+var fm = null;
+
+ipc.on('userinfo', function (event, arg) {
+	console.log(arg);
+	// window.so=so
+	// so.username=arg;
+	window.username = arg;
+	// so.emit('onLine',arg);
+	// ipc.send('roomInit',so.username)
+
+	ReactDOM.render(React.createElement(_app.R, { ipc: ipc, store: store }), layout);
+});
+
+function Bit(num) {
+	if (num < 1048576) {
+
+		return num / 1024 + 'KB';
+	} else if (num < 1073741824) {
+
+		return num / 1048576 + 'MB';
+	} else {
+
+		return num / 1073741824 + 'GB';
+	}
+}
+
+ipc.on('fileWriteCom', function (event, mess) {
+	console.log(mess);
+}); //写文件完成
+
+
+ipc.on('message', function (event, mess) {
+	console.log(mess);
+});
+
+window.ondrop = function (e) {
+	try {
+		e.preventDefault();
+		return false;
+	} catch (e) {
+		console.log(e);
+	}
+};
+window.ondragover = function (e) {
+	try {
+		e.preventDefault();
+		return false;
+	} catch (e) {
+		console.log(e);
+	}
+};
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var pageAction = function pageAction(tar) {
+	return {
+		type: 'change',
+		cur: tar
+	};
+};
+
+exports.pageAction = pageAction;
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var processAction = function processAction(pro) {
+	return {
+		type: 'moving',
+		process: pro
+	};
+};
+
+exports.processAction = processAction;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.rootReducer = undefined;
+
+var _redux = __webpack_require__(9);
+
+var _reducers = __webpack_require__(16);
+
+var reducers = _interopRequireWildcard(_reducers);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var rootReducer = (0, _redux.combineReducers)(reducers);
+
+exports.rootReducer = rootReducer;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var routerReducer = exports.routerReducer = function routerReducer() {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cur: 'index' };
+	var action = arguments[1];
+
+	switch (action.type) {
+		case 'change':
+			return Object.assign({}, state, {
+				cur: action.cur
+			});
+		default:
+			return state;
+	}
+};
+
+var messageReducer = exports.messageReducer = function messageReducer() {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	var action = arguments[1];
+
+	switch (action.type) {
+		case 'newMess':
+			return Object.assign({}, state, {
+				toast: action.toast
+			});
+		default:
+			return state;
+	}
+};
+
+var fileReducer = exports.fileReducer = function fileReducer() {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { content: [] };
+	var action = arguments[1];
+
+
+	switch (action.type) {
+		case 'searched':
+			return Object.assign({}, state, {
+				content: action.content
+			});
+		default:
+			return state;
+	}
+};
+
+var processReducer = exports.processReducer = function processReducer() {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { process: 0 };
+	var action = arguments[1];
+
+
+	switch (action.type) {
+		case 'moving':
+			return Object.assign({}, state, {
+				process: action.process
+			});
+		default:
+			return state;
+	}
+};
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.R = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _main = __webpack_require__(21);
+
+var _side = __webpack_require__(22);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var R = function (_React$Component) {
+  _inherits(R, _React$Component);
+
+  function R(args) {
+    _classCallCheck(this, R);
+
+    return _possibleConstructorReturn(this, (R.__proto__ || Object.getPrototypeOf(R)).call(this, args));
+  }
+
+  _createClass(R, [{
+    key: "getChildContext",
+    value: function getChildContext() {
+      return {
+        store: this.props.store,
+        ipc: this.props.ipc
+      };
+    }
+  }, {
+    key: "fa",
+    value: function fa(e) {
+      e.preventDefault();
+      return false;
+    }
+
+    // methods
+
+  }, {
+    key: "render",
+    value: function render() {
+      // console.log('store',this.props.store);
+      return React.createElement(
+        "div",
+        { onDrop: this.fa },
+        React.createElement(_main.Main, null),
+        React.createElement(_side.Side, null)
+      );
+    }
+  }]);
+
+  return R;
+}(React.Component);
+
+R.childContextTypes = {
+  store: React.PropTypes.object,
+  ipc: React.PropTypes.object
+};
+
+exports.R = R;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Download = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _downloadItem = __webpack_require__(26);
+
+var _immutable = __webpack_require__(2);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var Download = function (_React$Component) {
+	_inherits(Download, _React$Component);
+
+	function Download(args) {
+		_classCallCheck(this, Download);
+
+		var _this = _possibleConstructorReturn(this, (Download.__proto__ || Object.getPrototypeOf(Download)).call(this, args));
+
+		_this.state = (0, _immutable.Map)({ downloading: (0, _immutable.Map)({ 233: (0, _immutable.Map)({ completed: 45, total: 100 }) }) });
+		return _this;
+	}
+
+	// var b=a.updateIn(['li'],(v)=>v.update(['now'],(v)=>v=12450))
+
+
+	_createClass(Download, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _this2 = this;
+
+			this.context.ipc.on('fm', function (event, fileMission) {
+				_this2.setState(_this2.state.setIn(['downloading', fileMission.fileMission], (0, _immutable.Map)({ completed: 0, total: fileMission.total })));
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var content = null;
+
+			if (Object.keys(this.state.toJS().downloading) === 0) {
+				content = '当前没有文件下载';
+			} else {
+				content = [];
+				var tem = this.state.toJS().downloading;
+				for (var i in tem) {
+					content.push(React.createElement(_downloadItem.DownloadItem, { name: i, completed: tem[i].completed, total: tem[i].total }));
+				}
+
+				console.log(this.state.toJS());
+			}
+
+			return React.createElement(
+				'div',
+				{ className: 'mainSection' },
+				content
+			);
+		}
+	}]);
+
+	return Download;
+}(React.Component);
+
+Download.contextTypes = {
+	ipc: React.PropTypes.object
+
+};
+exports.Download = Download;
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+var fs = __webpack_require__(1);
+
+var Upload = function (_React$Component) {
+	_inherits(Upload, _React$Component);
+
+	function Upload(args) {
+		_classCallCheck(this, Upload);
+
+		var _this = _possibleConstructorReturn(this, (Upload.__proto__ || Object.getPrototypeOf(Upload)).call(this, args));
+
+		_this.state = { path: '', name: '', type: '', detail: '' };
+
+		_this.handleDesc = _this.handleDesc.bind(_this);
+		return _this;
+	}
+
+	_createClass(Upload, [{
+		key: 'fileSelect',
+		value: function fileSelect(e) {
+			e.preventDefault();
+
+			var path = e.dataTransfer.files[0].path.split('\\').join('/');
+			// this.context.ipc.send('createT',path,options)
+			this.setState({ path: path });
+			e.target.classList.add('active');
+			e.target.innerHTML = '文件为' + path;
+		}
+	}, {
+		key: 'cancelFile',
+		value: function cancelFile(e) {
+			e.preventDefault();
+			e.target.classList.remove('active');
+			e.target.innerHTML = '';
+			this.setState({ path: '' });
+		}
+	}, {
+		key: 'handleDesc',
+		value: function handleDesc(e) {
+			var target = event.target;
+			var value = target.value;
+			var name = target.name;
+
+			this.setState(_defineProperty({}, name, value));
+		}
+	}, {
+		key: 'submit',
+		value: function submit(e) {
+			var options = {
+				createdBy: username,
+				pieceLength: 262144,
+				comment: this.state.detail
+			};
+			this.context.ipc.send('createT', this.state, options);
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _this2 = this;
+
+			this.context.ipc.on('torrentCreated', function (data, name) {
+				_this2.setState({ path: '', name: '', type: '', detail: '' });
+				var myNotification = new Notification('种子生成完成', {
+					body: name + '种子生成完成,上传马上完成'
+				});
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+
+			return React.createElement(
+				'div',
+				{ className: 'mainSection' },
+				React.createElement(
+					'div',
+					{ className: 'informationZone' },
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement(
+							'label',
+							{ 'for': 'missionName' },
+							'\u4EFB\u52A1\u540D'
+						),
+						React.createElement('input', { type: 'text', id: 'missionName', name: 'name', onChange: this.handleDesc, placeholder: '\u5C0F\u4E8E30\u4E2A\u5B57\u7B26', value: this.state.name })
+					),
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement(
+							'label',
+							null,
+							'\u7C7B\u578B'
+						),
+						React.createElement(
+							'select',
+							{ name: 'type', onChange: this.handleDesc, value: this.state.type },
+							React.createElement(
+								'option',
+								{ value: 'music' },
+								'\u97F3\u4E50'
+							),
+							React.createElement(
+								'option',
+								{ value: 'movie' },
+								'\u7535\u5F71'
+							),
+							React.createElement(
+								'option',
+								{ value: 'game' },
+								'\u6E38\u620F'
+							),
+							React.createElement(
+								'option',
+								{ value: 'doc' },
+								'\u6587\u6863'
+							),
+							React.createElement(
+								'option',
+								{ value: 'other' },
+								'\u5176\u4ED6'
+							)
+						)
+					),
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement('textarea', { name: 'detail', onChange: this.handleDesc, placeholder: '\u7B80\u4ECB,\u5C0F\u4E8E120', value: this.state.detail })
+					),
+					React.createElement(
+						'span',
+						{ className: 'input' },
+						React.createElement(
+							'button',
+							{ id: 'torrentSubmit', onClick: this.submit.bind(this) },
+							'\u63D0\u4EA4'
+						)
+					)
+				),
+				React.createElement('div', { className: 'dropZone',
+					onDrop: this.fileSelect.bind(this) })
+			);
+		}
+	}]);
+
+	return Upload;
+}(React.Component);
+
+Upload.contextTypes = {
+	ipc: React.PropTypes.object
+};
+
+exports.Upload = Upload;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Index = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _block = __webpack_require__(25);
+
+var _Files = __webpack_require__(3);
+
+var _Process = __webpack_require__(14);
+
+var _immutable = __webpack_require__(2);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+var fs = __webpack_require__(1);
+// import {file} from "../../dist/file.js";
+
+
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+
+var Index = function (_React$Component) {
+	_inherits(Index, _React$Component);
+
+	function Index(args) {
+		_classCallCheck(this, Index);
+
+		var _this = _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).call(this, args));
+
+		_this.state = { search: '', files: [] };
+		return _this;
+	}
+
+	_createClass(Index, [{
+		key: 'search',
+		value: function search() {
+
+			this.context.ipc.send('search', this.state.search);
+		}
+	}, {
+		key: 'searchType',
+		value: function searchType(e) {
+
+			if (event.target.className === 'typeIcon') {
+				if (document.querySelector('.typeOn')) {
+					document.querySelector('.typeOn').classList.remove('typeOn');
+				}
+				e.target.classList.add('typeOn');
+				console.log(e.target.getAttribute('data-type'));
+				this.context.store.dispatch((0, _Process.processAction)(0));
+				this.context.ipc.send('searchType', e.target.getAttribute('data-type'));
+			}
+		}
+	}, {
+		key: 'downLoad',
+		value: function downLoad(e) {
+			e.stopPropagation();
+			if (e.target.className === 'more') {
+				console.log(e.target.getAttribute('data-value'));
+				this.context.ipc.send('downLoad', e.target.getAttribute('data-value'));
+			}
+		}
+	}, {
+		key: 'handleChange',
+		value: function handleChange(e) {
+			this.setState({ search: event.target.value });
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _this2 = this;
+
+			if (this.context.store.getState().fileReducer.content.length !== 0) {
+				this.setState({ files: this.context.store.getState().fileReducer.content });
+			}
+
+			this.context.store.subscribe(function () {
+				// console.log(this.context.store.getState().fileReducer.content);
+				if (!(0, _immutable.is)(_this2.context.store.getState().fileReducer.content, _this2.state.files)) {
+					_this2.setState({ files: _this2.context.store.getState().fileReducer.content });
+					// console.log('???');
+				}
+			});
+		}
+	}, {
+		key: 'shouldComponentUpdate',
+		value: function shouldComponentUpdate() {
+			var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+			var nextState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			var thisProps = this.props || {},
+			    thisState = this.state || {};
+			if (thisState['search'] !== nextState['search']) {
+				return false;
+			}
+
+			if (Object.keys(thisProps).length !== Object.keys(nextProps).length || Object.keys(thisState).length !== Object.keys(nextState).length) {
+				return true;
+			}
+
+			for (var key in nextProps) {
+				if (thisProps[key] !== nextProps[key] || !(0, _immutable.is)(thisProps[key], nextProps[key])) {
+					return true;
+				}
+			}
+
+			for (var _key in nextState) {
+				if (thisState[_key] !== nextState[_key] || !(0, _immutable.is)(thisState[_key], nextState[_key])) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			// console.log('index绘制开始',this.state);
+			var blocks = [];
+
+			if (this.state.files.length > 0) {
+				this.state.files.forEach(function (item, index) {
+					blocks.push(React.createElement(_block.Block, { key: item['_id'], fileName: item.fileName, missionName: item.missionName, type: item.type }));
+				});
+			} else {
+				blocks.push(React.createElement(
+					'div',
+					{ id: 'nothing' },
+					'\u6CA1\u6709\u641C\u7D22\u7ED3\u679C,\u53BB\u641C\u70B9\u522B\u7684\u4E1C\u897F\u53BB\u5427 #\u6ED1\u7A3D'
+				));
+			}
+
+			this.context.store.dispatch((0, _Process.processAction)(100));
+
+			return React.createElement(
+				'div',
+				{ className: 'mainSection' },
+				React.createElement(
+					'div',
+					{ className: 'navBar' },
+					React.createElement(
+						'ul',
+						{ className: 'fileType', onClick: this.searchType.bind(this) },
+						React.createElement(
+							'li',
+							{ className: 'types' },
+							React.createElement(
+								'a',
+								{ className: 'typeIcon', 'data-type': 'music' },
+								'\u97F3\u4E50'
+							)
+						),
+						React.createElement(
+							'li',
+							{ className: 'types' },
+							React.createElement(
+								'a',
+								{ className: 'typeIcon', 'data-type': 'movie' },
+								'\u7535\u5F71'
+							)
+						),
+						React.createElement(
+							'li',
+							{ className: 'types' },
+							React.createElement(
+								'a',
+								{ className: 'typeIcon', 'data-type': 'game' },
+								'\u6E38\u620F'
+							)
+						),
+						React.createElement(
+							'li',
+							{ className: 'types' },
+							React.createElement(
+								'a',
+								{ className: 'typeIcon', 'data-type': 'doc' },
+								'\u6587\u6863'
+							)
+						),
+						React.createElement(
+							'li',
+							{ className: 'types' },
+							React.createElement(
+								'a',
+								{ className: 'typeIcon', 'data-type': 'other' },
+								'\u5176\u4ED6'
+							)
+						)
+					),
+					React.createElement(
+						'span',
+						{ className: 'input search' },
+						React.createElement('input', { type: 'text', placeholder: '\u641C\u7D22', value: this.state.search, onChange: this.handleChange.bind(this) }),
+						React.createElement(
+							'button',
+							{ onClick: this.search.bind(this) },
+							'Search'
+						)
+					)
+				),
+				React.createElement(
+					'div',
+					{ className: 'files', key: 'fileRoot', onClick: this.downLoad.bind(this) },
+					React.createElement(
+						CSSTransitionGroup,
+						{
+							transitionName: 'example',
+							transitionEnterTimeout: 400,
+							transitionLeaveTimeout: 300 },
+						blocks
+					)
+				)
+			);
+		}
+	}]);
+
+	return Index;
+}(React.Component);
+
+Index.contextTypes = {
+	store: React.PropTypes.object,
+	ipc: React.PropTypes.object
+
+};
+
+exports.Index = Index;
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Main = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _upload = __webpack_require__(19);
+
+var _download = __webpack_require__(18);
+
+var _user = __webpack_require__(24);
+
+var _index = __webpack_require__(20);
+
+var _message = __webpack_require__(28);
+
+var _Files = __webpack_require__(3);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+var fs = __webpack_require__(1);
+
+// import {peer} from "../dist/peer.js"
+
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+
+var Main = function (_React$Component) {
+	_inherits(Main, _React$Component);
+
+	function Main(props) {
+		_classCallCheck(this, Main);
+
+		var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+
+		_this.state = { room: '', cur: 'index' };
+
+		return _this;
+	}
+
+	_createClass(Main, [{
+		key: 'shouldComponentUpdate',
+		value: function shouldComponentUpdate(nextProp, nextState) {
+			// console.log('should',nextState);
+			if (nextState.cur === this.state.cur) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}, {
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var _this2 = this;
+
+			this.context.store.subscribe(function () {
+				// console.log('cur改变');
+				var next = _this2.context.store.getState();
+				if (next.processReducer.process !== _this2.refs.pro.style.width) {
+					_this2.refs.pro.style.width = next.processReducer.process + '%';
+				}
+
+				_this2.setState({ cur: next.routerReducer.cur });
+			});
+
+			// so.on('message', (data)=>{
+			// 	console.log(data);
+			// });
+
+			// so.on('searchResult', (data)=>{
+
+			// 	console.log('接收到搜索结果',data);
+			// 	this.context.store.dispatch(fileAction(data))
+			// });
+
+			this.context.ipc.on('searchResult', function (event, data) {
+				console.log('接收到搜索结果', data);
+				_this2.context.store.dispatch((0, _Files.fileAction)(data));
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			// console.log(this.state.cur);
+			// console.log(this.context.store.getState());
+			var content = null;
+			switch (this.state.cur) {
+				case 'index':
+
+					content = React.createElement(_index.Index, { key: 'index' });
+					break;
+				case 'download':
+
+					content = React.createElement(_download.Download, { key: 'download' });
+					break;
+				case 'upload':
+
+					content = React.createElement(_upload.Upload, { key: 'upload' });
+					break;
+				case 'user':
+
+					content = React.createElement(_user.User, { key: 'user' });
+					break;
+			}
+
+			return React.createElement(
+				'div',
+				{ id: 'main' },
+				React.createElement(
+					'div',
+					{ className: 'process', refs: 'proBar' },
+					React.createElement('div', { ref: 'pro' })
+				),
+				React.createElement(_message.Message, null),
+				React.createElement(
+					CSSTransitionGroup,
+					{
+						transitionName: 'example',
+						transitionEnterTimeout: 300,
+						transitionLeaveTimeout: 150 },
+					content
+				)
+			);
+		}
+	}]);
+
+	return Main;
+}(React.Component);
+
+Main.contextTypes = {
+	store: React.PropTypes.object,
+	ipc: React.PropTypes.object
+};
+
+exports.Main = Main;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Side = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _topBar = __webpack_require__(23);
+
+var _Page = __webpack_require__(13);
+
+var _list = __webpack_require__(27);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+
+var Side = function (_React$Component) {
+	_inherits(Side, _React$Component);
+
+	function Side(args) {
+		_classCallCheck(this, Side);
+
+		var _this = _possibleConstructorReturn(this, (Side.__proto__ || Object.getPrototypeOf(Side)).call(this, args));
+
+		_this.changePage = _this.changePage.bind(_this);
+		return _this;
+	}
+
+	_createClass(Side, [{
+		key: "changePage",
+		value: function changePage(event) {
+			// console.log(event.target);
+			this.context.store.dispatch((0, _Page.pageAction)(event.target.innerHTML));
+			if (document.querySelector('.sideItem.on')) {
+				document.querySelector('.sideItem.on').classList.remove('on');
+			}
+
+			event.target.classList.add('on');
+		}
+	}, {
+		key: "render",
+		value: function render() {
+
+			var items = ['index', 'download', 'upload', 'user'],
+			    itemClass = 'sideItem',
+			    ulClass = 'sideBar';
+			var events = {
+				Click: this.changePage,
+				MouseEnter: null,
+				MouseOut: null
+			};
+			return React.createElement(
+				"div",
+				{ id: "side" },
+				React.createElement(_topBar.TopBar, null),
+				React.createElement(_list.List, { items: items, itemClass: itemClass, ulClass: ulClass, event: events })
+			);
+		}
+	}]);
+
+	return Side;
+}(React.Component);
+
+Side.contextTypes = {
+	store: React.PropTypes.object
+};
+
+exports.Side = Side;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var TopBar = function (_React$Component) {
+	_inherits(TopBar, _React$Component);
+
+	function TopBar(props) {
+		_classCallCheck(this, TopBar);
+
+		return _possibleConstructorReturn(this, (TopBar.__proto__ || Object.getPrototypeOf(TopBar)).call(this, props));
+
+		// this.state={icon:'index'}
+	}
+
+	_createClass(TopBar, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+
+			this.context.store.subscribe(function () {
+				this.refs.icon.style.backgroundImage = 'url(./app/img/' + this.context.store.getState().routerReducer.cur + '.png)';
+			}.bind(this));
+		}
+	}, {
+		key: 'quit',
+		value: function quit() {
+			this.context.ipc.send('quit');
+		}
+	}, {
+		key: 'minmize',
+		value: function minmize() {
+			this.context.ipc.send('mini');
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+
+			return React.createElement(
+				'div',
+				null,
+				React.createElement('div', { className: 'drag' }),
+				React.createElement('span', { id: 'icon', ref: 'icon' }),
+				React.createElement('span', { id: 'min', onClick: this.minmize.bind(this) }),
+				React.createElement('span', { id: 'close', onClick: this.quit.bind(this) })
+			);
+		}
+	}]);
+
+	return TopBar;
+}(React.Component);
+
+TopBar.contextTypes = {
+	store: React.PropTypes.object,
+	ipc: React.PropTypes.object
+};
+
+exports.TopBar = TopBar;
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var User = function (_React$Component) {
+	_inherits(User, _React$Component);
+
+	function User(args) {
+		_classCallCheck(this, User);
+
+		return _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, args));
+	}
+
+	_createClass(User, [{
+		key: 'render',
+		value: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'mainSection' },
+				'User'
+			);
+		}
+	}]);
+
+	return User;
+}(React.Component);
+
+exports.User = User;
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var Block = function (_React$Component) {
+	_inherits(Block, _React$Component);
+
+	function Block(args) {
+		_classCallCheck(this, Block);
+
+		return _possibleConstructorReturn(this, (Block.__proto__ || Object.getPrototypeOf(Block)).call(this, args));
+	}
+
+	_createClass(Block, [{
+		key: 'trigger',
+		value: function trigger(e) {
+
+			if (this.refs.pic.clientHeight > 0) {
+				this.refs.block.classList.add('on');
+			} else {
+				this.refs.block.classList.remove('on');
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'block', ref: 'block' },
+				React.createElement('div', { ref: 'pic', onClick: this.trigger.bind(this) }),
+				React.createElement(
+					'span',
+					null,
+					this.props.missionName
+				),
+				React.createElement(
+					'h4',
+					{ onClick: this.trigger.bind(this) },
+					this.props.fileName
+				),
+				React.createElement(
+					'small',
+					null,
+					this.props.type
+				),
+				React.createElement(
+					'p',
+					null,
+					'vserhwerherhwGaeehae'
+				),
+				React.createElement('span', { className: 'more', 'data-value': this.props.missionName, onClick: this.props.onClick })
+			);
+		}
+	}]);
+
+	return Block;
+}(React.Component);
+
+exports.Block = Block;
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DownloadItem = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _immutable = __webpack_require__(2);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var DownloadItem = function (_React$Component) {
+	_inherits(DownloadItem, _React$Component);
+
+	function DownloadItem(args) {
+		_classCallCheck(this, DownloadItem);
+
+		// code
+		return _possibleConstructorReturn(this, (DownloadItem.__proto__ || Object.getPrototypeOf(DownloadItem)).call(this, args));
+	}
+
+	_createClass(DownloadItem, [{
+		key: 'shouldComponentUpdate',
+		value: function shouldComponentUpdate() {
+			var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+			var nextState = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+			var thisProps = this.props || {};
+
+			if (Object.keys(thisProps).length !== Object.keys(nextProps).length) {
+				return true;
+			}
+
+			for (var key in nextProps) {
+				if (thisProps[key] !== nextProps[key] || !(0, _immutable.is)(thisProps[key], nextProps[key])) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+
+			return React.createElement(
+				'div',
+				{ className: 'downloadBlock' },
+				React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/game.png' }),
+				React.createElement(
+					'div',
+					null,
+					React.createElement(
+						'h3',
+						null,
+						this.props.name
+					),
+					React.createElement(
+						'div',
+						{ className: 'downloadProcess' },
+						React.createElement('div', { style: { width: this.props.completed % this.props.total + '%' } })
+					),
+					React.createElement(
+						'p',
+						null,
+						React.createElement(
+							'span',
+							null,
+							this.props.completed
+						),
+						'   of    ',
+						React.createElement(
+							'span',
+							null,
+							this.props.total
+						)
+					),
+					React.createElement('span', null)
+				)
+			);
+		}
+
+		// methods
+
+	}]);
+
+	return DownloadItem;
+}(React.Component);
+
+exports.DownloadItem = DownloadItem;
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var List = function (_React$Component) {
+	_inherits(List, _React$Component);
+
+	function List(args) {
+		_classCallCheck(this, List);
+
+		return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, args));
+	}
+
+	_createClass(List, [{
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var nav = [];
+
+			this.props.items.forEach(function (item, index) {
+				nav.push(React.createElement(
+					'li',
+					{ className: _this2.props.itemClass,
+						onClick: _this2.props.event.Click,
+						onMouseEnter: _this2.props.event.MouseEnter,
+						onMouseOut: _this2.props.event.MouseOut },
+					item
+				));
+			});
+
+			return React.createElement(
+				'ul',
+				{ className: this.props.ulClass },
+				nav
+			);
+		}
+
+		// methods
+
+	}]);
+
+	return List;
+}(React.Component);
+
+exports.List = List;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var React = __webpack_require__(0);
+
+var Message = function (_React$Component) {
+	_inherits(Message, _React$Component);
+
+	function Message(args) {
+		_classCallCheck(this, Message);
+
+		return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, args));
+	}
+
+	_createClass(Message, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			// this.context.store.subscribe(function(){
+			// 	this.refs.icon.style.backgroundImage='url(./app/img/'+this.context.store.getState().cur+'.png)'
+			// }.bind(this))
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'toast' },
+				'AWETGAWE'
+			);
+		}
+	}]);
+
+	return Message;
+}(React.Component);
+
+Message.contextTypes = {
+	store: React.PropTypes.object
+};
+
+exports.Message = Message;
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__getRawTag_js__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__objectToString_js__ = __webpack_require__(33);
 
 
 
@@ -7128,7 +7222,7 @@ function baseGetTag(value) {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7137,14 +7231,14 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 /* harmony default export */ __webpack_exports__["a"] = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(11)))
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overArg_js__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overArg_js__ = __webpack_require__(34);
 
 
 /** Built-in value references. */
@@ -7154,11 +7248,11 @@ var getPrototype = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__overArg_js
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Symbol_js__ = __webpack_require__(4);
 
 
 /** Used for built-in method references. */
@@ -7208,7 +7302,7 @@ function getRawTag(value) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7237,7 +7331,7 @@ function objectToString(value) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7259,11 +7353,11 @@ function overArg(func, transform) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__ = __webpack_require__(30);
 
 
 /** Detect free variable `self`. */
@@ -7276,7 +7370,7 @@ var root = __WEBPACK_IMPORTED_MODULE_0__freeGlobal_js__["a" /* default */] || fr
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7312,11 +7406,11 @@ function isObjectLike(value) {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__compose__ = __webpack_require__(7);
 /* harmony export (immutable) */ __webpack_exports__["a"] = applyMiddleware;
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -7368,7 +7462,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7422,13 +7516,13 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(9);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__createStore__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_es_isPlainObject__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_warning__ = __webpack_require__(10);
 /* harmony export (immutable) */ __webpack_exports__["a"] = combineReducers;
 
 
@@ -7559,17 +7653,17 @@ function combineReducers(reducers) {
     return hasChanged ? nextState : state;
   };
 }
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(5)))
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(40);
-
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
 
 /***/ }),
 /* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(41);
+
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7579,7 +7673,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(41);
+var _ponyfill = __webpack_require__(42);
 
 var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -7602,10 +7696,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2['default'])(root);
 exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(42)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(43)(module)))
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7634,7 +7728,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -7662,28 +7756,28 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = require("electron");
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports) {
 
 module.exports = require("parse-torrent");
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 module.exports = window.ReactDOM;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(11);
+module.exports = __webpack_require__(12);
 
 
 /***/ })

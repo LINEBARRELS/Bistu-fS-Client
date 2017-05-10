@@ -46,7 +46,8 @@ var so=io.connect('http://10.16.66.85:8080');
     });
 
     so.on('torrentArrive',function(data){
-      new file(Buffer.from(data))
+      var fm=new file(Buffer.from(data))
+      ipc.send('fmToMain',fm)
     });
 
     so.on('pieceSearch',function(data){

@@ -16,8 +16,10 @@ var mission={}
 var ipc =electron.ipcRenderer;
 var store = createStore(rootReducer);
 
-window.store=store;
-window.ipc =ipc;
+// window.store=store;
+// window.ipc =ipc;
+
+var fm=null;
 
 
 ipc.on('userinfo',function(event,arg) {
@@ -32,7 +34,19 @@ ipc.on('userinfo',function(event,arg) {
 });
 
 
+function Bit(num){
+	if(num<1048576){
 
+		return (num/1024)+'KB'
+	}else if(num<1073741824){
+
+		return (num/1048576)+'MB'
+	}else{
+
+		return (num/1073741824)+'GB'
+	}
+
+}
 
 ipc.on('fileWriteCom',(event,mess)=>{
 	console.log(mess);
@@ -43,6 +57,8 @@ ipc.on('fileWriteCom',(event,mess)=>{
 ipc.on('message',(event,mess)=>{
 	console.log(mess);
 })
+
+
 
 window.ondrop=function(e){
 	try{

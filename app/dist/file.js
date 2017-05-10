@@ -20,7 +20,7 @@ function file (torr){
 		this.pieceLength=parsedTorrent.pieceLength;
 		this.last=parsedTorrent.lastPieceLength;
 
-
+ 		this.completed=0;
 
 
 		this.pieceMessage={}
@@ -150,18 +150,21 @@ function file (torr){
               		
               		var data=Buffer.from(event.data);
               		// console.log(data);
-              		console.log('接收方收到数据',event);
+              		console.log('接收方收到数据',event.target.label);
               		peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label],data])
 
+              		
+              		console.log('完成度',this.completed);
 
               		var l=peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label].length;
               		console.log(l);
               		if (l==this.pieceLength||l==this.last) {
 
+              		this.completed=this.completed + l;
               		var position=this.recode.indexOf(event.target.label);
 
                		ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
-               		console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
+               		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
                		dc.close();
                		// peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
             		}

@@ -39,9 +39,10 @@ class Index extends React.Component {
 	downLoad(e){
 		e.stopPropagation();
 		if(e.target.className==='more'){
-			console.log(e.target.getAttribute('data-value'));
+			console.log(e.target.getAttribute('data-value'));		
+			this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
 		}
-		// this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
+
 	}
 
 
@@ -72,7 +73,7 @@ class Index extends React.Component {
 	shouldComponentUpdate(nextProps = {}, nextState = {}){
   	const thisProps = this.props || {}, thisState = this.state || {};
   		if (thisState['search']!==nextState['search']) {
-  			return true;
+  			return false;
   		}
 
   		if (Object.keys(thisProps).length !== Object.keys(nextProps).length ||

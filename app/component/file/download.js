@@ -1,39 +1,41 @@
 var React=require('react')
-// import {file} from "../../dist/file.js";
+
+import {DownloadItem} from "../util/downloadItem.js";
+
+import { Map, List } from 'immutable';
+
 class Download extends React.Component {
 	constructor(args) {
 		super(args)
+
+		this.state=Map({downloading:Map({ 233:Map({completed:45,total:100}) }) });
+	}
+	
+	// var b=a.updateIn(['li'],(v)=>v.update(['now'],(v)=>v=12450))
+	componentDidMount(){
+		this.context.ipc.on('fm',(event,fileMission)=>{
+			this.setState(this.state.setIn(['downloading',fileMission.fileMission],Map({completed:0,total:fileMission.total})))
+		})
 	}
 
 	render(){
+		var content=null;
+
+		if(Object.keys(this.state.toJS().downloading)===0){
+			content='当前没有文件下载'
+		}else{
+			content=[];
+			var tem=this.state.toJS().downloading;
+			for(let i in tem){
+				content.push(<DownloadItem name={i} completed={tem[i].completed} total={tem[i].total}/>)
+			
+			}
+			
+			console.log(this.state.toJS());
+		}
+
 		return <div className='mainSection'>
-		<div className='downloadBlock'>
-			<img alt='蛤蛤' src='./app/img/game.png'></img>
-			<div>
-				<h3>Nobu.jpg</h3>
-				<div className='downloadProcess'>
-				<div></div>
-				</div>
-				<p><span>100M</span>   of    <span>1244M</span></p>
-				<span></span>
-			</div>
-		</div>
-		<div className='downloadBlock'>
-			<img alt='蛤蛤' src='./app/img/movie.png'></img>
-			<div></div>
-		</div>
-		<div className='downloadBlock'>
-			<img alt='蛤蛤' src='./app/img/music.png'></img>
-			<div></div>
-		</div>
-		<div className='downloadBlock'>
-			<img alt='蛤蛤' src='./app/img/doc.png'></img>
-			<div></div>
-		</div>
-		<div className='downloadBlock'>
-			<img alt='蛤蛤' src='./app/img/other.png'></img>
-			<div></div>
-		</div>
+			{content}
 		</div>
 	}
 }

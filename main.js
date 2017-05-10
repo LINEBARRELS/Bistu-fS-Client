@@ -192,6 +192,10 @@ ipcMain.on('searchResult',function(event,data){
   mainWindow.webContents.send('searchResult',data);
 })
 
+ipcMain.on('fmToMain',function(event,data){
+  mainWindow.webContents.send('fm',data);
+})
+
 
 //////////////////////////////////////////////////////
 
