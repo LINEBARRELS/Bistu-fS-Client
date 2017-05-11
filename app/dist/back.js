@@ -41,6 +41,11 @@ ipc.on('downLoad', function(event,name) {
 
 });
 
+ipc.on('watchFm',function(event){
+	console.log('?>?????');
+	ipc.send('fmReturn',fileMission)
+})
+
 
 ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType){
 

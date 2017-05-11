@@ -22,6 +22,20 @@
 
 @font-face
 {
+    font-family: lato;
+
+    src: url(../font/lato-italic.ttf);
+}
+
+@font-face
+{
+    font-family: icon;
+
+    src: url(../font/icons.ttf);
+}
+
+@font-face
+{
     font-family: bla;
 
     src:url(../font/SourceHanSansCN-ExtraLight.otf)
@@ -714,6 +728,8 @@ body
 
     outline: none;
 
+    font-family: bla;
+
 }
 
 .input > input[type="text"]:focus{
@@ -1008,7 +1024,8 @@ body
 #torrentSubmit{
     font-size: 14px;
 
-    float: right;
+    position: absolute;
+    left: 280px;
 }
 
 

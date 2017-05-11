@@ -32,9 +32,9 @@ class DownloadItem extends React.Component {
 			<div>
 				<h3>{this.props.name}</h3>
 				<div className='downloadProcess'>
-				<div style={{width:(this.props.completed%this.props.total)+'%'}}></div>
+				<div style={{width:(this.props.completed/this.props.total*100)+'%'}}></div>
 				</div>
-				<p><span>{this.props.completed}</span>   of    <span>{this.props.total}</span></p>
+				<p><span>{Bit(this.props.completed)}</span>   of    <span>{Bit(this.props.total)}</span></p>
 				<span></span>
 			</div>
 		</div>

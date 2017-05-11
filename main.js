@@ -183,6 +183,11 @@ ipcMain.on('downLoad', function(event,name) {
 
 });
 
+ipcMain.on('watchFm',function(event,name){
+
+  back.webContents.send('watchFm')
+})
+
 
 //////////////////////////////////////////////////////////
 
@@ -192,8 +197,12 @@ ipcMain.on('searchResult',function(event,data){
   mainWindow.webContents.send('searchResult',data);
 })
 
-ipcMain.on('fmToMain',function(event,data){
-  mainWindow.webContents.send('fm',data);
+// ipcMain.on('fmToMain',function(event,data){
+//   mainWindow.webContents.send('fm',data);
+// })
+
+ipcMain.on('fmReturn',function(event,data){
+  mainWindow.webContents.send('fmReturn',data);
 })
 
 

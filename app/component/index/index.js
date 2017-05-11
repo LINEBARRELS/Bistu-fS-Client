@@ -52,20 +52,22 @@ class Index extends React.Component {
 		this.setState({search: event.target.value});
 	}
 
-	componentDidMount() {
-
-		if (this.context.store.getState().fileReducer.content.length!==0) {
-			this.setState({files:this.context.store.getState().fileReducer.content})
+	componentWillMount(){
+		var tem=this.context.store.getState().toJS().fileReducer.content;
+		if (tem.length!==0) {
+			this.setState({files:tem})
 		}
+	}
 
+	componentDidMount() {
+		
 		this.context.store.subscribe(()=>{
 			// console.log(this.context.store.getState().fileReducer.content);
-			if(!is(this.context.store.getState().fileReducer.content,this.state.files)){
-				this.setState({files:this.context.store.getState().fileReducer.content})
-				// console.log('???');
-			}
+				var tem=this.context.store.getState().toJS().fileReducer.content;
+				this.setState({files:tem})
 			
 		})
+
 	}
 
 
@@ -97,7 +99,7 @@ class Index extends React.Component {
 
 	
 	render(){
-		// console.log('index绘制开始',this.state);
+
 		var blocks=[];
 
 		if(this.state.files.length>0){
@@ -121,7 +123,7 @@ class Index extends React.Component {
 					<li className='types' ><a className='typeIcon' data-type='other'>其他</a></li>
 				</ul>
 				<span className='input search'>
-					<input type='text' placeholder='搜索' value={this.state.search} onChange={this.handleChange.bind(this)}/>
+					<input type='text' placeholder='搜索' onChange={this.handleChange.bind(this)}/>
 					<button onClick={this.search.bind(this)}>Search</button>
 				</span>
 			</div>

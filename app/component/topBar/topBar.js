@@ -11,7 +11,7 @@ class TopBar extends React.Component {
 	componentDidMount() {
 		
 		this.context.store.subscribe(function(){
-			this.refs.icon.style.backgroundImage='url(./app/img/'+this.context.store.getState().routerReducer.cur+'.png)'
+			this.refs.icon.style.backgroundImage='url(./app/img/'+this.context.store.getState().toJS().routerReducer.cur+'.png)'
 		}.bind(this))
    	}
 

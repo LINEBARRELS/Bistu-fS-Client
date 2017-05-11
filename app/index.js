@@ -19,7 +19,7 @@ var store = createStore(rootReducer);
 // window.store=store;
 // window.ipc =ipc;
 
-var fm=null;
+window.t_fm=233;
 
 
 ipc.on('userinfo',function(event,arg) {
@@ -33,17 +33,16 @@ ipc.on('userinfo',function(event,arg) {
 	ReactDOM.render(<R ipc={ipc} store={store}/>,layout);
 });
 
-
-function Bit(num){
+window.Bit=function(num){
 	if(num<1048576){
 
-		return (num/1024)+'KB'
+		return (num/1024).toString().slice(0,5)+'KB'
 	}else if(num<1073741824){
 
-		return (num/1048576)+'MB'
+		return (num/1048576).toString().slice(0,5)+'MB'
 	}else{
 
-		return (num/1073741824)+'GB'
+		return (num/1073741824).toString().slice(0,5)+'GB'
 	}
 
 }

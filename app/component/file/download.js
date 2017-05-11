@@ -8,30 +8,40 @@ class Download extends React.Component {
 	constructor(args) {
 		super(args)
 
-		this.state=Map({downloading:Map({ 233:Map({completed:45,total:100}) }) });
+		this.state={downloading:Map({})};
+
+
 	}
 	
 	// var b=a.updateIn(['li'],(v)=>v.update(['now'],(v)=>v=12450))
 	componentDidMount(){
-		this.context.ipc.on('fm',(event,fileMission)=>{
-			this.setState(this.state.setIn(['downloading',fileMission.fileMission],Map({completed:0,total:fileMission.total})))
-		})
+		// this.context.ipc.on('newFm',(event,fileMission)=>{
+		// 	this.setState(this.state.setIn(['downloading',fileMission.fileName],Map({completed:0,total:fileMission.total})))
+		// })
+
+		// this.context.ipc.on('fmUpdate',(event,fileMission)=>{
+
+		// })
+	}
+
+	componentWillMount(){
+		// this.setState({downloading:this.state.downloading.setIn(['233'],Map({completed:0,total:12450}))})
 	}
 
 	render(){
 		var content=null;
-
-		if(Object.keys(this.state.toJS().downloading)===0){
+		console.log('down render')
+		if(Object.keys(this.state.downloading.toJS())===0){
 			content='当前没有文件下载'
 		}else{
 			content=[];
-			var tem=this.state.toJS().downloading;
+			var tem=this.state.downloading.toJS();
 			for(let i in tem){
-				content.push(<DownloadItem name={i} completed={tem[i].completed} total={tem[i].total}/>)
+				content.push(<DownloadItem name={i} completed={tem[i].completed} total={tem[i].total} key={i}/>)
 			
 			}
 			
-			console.log(this.state.toJS());
+			console.log(this.state);
 		}
 
 		return <div className='mainSection'>
@@ -41,7 +51,7 @@ class Download extends React.Component {
 }
 
 Download.contextTypes={
-	ipc:React.PropTypes.object,
-
+	store:React.PropTypes.object,
+	ipc:React.PropTypes.object
 }
 export {Download}

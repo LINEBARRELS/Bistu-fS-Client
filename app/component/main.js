@@ -11,6 +11,7 @@ import {Index} from "./index/index.js"
 import {Message} from "./util/message.js"
 
 import {fileAction} from "./Action/Files.js";
+import {fmUpdateAction} from "./Action/Missionupdate.js";
 
 var CSSTransitionGroup=React.addons.CSSTransitionGroup;
 
@@ -39,24 +40,24 @@ class Main extends React.Component {
 	componentDidMount(){
 		this.context.store.subscribe(()=>{
 			// console.log('cur改变');
-			let next = this.context.store.getState();
-			if(next.processReducer.process!==this.refs.pro.style.width){
-				this.refs.pro.style.width=next.processReducer.process+'%'
-			}
+			let nextProcess = this.context.store.getState().toJS().processReducer,
+				nextCur=this.context.store.getState().toJS().routerReducer;
+
+
+
+				this.refs.pro.style.width=nextProcess.process+'%'
+
 			
-			this.setState({cur:next.routerReducer.cur})
+			this.setState({cur:nextCur.cur})
 		})
 
+		this.context.ipc.on('fmReturn',(event,fm)=>{
+			this.context.store.dispatch(fmUpdateAction(fm))
+		})
 
-		// so.on('message', (data)=>{
-		// 	console.log(data);
-		// });
-
-		// so.on('searchResult', (data)=>{
-
-		// 	console.log('接收到搜索结果',data);
-		// 	this.context.store.dispatch(fileAction(data))
-		// });
+		setInterval(()=>{
+			this.context.ipc.send('watchFm');
+		}, 1000);
 
 		this.context.ipc.on('searchResult',(event,data)=>{
 			console.log('接收到搜索结果',data);
