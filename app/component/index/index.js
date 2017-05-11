@@ -99,6 +99,7 @@ class Index extends React.Component {
 
 	
 	render(){
+		console.log('index render');
 
 		var blocks=[];
 

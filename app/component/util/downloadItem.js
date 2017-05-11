@@ -27,6 +27,7 @@ class DownloadItem extends React.Component {
 
 	render(){
 
+		console.log('down render',this.props.name)
 		return <div className='downloadBlock'>
 			<img alt='蛤蛤' src='./app/img/game.png'></img>
 			<div>

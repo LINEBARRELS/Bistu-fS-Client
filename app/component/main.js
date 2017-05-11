@@ -57,7 +57,7 @@ class Main extends React.Component {
 
 		setInterval(()=>{
 			this.context.ipc.send('watchFm');
-		}, 1000);
+		}, 500);
 
 		this.context.ipc.on('searchResult',(event,data)=>{
 			console.log('接收到搜索结果',data);

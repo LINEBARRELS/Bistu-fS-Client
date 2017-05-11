@@ -54,9 +54,12 @@ export const processReducer =(state=Map({process:0}),action)=>{
 
 }
 
-// export const downloadReducer =(state=Map(),action)=>{
-// 	switch(action.type){
-
-// 	}
-// }
+export const downloadReducer =(state=Map({}),action)=>{
+	switch(action.type){
+		case 'fmUpdate':
+		return state.mergeDeep(action.fileMission)
+		default:
+		return state
+	}
+}
 
