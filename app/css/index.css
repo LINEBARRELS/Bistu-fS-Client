@@ -293,7 +293,7 @@ body
     color: #FFE8D1;
     border-top: 1px solid rgba(255,255,255,.3);
     border-bottom: 1px solid rgba(255,255,255,.3);
-    background-color: rgba(8,8,8,.7);
+/*    background-color: rgba(8,8,8,.7);*/
 
     flex: 1 1 0;
 
@@ -394,7 +394,7 @@ body
     content: '';
 
     border-radius: inherit;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.01),rgba(129,199,212,.2));
+    background-image: linear-gradient(0deg, rgba(8, 8, 8, .01),rgba(29,36,48,.2));
 
     -webkit-filter: blur(1px);
             filter: blur(1px);
@@ -795,6 +795,8 @@ body
     cursor: pointer;
 
     outline: none;
+
+    font-family: eny;
 }
 
 .input >button:hover{
@@ -872,7 +874,7 @@ body
     color: #FFE8D1;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    font-family: cnx;
+    font-family: bla;
 }
 
 .input > select:focus{
@@ -887,7 +889,7 @@ body
     resize: none;
     /* background: rgba(252,250,242,.4); */
     font-weight: 500;
-    font-family: cnx;
+    font-family: bla;
 
     background-color: #171A21;
     background-image: none;

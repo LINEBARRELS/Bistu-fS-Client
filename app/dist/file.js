@@ -161,6 +161,9 @@ function file (torr){
               		if (l==this.pieceLength||l==this.last) {
 
               		this.completed=this.completed + l;
+              		if(this.completed===this.total){
+              			ipc.send('complete',this.fileName)
+              		}
               		var position=this.recode.indexOf(event.target.label);
 
                		ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)

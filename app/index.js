@@ -57,6 +57,12 @@ ipc.on('message',(event,mess)=>{
 	console.log(mess);
 })
 
+ipc.on('complete',(event,mess)=>{
+	let myNotification = new Notification('文件下载完成', {
+  		body: mess+' 文件下载完成,正在校验'
+	})
+})
+
 
 
 window.ondrop=function(e){

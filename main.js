@@ -205,6 +205,10 @@ ipcMain.on('fmReturn',function(event,data){
   mainWindow.webContents.send('fmReturn',data);
 })
 
+ipcMain.on('complete',function(event,data){
+  mainWindow.webContents.send('complete',data)
+})
+
 
 //////////////////////////////////////////////////////
 

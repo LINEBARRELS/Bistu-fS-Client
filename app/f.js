@@ -5788,6 +5788,12 @@ ipc.on('message', function (event, mess) {
 	console.log(mess);
 });
 
+ipc.on('complete', function (event, mess) {
+	var myNotification = new Notification('文件下载完成', {
+		body: mess + ' 文件下载完成,正在校验'
+	});
+});
+
 window.ondrop = function (e) {
 	try {
 		e.preventDefault();
