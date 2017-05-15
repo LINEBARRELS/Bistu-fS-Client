@@ -108,7 +108,7 @@ class Index extends React.Component {
 			blocks.push(<Block key={item['_id']} fileName={item.fileName} missionName={item.missionName} type={item.type}></Block>)
 		})
 		}else{
-			blocks.push(<div id='nothing'>没有搜索结果,去搜点别的东西去吧 #滑稽</div>)
+			blocks.push(<div id='nothing'>没有搜索结果,去搜点别的东西去吧</div>)
 		}
 
 		this.context.store.dispatch(processAction(100))

@@ -57,3 +57,4 @@ ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType){
 ipc.on('err',function(event,e,arg){
 	console.log(e,arg);
 })
+

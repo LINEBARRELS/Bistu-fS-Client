@@ -38,6 +38,7 @@ var eventCore=new event();
 
 app.on('ready', function() {
 	login=new BrowserWindow({
+    resizable:false,
 		transparent:true,
 		frame:false,
 		height:450,
@@ -48,12 +49,13 @@ app.on('ready', function() {
   // login.openDevTools();
 });
 
-app.on('quit',function(){
-  // for(let i of fileMission){
-  //   i.pause()
-  // }
 
-})
+
+
+
+// app.on('quit',function(){
+
+// })
 
 ipcMain.on('success',function(event,user){
 	login.hide();
@@ -65,11 +67,19 @@ ipcMain.on('success',function(event,user){
         width: 800
     });
 
+
+
   back=new BrowserWindow({
 
     height:500,
     width:500
   })
+
+
+  fs.mkdir('./torrents', (err) => {
+
+  });
+
 
   back.on('close',function(){
     back.webContents.send('quit');
@@ -95,7 +105,7 @@ ipcMain.on('success',function(event,user){
       mainWindow.webContents.send('userinfo',user);
 
   	});
-  	mainWindow.show()
+  	// mainWindow.show()
 });//
 
 
@@ -138,12 +148,7 @@ ipcMain.on('roomInit',function(event,name) {
 });
 
 ipcMain.on('fileArrive', function(event,name,posi,file,length) {
-  // fs.appendFile('../rec/'+name, file, (err)=>{
-  // if(err){
-  // console.log(err);
-  // }
-  // console.log('file到达');
-  // });
+
   if(!temp[name]){
     temp[name]=fs.openSync('../rec/'+name,'w+');
   }
@@ -158,7 +163,6 @@ ipcMain.on('fileArrive', function(event,name,posi,file,length) {
     
   })
 
-   // mainWindow.webContents.send('fileWriteCom',file);
 });
 
 ////////////////////////////////////////////////////////////

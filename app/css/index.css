@@ -477,7 +477,7 @@ body
     border-radius: 2px;
     padding: 30px 40px;
     box-shadow: inset 0 1px 1px rgba(228, 217, 217, 0.075);
-    background: linear-gradient(rgba(12,12,12,.6),rgba(8,8,8,.8),rgba(12,12,12,.6));
+    background: linear-gradient(rgba(12,12,12,.7),rgba(8,8,8,.7),rgba(12,12,12,.7));
 }
 
 .block
@@ -953,7 +953,7 @@ body
     position: absolute;
     height: 100%;
     transition: all .3s;
-    background: #68e3ec;
+    background: linear-gradient(90deg,#3F8B91,#68e3ec,#3F8B91);
     transition: all .1s;
 }
 
@@ -1083,7 +1083,7 @@ body
     margin-top: 5px;
     width: 400px;
 
-    border: 1px solid #171A21;
+    border: 1px solid #335094;
     border-radius: 5px;
     overflow: hidden;
     /* padding: 1px; */
@@ -1104,10 +1104,26 @@ body
     transform: translateY(-50%);
     background: linear-gradient(rgb(74,118,175),rgb(64,103,166));
 
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+/*    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;*/
 }
 
 .downloadProcess ~ span{
     background: url('../img/start.png');
+}
+
+.downloadVoid{
+    text-align: center;
+    /* color: #3399FF; */
+    font-family: icon;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.downloadVoid span{
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+    color: #3399FF;
+    font-size: large;
 }

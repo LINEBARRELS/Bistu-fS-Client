@@ -37,6 +37,12 @@ function file (torr){
 
 		fileMission[this.fileName]=this;
 
+		var storage=new Array(this.pieceNum);
+		storage.fill(0);
+		localStorage.setItem(this.fileName,storage);
+		storage = null;
+
+		
 		so.emit('join',this.fileName)
 
 

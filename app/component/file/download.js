@@ -1,6 +1,7 @@
 var React=require('react')
 
 import {DownloadItem} from "../util/downloadItem.js";
+import {pageAction} from "../Action/Page.js"
 
 import { Map, List } from 'immutable';
 
@@ -8,10 +9,16 @@ class Download extends React.Component {
 	constructor(args) {
 		super(args)
 
-		this.state={downloading:{}};
+		this.state={downloading:{},filter:''};
 
 
 	}
+
+	toIndex(){
+
+		this.context.store.dispatch(pageAction('index'));
+	}
+
 	componentWillMount(){
 
 		var t=this.context.store.getState().toJS().downloadReducer;
@@ -31,8 +38,10 @@ class Download extends React.Component {
 	render(){
 		var content=null;
 		
-		if(Object.keys(this.state.downloading)===0){
-			content='当前没有文件下载'
+		if(Object.keys(this.state.downloading).length==0){
+			content=<p className='downloadVoid'>当前没有下载任务<span onClick={this.toIndex.bind(this)}>去找点东西下吧</span></p>
+					
+
 		}else{
 			content=[];
 			var tem=this.state.downloading;
@@ -40,9 +49,8 @@ class Download extends React.Component {
 				content.push(<DownloadItem name={i} completed={tem[i].completed} total={tem[i].total} key={i}/>)
 			
 			}
-			
-			console.log(this.state);
 		}
+
 
 		return <div className='mainSection'>
 			{content}
