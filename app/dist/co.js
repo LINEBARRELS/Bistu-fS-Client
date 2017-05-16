@@ -59,6 +59,7 @@ var so=io.connect('http://192.168.1.101:8080');
         var li = local.split(',');
 
         if(li[0]==='allClean'||li[data.piece]==1){
+          console.log('应答');
           so.emit('pieceSearch_Result',{hash:data.hash,file:data.file,piece:data.piece,holder:so.username})
         }
       }
@@ -72,8 +73,9 @@ var so=io.connect('http://192.168.1.101:8080');
 
     so.on('pieceUpdate', function(data) {
       // ipc.send('pieceMessage',data.file,data.piece,data.holder)
-      console.log('有块请求被回应');
-      fileMission[data.hash].pieceMessage[data.piece]=data.holder
+      console.log('有块请求被回应',data.hash,data.piece,data.holder);
+      // fileMission[data.hash].pieceMessage[data.piece]=data.holder
+      fileMission[data.hash].updateMessage(data.piece,data.holder)
     });
 
     so.on('searchResult',  function(data) {

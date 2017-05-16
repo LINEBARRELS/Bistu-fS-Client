@@ -31,7 +31,7 @@ function file (torr){
 		this.downloading=[]
 
 
-		this.limit=100;
+		this.limit=1000;
 		this.cur=0;
 		this.on=0;
 
@@ -131,6 +131,10 @@ function file (torr){
 		}, 2000);//checker
 
 	}//start
+
+	file.prototype.updateMessage=function(pieceNum,holder){
+		this.pieceMessage[this.recode[pieceNum]]=holder;
+	}
 
 
 
