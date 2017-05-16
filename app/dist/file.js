@@ -14,11 +14,14 @@ function file (torr){
 		this.pieceNum=parsedTorrent.pieces.length;
 		this.piecesBelong={};
 
+		this.hash=parsedTorrent.infoHash;
 		this.fileName=parsedTorrent.files[0].name;
 		this.creator=parsedTorrent.createdBy;
 		this.total=parsedTorrent.length;
 		this.pieceLength=parsedTorrent.pieceLength;
 		this.last=parsedTorrent.lastPieceLength;
+
+		this.localR=new Array(this.pieceNum);
 
  		this.completed=0;
 
@@ -35,15 +38,18 @@ function file (torr){
 		this.watcher=null,
 		this.checker=null;
 
-		fileMission[this.fileName]=this;
+		fileMission[this.hash]=this;
 
-		var storage=new Array(this.pieceNum);
-		storage.fill(0);
-		localStorage.setItem(this.fileName,storage);
-		storage = null;
+		var storage=localStorage.getItem(this.hash);
 
+		if(storage===null){
+			var st=new Array(this.pieceNum);
+			storage.fill(0);
+			localStorage.setItem(this.hash,storage);
+			storage = null;
+		}
 		
-		so.emit('join',this.fileName)
+		so.emit('join',this.hash)
 
 
 		console.log(this.fileName+'mission init complete');
@@ -63,8 +69,8 @@ function file (torr){
 				// console.log(piece+',没有文件持有者信息');
 				console.log(piece,',没有文件持有者信息')
 
-
-				so.emit('pieceSearch',this.fileName,piece)
+				var p=this.recode.indexOf(piece);
+				so.emit('pieceSearch',this.hash,this.fileName,p);
 				this.filePieces.push(piece);
 				this.cur =this.cur-1;
 			}else{
@@ -164,13 +170,22 @@ function file (torr){
 
               		var l=peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label].length;
               		console.log(l);
+
+
               		if (l==this.pieceLength||l==this.last) {
 
               		this.completed=this.completed + l;
+
+
+
+
               		if(this.completed===this.total){
-              			ipc.send('complete',this.fileName)
+              			ipc.send('complete',this.fileName);
               		}
               		var position=this.recode.indexOf(event.target.label);
+
+              		this.localR[position] = 1;
+              		localStorage.setItem(this.hash,this.localR)
 
                		ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');

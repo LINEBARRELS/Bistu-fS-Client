@@ -47,11 +47,13 @@ ipc.on('watchFm',function(event){
 })
 
 
-ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType){
+ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType,hash){
 
 	fs.writeFileSync('./torrents/'+missionName+'.torrent',new Buffer(torrent));
 	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username,fileType:fileType});
+	localStorage.setItem(hash,'allClean');
 	console.log(missionName,'种子生成完成,文件为',fileName);
+
 })
 
 ipc.on('err',function(event,e,arg){

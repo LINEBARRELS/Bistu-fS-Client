@@ -53,7 +53,16 @@ var so=io.connect('http://192.168.1.101:8080');
     so.on('pieceSearch',function(data){
       // console.log(data.piece)
       console.log('someone is searching for:'+data.file);
-      so.emit('pieceSearch_Result',{file:data.file,piece:data.piece,holder:so.username})
+
+      var local = localStorage.getItem(data.hash);
+      if(local!==null){
+        var li = local.split(',');
+
+        if(li[0]==='allClean'||li[data.piece]==1){
+          so.emit('pieceSearch_Result',{hash:data.hash,file:data.file,piece:data.piece,holder:so.username})
+        }
+      }
+      
     });
 
     so.on('rrr',function(data){
@@ -64,7 +73,7 @@ var so=io.connect('http://192.168.1.101:8080');
     so.on('pieceUpdate', function(data) {
       // ipc.send('pieceMessage',data.file,data.piece,data.holder)
       console.log('有块请求被回应');
-      fileMission[data.file].pieceMessage[data.piece]=data.holder
+      fileMission[data.hash].pieceMessage[data.piece]=data.holder
     });
 
     so.on('searchResult',  function(data) {
