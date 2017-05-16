@@ -143,11 +143,11 @@ ipcMain.on('createT',function(event,args,opt){
 });
 
 
-ipcMain.on('roomInit',function(event,name) {
-  fs.readdir('../Files', function(err,files){
-    back.webContents.send('roomInited',files);
-  });
-});
+// ipcMain.on('roomInit',function(event,name) {
+//   fs.readdir('../Files', function(err,files){
+//     back.webContents.send('roomInited',files);
+//   });
+// });
 
 ipcMain.on('fileArrive', function(event,name,posi,file,length) {
 
