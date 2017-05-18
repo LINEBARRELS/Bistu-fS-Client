@@ -19,7 +19,6 @@ class Upload extends React.Component {
     	// this.context.ipc.send('createT',path,options)
     	this.setState({path:path})
     	e.target.classList.add('active')
-    	e.target.innerHTML='文件为'+path;
 
 
 	}
@@ -27,10 +26,7 @@ class Upload extends React.Component {
 	cancelFile(e){
 		e.preventDefault()
 		e.target.classList.remove('active')
-		e.target.innerHTML='';
 		this.setState({path:''})
-
-		
 	}
 
 	handleDesc(e){
@@ -93,7 +89,7 @@ class Upload extends React.Component {
 			</span>
 		</div>
 		<div className='dropZone' 
-			onDrop={this.fileSelect.bind(this)} ></div>
+			onDrop={this.fileSelect.bind(this)} onClick={this.cancelFile.bind(this)}>{this.state.path}</div>
 		</div>
 	}
 }

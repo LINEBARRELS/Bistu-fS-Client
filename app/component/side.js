@@ -24,7 +24,7 @@ class Side extends React.Component {
 
 	render(){
 
-		var items=['index','download','upload','user'],
+		var items=['index','download','upload'],
 		    itemClass='sideItem',
 		    ulClass='sideBar';
 		var events={

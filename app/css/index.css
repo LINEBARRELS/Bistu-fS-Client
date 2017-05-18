@@ -282,7 +282,6 @@ body
     display: block;
 
     width: 100%;
-    padding-top: 60%;
 
     list-style: none;
 
@@ -298,6 +297,11 @@ body
     flex: 1 1 0;
 
     user-select: none;
+
+    display: flex;
+    align-items: center;
+    /* text-align: center; */
+    justify-content: center;
 }
 
 .sideItem.on
@@ -513,11 +517,15 @@ body
 .block > div{
     width: 100%;
     height: 70%;
-    background-image: url(../img/C33D10379773DDA89B9B34F9C8F8E89C.jpg);
-    background-size: cover;
+    background-image: url(../img/other.png);
+/*    background-size: cover;*/
     transition: .2s;
 
     cursor: pointer;
+
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    background-position-y: 50%;
 }
 
 .block.on >div{

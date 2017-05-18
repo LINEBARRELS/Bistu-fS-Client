@@ -5847,10 +5847,8 @@ var _immutable = __webpack_require__(1);
 var fmUpdateAction = function fmUpdateAction(fm) {
 	var t = (0, _immutable.Map)({});
 
-	// console.log(fm);
-
 	for (var i in fm) {
-		var t = t.set(i, (0, _immutable.Map)({ completed: fm[i].completed, total: fm[i].total }));
+		var t = t.set(i, (0, _immutable.Map)({ fileName: fm[i].fileName, completed: fm[i].completed, total: fm[i].total }));
 	}
 
 	return {
@@ -6155,7 +6153,7 @@ var Download = function (_React$Component) {
 				content = [];
 				var tem = this.state.downloading;
 				for (var i in tem) {
-					content.push(React.createElement(_downloadItem.DownloadItem, { name: i, completed: tem[i].completed, total: tem[i].total, key: i }));
+					content.push(React.createElement(_downloadItem.DownloadItem, { name: tem[i].fileName, completed: tem[i].completed, total: tem[i].total, key: i }));
 				}
 			}
 
@@ -6223,14 +6221,12 @@ var Upload = function (_React$Component) {
 			// this.context.ipc.send('createT',path,options)
 			this.setState({ path: path });
 			e.target.classList.add('active');
-			e.target.innerHTML = '文件为' + path;
 		}
 	}, {
 		key: 'cancelFile',
 		value: function cancelFile(e) {
 			e.preventDefault();
 			e.target.classList.remove('active');
-			e.target.innerHTML = '';
 			this.setState({ path: '' });
 		}
 	}, {
@@ -6338,8 +6334,12 @@ var Upload = function (_React$Component) {
 						)
 					)
 				),
-				React.createElement('div', { className: 'dropZone',
-					onDrop: this.fileSelect.bind(this) })
+				React.createElement(
+					'div',
+					{ className: 'dropZone',
+						onDrop: this.fileSelect.bind(this), onClick: this.cancelFile.bind(this) },
+					this.state.path
+				)
 			);
 		}
 	}]);
@@ -6801,7 +6801,7 @@ var Side = function (_React$Component) {
 		key: "render",
 		value: function render() {
 
-			var items = ['index', 'download', 'upload', 'user'],
+			var items = ['index', 'download', 'upload'],
 			    itemClass = 'sideItem',
 			    ulClass = 'sideBar';
 			var events = {
