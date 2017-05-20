@@ -56,7 +56,7 @@ class Upload extends React.Component {
 		this.context.ipc.on('torrentCreated',(data,name)=>{
 			this.setState({path:'',name:'',type:'',detail:''});
 			var myNotification = new Notification('种子生成完成', {
-  			body: name+'种子生成完成,上传马上完成'
+  			body: name+'种子生成完成,正在上传'
 			})
 		})
 	}

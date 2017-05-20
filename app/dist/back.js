@@ -47,15 +47,15 @@ ipc.on('downLoad', function(event,name) {
 });
 
 ipc.on('watchFm',function(event){
-	console.log('?>?????');
+	// console.log('?>?????');
 	ipc.send('fmReturn',fileMission)
 })
 
 
-ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType,hash){
+ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType,fileDetail,hash){
 
 	fs.writeFileSync('./torrents/'+missionName+'.torrent',new Buffer(torrent));
-	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username,fileType:fileType});
+	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username,hash:hash,fileType:fileType,fileDetail:fileDetail});
 	localStorage.setItem(hash,'allClean');
 	console.log(missionName,'种子生成完成,文件为',fileName);
 

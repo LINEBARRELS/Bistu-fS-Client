@@ -6257,7 +6257,7 @@ var Upload = function (_React$Component) {
 			this.context.ipc.on('torrentCreated', function (data, name) {
 				_this2.setState({ path: '', name: '', type: '', detail: '' });
 				var myNotification = new Notification('种子生成完成', {
-					body: name + '种子生成完成,上传马上完成'
+					body: name + '种子生成完成,正在上传'
 				});
 			});
 		}
@@ -6491,7 +6491,8 @@ var Index = function (_React$Component) {
 
 			if (this.state.files.length > 0) {
 				this.state.files.forEach(function (item, index) {
-					blocks.push(React.createElement(_block.Block, { key: item['_id'], fileName: item.fileName, missionName: item.missionName, type: item.type }));
+					console.log(item);
+					blocks.push(React.createElement(_block.Block, { key: item['_id'], fileName: item.fileName, missionName: item.missionName, type: item.type, detail: item.detail, hash: item.hash }));
 				});
 			} else {
 				blocks.push(React.createElement(
@@ -7013,9 +7014,9 @@ var Block = function (_React$Component) {
 				React.createElement(
 					'p',
 					null,
-					'vserhwerherhwGaeehae'
+					this.props.detail
 				),
-				React.createElement('span', { className: 'more', 'data-value': this.props.missionName, onClick: this.props.onClick })
+				React.createElement('span', { className: 'more', 'data-value': this.props.hash, onClick: this.props.onClick })
 			);
 		}
 	}]);

@@ -105,7 +105,8 @@ class Index extends React.Component {
 
 		if(this.state.files.length>0){
 		this.state.files.forEach((item,index)=>{
-			blocks.push(<Block key={item['_id']} fileName={item.fileName} missionName={item.missionName} type={item.type}></Block>)
+			console.log(item);
+			blocks.push(<Block key={item['_id']} fileName={item.fileName} missionName={item.missionName} type={item.type} detail={item.detail} hash={item.hash}></Block>)
 		})
 		}else{
 			blocks.push(<div id='nothing'>没有搜索结果,去搜点别的东西去吧</div>)
