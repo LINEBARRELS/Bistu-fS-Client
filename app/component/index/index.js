@@ -73,7 +73,7 @@ class Index extends React.Component {
 
 
 	shouldComponentUpdate(nextProps = {}, nextState = {}){
-  	const thisProps = this.props || {}, thisState = this.state || {};
+  		const thisProps = this.props || {}, thisState = this.state || {};
   		if (thisState['search']!==nextState['search']) {
   			return false;
   		}

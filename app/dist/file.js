@@ -2,7 +2,7 @@ var parse =require('parse-torrent')
 var fs=require('fs')
 // var electron =require('electron')
 // const {electron} = require('electron')
-// var peer =require('./peer.js')
+// const peer =require('./peer.js')
 
 
 function file (torr){
@@ -44,9 +44,9 @@ function file (torr){
 
 		if(storage===null){
 			var st=new Array(this.pieceNum);
-			storage.fill(0);
-			localStorage.setItem(this.hash,storage);
-			storage = null;
+			st.fill(0);
+			localStorage.setItem(this.hash,st);
+			storage =st= null;
 		}
 		
 		so.emit('join',this.hash)

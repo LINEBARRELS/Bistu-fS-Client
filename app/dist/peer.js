@@ -20,8 +20,9 @@
         	this.roId=remote;
 			    this.pc= new webkitRTCPeerConnection(null);
         	this.dc={};
-        	this.temp={}
-        	this.pieceLen=length
+        	this.temp={};
+        	this.pieceLen=length;
+
 
         	this.pc.negoState = false;
         	
