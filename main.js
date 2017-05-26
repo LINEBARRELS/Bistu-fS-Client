@@ -194,6 +194,11 @@ ipcMain.on('watchFm',function(event,name){
   back.webContents.send('watchFm')
 })
 
+ipcMain.on('triggle',function(event,name){
+
+  back.webContents.send('triggle',name)
+})
+
 
 //////////////////////////////////////////////////////////
 

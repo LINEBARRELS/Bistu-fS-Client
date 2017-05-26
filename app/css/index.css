@@ -1070,6 +1070,7 @@ body
     height: 100%;
     width: 85%;
     float: right;
+    position: relative;
 }
 
 .downloadBlock h3{
@@ -1116,8 +1117,23 @@ body
     border-bottom-left-radius: 5px;*/
 }
 
-.downloadProcess ~ span{
+.but{
     background: url('../img/start.png');
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    display: block;
+    /* float: right; */
+    transform: translateY(-50%);
+}
+
+.speed{
+    position: absolute;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .downloadVoid{

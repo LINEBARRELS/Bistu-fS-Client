@@ -14,6 +14,7 @@ class Download extends React.Component {
 
 	}
 
+
 	toIndex(){
 
 		this.context.store.dispatch(pageAction('index'));
@@ -51,13 +52,13 @@ class Download extends React.Component {
 			content=[];
 			var tem=this.state.downloading;
 			for(let i in tem){
-				content.push(<DownloadItem name={tem[i].fileName} completed={tem[i].completed} total={tem[i].total} key={i}/>)
+				content.push(<DownloadItem name={tem[i].fileName} completed={tem[i].completed} total={tem[i].total} hash={tem[i].hash} key={i}/>)
 			
 			}
 		}
 
 
-		return <div className='mainSection'>
+		return <div className='mainSection' >
 			{content}
 		</div>
 	}

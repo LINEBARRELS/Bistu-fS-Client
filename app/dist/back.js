@@ -54,6 +54,13 @@ ipc.on('watchFm',function(event){
 	ipc.send('fmReturn',fileMission)
 })
 
+ipc.on('triggle',function(event,name){
+	if(fileMission[name]){
+		fileMission[name].status?fileMission[name].pause():fileMission[name].start();
+	}
+	
+})
+
 
 ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType,fileDetail,hash){
 

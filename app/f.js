@@ -5798,6 +5798,20 @@ window.Bit = function (num) {
 	}
 };
 
+window.BitbyM = function (num) {
+	// if(num<1048576){
+
+	// 	return (num/1024).toString().slice(0,5)+'KB'
+	// }else if(num<1073741824){
+
+	// 	return (num/1048576).toString().slice(0,5)+'MB'
+	// }else{
+
+	// 	return (num/1073741824).toString().slice(0,5)+'GB'
+	// }
+	return (num / 1048576).toString().slice(0, 5) + 'MB';
+};
+
 ipc.on('fileWriteCom', function (event, mess) {
 	console.log(mess);
 }); //写文件完成
@@ -5848,7 +5862,7 @@ var fmUpdateAction = function fmUpdateAction(fm) {
 	var t = (0, _immutable.Map)({});
 
 	for (var i in fm) {
-		var t = t.set(i, (0, _immutable.Map)({ fileName: fm[i].fileName, completed: fm[i].completed, total: fm[i].total }));
+		var t = t.set(i, (0, _immutable.Map)({ fileName: fm[i].fileName, completed: fm[i].completed, total: fm[i].total, hash: fm[i].hash }));
 	}
 
 	return {
@@ -6158,7 +6172,7 @@ var Download = function (_React$Component) {
 				content = [];
 				var tem = this.state.downloading;
 				for (var i in tem) {
-					content.push(React.createElement(_downloadItem.DownloadItem, { name: tem[i].fileName, completed: tem[i].completed, total: tem[i].total, key: i }));
+					content.push(React.createElement(_downloadItem.DownloadItem, { name: tem[i].fileName, completed: tem[i].completed, total: tem[i].total, hash: tem[i].hash, key: i }));
 				}
 			}
 
@@ -7066,6 +7080,22 @@ var DownloadItem = function (_React$Component) {
 	}
 
 	_createClass(DownloadItem, [{
+		key: 'downloadTrigger',
+		value: function downloadTrigger(e) {
+			// if(e.target.className==='downloadBlock'){
+			console.log(e.currentTarget);
+			this.context.ipc.send('triggle', e.currentTarget.dataset.hash);
+		}
+	}, {
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+
+			var speed = nextProps.completed - this.props.completed;
+			if (speed !== 0) {
+				this.refs.speed.innerHTML = BitbyM(speed) + '/s';
+			}
+		}
+	}, {
 		key: 'shouldComponentUpdate',
 		value: function shouldComponentUpdate() {
 			var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -7092,7 +7122,7 @@ var DownloadItem = function (_React$Component) {
 			console.log('down render', this.props.name);
 			return React.createElement(
 				'div',
-				{ className: 'downloadBlock' },
+				{ className: 'downloadBlock', 'data-hash': this.props.hash, onDoubleClick: this.downloadTrigger.bind(this) },
 				React.createElement('img', { alt: '\u86E4\u86E4', src: './app/img/game.png' }),
 				React.createElement(
 					'div',
@@ -7122,7 +7152,12 @@ var DownloadItem = function (_React$Component) {
 							Bit(this.props.total)
 						)
 					),
-					React.createElement('span', null)
+					React.createElement('span', { className: 'but' }),
+					React.createElement(
+						'span',
+						{ className: 'speed', ref: 'speed' },
+						'200m/s'
+					)
 				)
 			);
 		}
@@ -7133,6 +7168,11 @@ var DownloadItem = function (_React$Component) {
 
 	return DownloadItem;
 }(React.Component);
+
+DownloadItem.contextTypes = {
+	store: React.PropTypes.object,
+	ipc: React.PropTypes.object
+};
 
 exports.DownloadItem = DownloadItem;
 

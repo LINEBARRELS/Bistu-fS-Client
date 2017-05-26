@@ -14,6 +14,8 @@ function file (torr){
 		this.pieceNum=parsedTorrent.pieces.length;
 		this.piecesBelong={};
 
+		this.status=false;
+
 		this.hash=parsedTorrent.infoHash;
 		this.fileName=parsedTorrent.files[0].name;
 		this.creator=parsedTorrent.createdBy;
@@ -58,6 +60,7 @@ function file (torr){
 }
 	// methods
 	file.prototype.start=function(){
+		this.status=true;
 		this.watcher=setInterval(()=>{
 		if(this.on<=this.limit&&this.cur!=this.pieceNum){
 			let piece=this.filePieces.shift();
@@ -210,7 +213,7 @@ function file (torr){
 	}//handle
 
 	file.prototype.pause=function(){
-		
+		this.status=false;
 		clearInterval(this.watcher);
 	}
 

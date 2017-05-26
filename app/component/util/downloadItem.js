@@ -8,6 +8,21 @@ class DownloadItem extends React.Component {
 		super(args)
 	}
 
+	downloadTrigger(e){
+		// if(e.target.className==='downloadBlock'){
+			console.log(e.currentTarget);
+			this.context.ipc.send('triggle',e.currentTarget.dataset.hash)
+		
+	}
+
+	componentWillReceiveProps(nextProps){
+
+		var speed=nextProps.completed-this.props.completed;
+		if(speed!==0){
+			this.refs.speed.innerHTML=BitbyM(speed) +'/s'
+		}
+	}
+
 	shouldComponentUpdate(nextProps = {}, nextState = {}){
   		const thisProps = this.props || {};
 
@@ -28,7 +43,7 @@ class DownloadItem extends React.Component {
 	render(){
 
 		console.log('down render',this.props.name)
-		return <div className='downloadBlock'>
+		return <div className='downloadBlock' data-hash={this.props.hash} onDoubleClick={this.downloadTrigger.bind(this)}>
 			<img alt='蛤蛤' src='./app/img/game.png'></img>
 			<div>
 				<h3>{this.props.name}</h3>
@@ -36,13 +51,19 @@ class DownloadItem extends React.Component {
 				<div style={{width:(this.props.completed/this.props.total*100)+'%'}}></div>
 				</div>
 				<p><span>{Bit(this.props.completed)}</span>   of    <span>{Bit(this.props.total)}</span></p>
-				<span></span>
+				<span className='but'></span>
+				<span className='speed' ref='speed'>0m/s</span>
 			</div>
 		</div>
 
 	}
 
 	// methods
+}
+
+DownloadItem.contextTypes={
+	store:React.PropTypes.object,
+	ipc:React.PropTypes.object
 }
 
 export {DownloadItem}

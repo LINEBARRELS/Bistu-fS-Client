@@ -6,7 +6,7 @@ const fmUpdateAction=function(fm){
 	
 
 	for(let i in fm){
-		var t=t.set(i,Map({fileName:fm[i].fileName,completed:fm[i].completed,total:fm[i].total}))
+		var t=t.set(i,Map({fileName:fm[i].fileName,completed:fm[i].completed,total:fm[i].total,hash:fm[i].hash}))
 	}
 
 
