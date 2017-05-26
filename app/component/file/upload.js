@@ -45,7 +45,7 @@ class Upload extends React.Component {
 	submit(e){
 		var options={
       		createdBy:username,
-      		pieceLength: 262144,
+      		pieceLength: 4194304,
       		comment:this.state.detail,
       		type:this.state.type
     	}
@@ -69,7 +69,7 @@ class Upload extends React.Component {
 		<div className='informationZone'>
 			<span className='input'>
 				<label for='missionName'>任务名</label>
-				<input type='text'  id='missionName' name='name' onChange={this.handleDesc} placeholder='小于30个字符' value={this.state.name}/>
+				<input type='text'  id='missionName' name='name' onChange={this.handleDesc} maxLength="30" placeholder='小于30个字符' value={this.state.name}/>
 			</span>
 			<span className='input'>
 				<label>类型</label>
@@ -82,7 +82,7 @@ class Upload extends React.Component {
 				</select>
 			</span>
 			<span className='input'>
-				<textarea name='detail' onChange={this.handleDesc} placeholder='简介,小于120' value={this.state.detail}></textarea>
+				<textarea name='detail' onChange={this.handleDesc} placeholder='简介,小于120' maxLength="120" value={this.state.detail}></textarea>
 			</span>
 			<span className='input'>
 				<button id='torrentSubmit' onClick={this.submit.bind(this)} >提交</button>

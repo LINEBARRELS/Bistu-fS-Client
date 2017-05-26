@@ -6115,6 +6115,11 @@ var Download = function (_React$Component) {
 		value: function toIndex() {
 
 			this.context.store.dispatch((0, _Page.pageAction)('index'));
+			if (document.querySelector('.sideItem.on')) {
+				document.querySelector('.sideItem.on').classList.remove('on');
+			}
+
+			document.querySelector('.sideItem').classList.add('on');
 		}
 	}, {
 		key: "componentWillMount",
@@ -6243,7 +6248,7 @@ var Upload = function (_React$Component) {
 		value: function submit(e) {
 			var options = {
 				createdBy: username,
-				pieceLength: 262144,
+				pieceLength: 4194304,
 				comment: this.state.detail,
 				type: this.state.type
 			};
@@ -6279,7 +6284,7 @@ var Upload = function (_React$Component) {
 							{ 'for': 'missionName' },
 							'\u4EFB\u52A1\u540D'
 						),
-						React.createElement('input', { type: 'text', id: 'missionName', name: 'name', onChange: this.handleDesc, placeholder: '\u5C0F\u4E8E30\u4E2A\u5B57\u7B26', value: this.state.name })
+						React.createElement('input', { type: 'text', id: 'missionName', name: 'name', onChange: this.handleDesc, maxLength: '30', placeholder: '\u5C0F\u4E8E30\u4E2A\u5B57\u7B26', value: this.state.name })
 					),
 					React.createElement(
 						'span',
@@ -6322,7 +6327,7 @@ var Upload = function (_React$Component) {
 					React.createElement(
 						'span',
 						{ className: 'input' },
-						React.createElement('textarea', { name: 'detail', onChange: this.handleDesc, placeholder: '\u7B80\u4ECB,\u5C0F\u4E8E120', value: this.state.detail })
+						React.createElement('textarea', { name: 'detail', onChange: this.handleDesc, placeholder: '\u7B80\u4ECB,\u5C0F\u4E8E120', maxLength: '120', value: this.state.detail })
 					),
 					React.createElement(
 						'span',

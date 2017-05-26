@@ -58,25 +58,30 @@
                 // if(!this.t){
                 //   this.t=fs.readFileSync('../'+pd.file+'.torrent');
                 // }
-                if (!this.totalFile) {
-                  this.totalFile=fs.readFileSync('.././Files/'+pd.file);
+                if (!totalFile[pd.hash]) {
+                  totalFile[pd.hash]=fs.readFileSync('.././Files/'+pd.file);
                 }
                 
                 // var pieces=parse(this.t).pieces,
                 // index=pieces.indexOf(pd.piece),
-                sf=this.totalFile.slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
+                sf=totalFile[pd.hash].slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
                 if (sf.length==0) {
                   throw 'wtf?'
                 }
                 console.log(sf.length,pd.piece,sf);
 
-                if(sf.length<=262144){
-                  event.target.send(sf)
-                }else{
-                  
-                }
-                
 
+
+                  // event.target.send(sf)
+                var a=[];
+
+                split(a,sf,0);
+
+
+                for(let i=0;i<a.length;i++){
+
+                  event.target.send(a[i])
+                }
                 // totalFile=null;
                 // t=null;
                 sf=null;
@@ -90,7 +95,7 @@
   		}//init
   	}
 
-  	function sendOffer(desc){
+  function sendOffer(desc){
    		this.pc.setLocalDescription(desc);
         
    		so.emit('offer',{sdp:desc,to:this.roId,from:so.uid})
@@ -101,6 +106,15 @@
        
 		so.emit('answer',{sdp:desc,to:this.roId,from:so.uid})
 	}
+
+  function split(arr,file,pos){
+    if(pos<file.length){
+    
+      var c=file.slice(pos,pos+65536);
+      arr.push(c)
+      return split(arr,file,pos+65536);
+    }
+  }
 
 
   	peer.prototype.setRomote=function(desc,id){

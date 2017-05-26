@@ -17,6 +17,11 @@ class Download extends React.Component {
 	toIndex(){
 
 		this.context.store.dispatch(pageAction('index'));
+				if(document.querySelector('.sideItem.on')){
+			document.querySelector('.sideItem.on').classList.remove('on')
+		}
+		
+		document.querySelector('.sideItem').classList.add('on')
 	}
 
 	componentWillMount(){

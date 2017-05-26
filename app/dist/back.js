@@ -4,6 +4,7 @@ var ipc =electron.ipcRenderer;
 
 var fileMission={};
 var peerConnectByUser={};
+var totalFile={};
 
 
 
