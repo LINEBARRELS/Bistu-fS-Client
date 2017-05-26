@@ -27,7 +27,7 @@ login.addEventListener('click',  function(event) {
         //检查响应文本
         	response.json().then(function(data){
             	if (data.loginResult==='success'){
-            		ipc.send('success',user.value)
+            		ipc.send('success',user.value,data.uid)
             	}else{
             		alert('登录失败')
             	}

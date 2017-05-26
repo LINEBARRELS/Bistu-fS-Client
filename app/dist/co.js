@@ -60,7 +60,7 @@ var parse=require('parse-torrent')
 
       if(li[0]==='allClean'||li[data.piece]==1){
         console.log('应答');
-        so.emit('pieceSearch_Result',{hash:data.hash,file:data.file,piece:data.piece,holder:so.username})
+        so.emit('pieceSearch_Result',{hash:data.hash,file:data.file,piece:data.piece,holder:so.uid})
       }
     }
   });

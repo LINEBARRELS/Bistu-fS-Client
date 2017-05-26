@@ -57,7 +57,7 @@ app.on('ready', function() {
 
 // })
 
-ipcMain.on('success',function(event,user){
+ipcMain.on('success',function(event,user,uid){
 	login.hide();
 	mainWindow = new BrowserWindow({
     	// resizable:false,
@@ -97,7 +97,7 @@ ipcMain.on('success',function(event,user){
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     back.webContents.on('did-finish-load',  function() {
-        back.webContents.send('socketInit',user);
+        back.webContents.send('socketInit',user,uid);
     });
 
     mainWindow.webContents.on('did-finish-load', function () {

@@ -7,9 +7,11 @@ var peerConnectByUser={};
 
 
 
-ipc.on('socketInit', function(event,username) {
-	so.username=username
-	so.emit('onLine',so.username);
+ipc.on('socketInit', function(event,username,uid) {
+	so.username=username;
+	so.uid=uid;
+	console.log(uid);
+	so.emit('onLine',so.uid);
 	
  	console.log(so.username,'init');
  	// ipc.send('roomInit',so.username)
@@ -30,13 +32,13 @@ ipc.on('quit',function(event){
 
 ipc.on('search', function(event,search) {
 
-  so.emit('search',search);
+  so.emit('search',search,so.uid);
 
 });
 
 ipc.on('searchType', function(event,search) {
 
-  so.emit('searchType',search);
+  so.emit('searchType',search,so.uid);
 
 });
 
@@ -55,7 +57,7 @@ ipc.on('watchFm',function(event){
 ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType,fileDetail,hash){
 
 	fs.writeFileSync('./torrents/'+missionName+'.torrent',new Buffer(torrent));
-	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,user:so.username,hash:hash,fileType:fileType,fileDetail:fileDetail});
+	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,hash:hash,creator:so.uid,fileType:fileType,fileDetail:fileDetail});
 	localStorage.setItem(hash,'allClean');
 	console.log(missionName,'种子生成完成,文件为',fileName);
 

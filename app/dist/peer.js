@@ -21,7 +21,7 @@
 			    this.pc= new webkitRTCPeerConnection(null);
         	this.dc={};
         	this.temp={};
-        	this.pieceLen=length;
+        	// this.pieceLen=length;
 
 
         	this.pc.negoState = false;
@@ -35,7 +35,7 @@
      				so.emit('candidate',{
          			'candidate': evt.candidate,
          			'to':this.roId,
-         			'from':so.username
+         			'from':so.uid
        				});
                     
                     
@@ -93,13 +93,13 @@
   	function sendOffer(desc){
    		this.pc.setLocalDescription(desc);
         
-   		so.emit('offer',{sdp:desc,to:this.roId,from:so.username})
+   		so.emit('offer',{sdp:desc,to:this.roId,from:so.uid})
 	}
 
 	function answerOffer(desc){
 		this.pc.setLocalDescription(desc);
        
-		so.emit('answer',{sdp:desc,to:this.roId,from:so.username})
+		so.emit('answer',{sdp:desc,to:this.roId,from:so.uid})
 	}
 
 
