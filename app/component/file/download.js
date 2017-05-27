@@ -52,7 +52,7 @@ class Download extends React.Component {
 			content=[];
 			var tem=this.state.downloading;
 			for(let i in tem){
-				content.push(<DownloadItem name={tem[i].fileName} completed={tem[i].completed} total={tem[i].total} hash={tem[i].hash} key={i}/>)
+				content.push(<DownloadItem status={tem[i].status} type={tem[i].type} name={tem[i].fileName} completed={tem[i].completed} total={tem[i].total} hash={tem[i].hash} key={i}/>)
 			
 			}
 		}

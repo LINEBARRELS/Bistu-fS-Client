@@ -1,5 +1,7 @@
 var React=require('react')
 
+import { is } from 'immutable';
+
 class Block extends React.Component {
 	constructor(args) {
 		super(args)
@@ -16,7 +18,22 @@ class Block extends React.Component {
 		}
 	}
 
+	shouldComponentUpdate(nextProps = {}, nextState = {}){
+  		const thisProps = this.props || {};
 
+
+  		if (Object.keys(thisProps).length !== Object.keys(nextProps).length){
+    		return true;
+  		}
+
+  		for (const key in nextProps) {
+    		if (thisProps[key] !== nextProps[key] || !is(thisProps[key], nextProps[key])) {
+      		return true;
+    		}
+  		}		
+
+  		return false;
+	}
 
 	render(){
 		return <div className='block' ref='block'>

@@ -6,7 +6,12 @@ const fmUpdateAction=function(fm){
 	
 
 	for(let i in fm){
-		var t=t.set(i,Map({fileName:fm[i].fileName,completed:fm[i].completed,total:fm[i].total,hash:fm[i].hash}))
+		var t=t.set(i,Map({fileName:fm[i].fileName,
+				completed:fm[i].completed,
+				total:fm[i].total,
+				hash:fm[i].hash,
+				status:fm[i].status,
+				type:fm[i].type}));
 	}
 
 

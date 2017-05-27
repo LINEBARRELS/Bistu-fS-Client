@@ -723,6 +723,52 @@ body
     transform: translateY(2px);
 }
 
+#model{
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    z-index: 10000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(19,21,28,.7);
+}
+
+#model:hover ~ div{
+    border: 1px solid #DE3020;
+    color: #DE3020;
+}
+
+#model ~ div{
+    width: 300px;
+    height: 200px;
+    border: 1px solid #CED1D9;
+    border-radius: 4px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%,-50%,0);
+    box-sizing: border-box;
+    padding: 10px;
+    word-wrap: break-word;
+    z-index: 11000;
+    cursor: pointer;
+    transition: all .3s;
+    font-family: bla;
+}
+
+#model ~ div p{
+    text-align: center;
+    margin-top: 100px;
+    font-size: larger;
+}
+
+#model ~ div:hover{
+    border: 1px solid #00AA90;
+    color: #00AA90;
+}
+
+
 
 
 
@@ -1089,24 +1135,22 @@ body
 
 .downloadBlock{
     width: 100%;
-    height: 100px;
+    height: 90px;
     border-bottom: 1px solid rgba(16,16,16,.9);
     position: relative;
     box-shadow: inset 0 0 1px 1px rgba(189,192,186,.3);
+    transition: all .3s;
+
 }
 
-/*.downloadBlock:nth-child(even){
-    background: rgba(23,26,33,.7);
+.downloadBlock.on{
+    background: rgba(163,217,216,.2);
 }
-
-.downloadBlock:nth-child(odd){
-    background: rgba(23,26,33,.7);
-}*/
 
 .downloadBlock > img{
     position: absolute;
     top: 50%;
-    transform: translate3d(20px,-50%,0);
+    transform: translate3d(15px,-50%,0);
     user-select:none;
 }
 
@@ -1117,9 +1161,9 @@ body
     position: relative;
 }
 
-.downloadBlock h3{
-    font-family: cnx;
-    margin-top: 15px;
+.downloadBlock h4{
+    font-family: bla;
+    margin-top: 7px;
     width: 400px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1134,7 +1178,7 @@ body
 .downloadProcess{
     min-height: 16px;
     margin-top: 5px;
-    width: 400px;
+    width: 450px;
 
     border: 1px solid #335094;
     border-radius: 5px;
@@ -1161,24 +1205,25 @@ body
     border-bottom-left-radius: 5px;*/
 }
 
-.but{
-    background: url('../img/start.png');
+.over{
+    background: url('../img/hock1.png');
     width: 48px;
     height: 48px;
     position: absolute;
-    right: 20px;
+    right: 50px;
     top: 50%;
     display: block;
     /* float: right; */
     transform: translateY(-50%);
-    display: none;
+    background-size: cover;
 }
 
 .speed{
     position: absolute;
-    right: 100px;
+    right: 50px;
     top: 50%;
     transform: translateY(-50%);
+    font-family: bla;
 }
 
 .downloadVoid{

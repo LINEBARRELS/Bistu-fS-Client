@@ -47,7 +47,7 @@ var parse=require('parse-torrent')
 
   so.on('torrentArrive',function(data){
     var fm=new file(Buffer.from(data)) //////////////////////???
-    ipc.send('fmToMain',fm)
+    // ipc.send('fmToMain',fm)
   });
 
   so.on('pieceSearch',function(data){

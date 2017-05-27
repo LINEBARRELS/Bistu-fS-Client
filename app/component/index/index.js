@@ -2,6 +2,7 @@ var React=require('react')
 var fs=require('fs')
 // import {file} from "../../dist/file.js";
 import {Block} from "../util/block.js";
+import {Model} from "../util/model.js";
 
 import {fileAction} from "../Action/Files.js";
 import {processAction} from "../Action/Process.js";
@@ -13,7 +14,7 @@ class Index extends React.Component {
 	constructor(args) {
 		super(args)
 
-		this.state={search:'',files:[]};
+		this.state={search:'',files:[],model:null};
 	}
 
 	search(){
@@ -39,12 +40,23 @@ class Index extends React.Component {
 	downLoad(e){
 		e.stopPropagation();
 		if(e.target.className==='more'){
-			console.log(e.target.getAttribute('data-value'));		
-			this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
+			console.log(e.target.getAttribute('data-value'));
+			// this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
+			this.setState({model:e.target.getAttribute('data-value')})
 		}
 
 	}
 
+	modelOk(e){
+		this.context.ipc.send('downLoad',e.target.getAttribute('data-value'))
+		// console.log('hahaha');
+		this.setState({model:null})
+	}
+
+	modelCancel(e){
+		e.stopPropagation()
+		this.setState({model:null})
+	}
 
 
 
@@ -101,7 +113,8 @@ class Index extends React.Component {
 	render(){
 		console.log('index render');
 
-		var blocks=[];
+		var blocks=[],
+			model=null;
 
 		if(this.state.files.length>0){
 		this.state.files.forEach((item,index)=>{
@@ -111,6 +124,8 @@ class Index extends React.Component {
 		}else{
 			blocks.push(<div id='nothing'>没有搜索结果,去搜点别的东西去吧</div>)
 		}
+
+		model=this.state.model?<Model message={this.state.model} ok={this.modelOk.bind(this)} cancel={this.modelCancel.bind(this)}/>:null;
 
 		this.context.store.dispatch(processAction(100))
 
@@ -136,6 +151,7 @@ class Index extends React.Component {
           		transitionLeaveTimeout={300}>
 				{blocks}
         	</CSSTransitionGroup>
+        	{model}
 			</div>
 			</div>
 
