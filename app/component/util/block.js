@@ -20,7 +20,7 @@ class Block extends React.Component {
 
 	render(){
 		return <div className='block' ref='block'>
-			<div ref='pic' onClick={this.trigger.bind(this)}></div>
+			<div ref='pic' onClick={this.trigger.bind(this)} className={this.props.type+'icon'}></div>
 			<span >{this.props.missionName}</span>
 			<h4 onClick={this.trigger.bind(this)}>{this.props.fileName}</h4>
 			<small>{this.props.type}</small>

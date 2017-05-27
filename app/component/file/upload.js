@@ -37,9 +37,6 @@ class Upload extends React.Component {
     	this.setState({
       		[name]: value
     	});
-
-    	
-    	
 	}
 
 	submit(e){
@@ -49,6 +46,7 @@ class Upload extends React.Component {
       		comment:this.state.detail,
       		type:this.state.type
     	}
+    	console.log('????');
 		this.context.ipc.send('createT',this.state,options)
 	}
 
@@ -59,6 +57,17 @@ class Upload extends React.Component {
   			body: name+'种子生成完成,正在上传'
 			})
 		})
+		this.refs.submit.disabled=true;
+
+	}
+
+	componentDidUpdate(){
+		var s=this.state
+		if(s.path&&s.name&&s.type){
+			this.refs.submit.disabled=null;
+		}else{
+			this.refs.submit.disabled=true;
+		}
 	}
 
 
@@ -85,7 +94,7 @@ class Upload extends React.Component {
 				<textarea name='detail' onChange={this.handleDesc} placeholder='简介,小于120' maxLength="120" value={this.state.detail}></textarea>
 			</span>
 			<span className='input'>
-				<button id='torrentSubmit' onClick={this.submit.bind(this)} >提交</button>
+				<button id='torrentSubmit' onClick={this.submit.bind(this)} ref='submit' >提交</button>
 			</span>
 		</div>
 		<div className='dropZone' 

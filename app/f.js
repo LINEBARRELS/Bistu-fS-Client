@@ -6266,6 +6266,7 @@ var Upload = function (_React$Component) {
 				comment: this.state.detail,
 				type: this.state.type
 			};
+			console.log('????');
 			this.context.ipc.send('createT', this.state, options);
 		}
 	}, {
@@ -6279,6 +6280,17 @@ var Upload = function (_React$Component) {
 					body: name + '种子生成完成,正在上传'
 				});
 			});
+			this.refs.submit.disabled = true;
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			var s = this.state;
+			if (s.path && s.name && s.type) {
+				this.refs.submit.disabled = null;
+			} else {
+				this.refs.submit.disabled = true;
+			}
 		}
 	}, {
 		key: 'render',
@@ -6348,7 +6360,7 @@ var Upload = function (_React$Component) {
 						{ className: 'input' },
 						React.createElement(
 							'button',
-							{ id: 'torrentSubmit', onClick: this.submit.bind(this) },
+							{ id: 'torrentSubmit', onClick: this.submit.bind(this), ref: 'submit' },
 							'\u63D0\u4EA4'
 						)
 					)
@@ -7014,7 +7026,7 @@ var Block = function (_React$Component) {
 			return React.createElement(
 				'div',
 				{ className: 'block', ref: 'block' },
-				React.createElement('div', { ref: 'pic', onClick: this.trigger.bind(this) }),
+				React.createElement('div', { ref: 'pic', onClick: this.trigger.bind(this), className: this.props.type + 'icon' }),
 				React.createElement(
 					'span',
 					null,
