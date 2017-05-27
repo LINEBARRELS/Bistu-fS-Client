@@ -55,24 +55,22 @@
       			 if (pd.file) {
                 // console.log('发送方收到收据');
                 // console.log(event);
-                // if(!this.t){
-                //   this.t=fs.readFileSync('../'+pd.file+'.torrent');
-                // }
-                if (!totalFile[pd.hash]) {
-                  totalFile[pd.hash]=fs.readFileSync('.././Files/'+pd.file);
+                if(totalFile[pd.hash]){
+                  var sf=totalFile[pd.hash].slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
+                  
+                }else if (!fileMission[pd.hash]||fileMission[pd.hash].status===false && !totalFile[pd.hash]) {
+                  totalFile[pd.hash]=fs.readFileSync('./Files/'+pd.file);
+                  var sf=totalFile[pd.hash].slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
+                  
+                }else if(fileMission[pd.hash].status===true){
+                  var sf=peerConnectByUser[fileMission[pd.hash].piecesBelong[pd.piece]].temp[pd.piece]
+
                 }
-                
-                // var pieces=parse(this.t).pieces,
-                // index=pieces.indexOf(pd.piece),
-                sf=totalFile[pd.hash].slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
-                if (sf.length==0) {
-                  throw 'wtf?'
+                if (sf.length===0) {
+                    throw 'wtf?'
                 }
                 console.log(sf.length,pd.piece,sf);
 
-
-
-                  // event.target.send(sf)
                 var a=[];
 
                 split(a,sf,0);
@@ -82,14 +80,10 @@
 
                   event.target.send(a[i])
                 }
-                // totalFile=null;
-                // t=null;
+
                 sf=null;
-
-             }
-            
-            
-
+             }//pd
+          
       			}.bind(this);//onmessage		
    			}.bind(this);//ondatachanal
   		}//init

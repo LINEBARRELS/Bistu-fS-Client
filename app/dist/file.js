@@ -194,6 +194,7 @@ function file (torr){
 
               		if(this.completed===this.total){
               			ipc.send('complete',this.fileName);
+              			this.status=false;
               		}
               		var position=this.recode.indexOf(event.target.label);
 

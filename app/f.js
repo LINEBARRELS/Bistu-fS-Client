@@ -7156,7 +7156,7 @@ var DownloadItem = function (_React$Component) {
 					React.createElement(
 						'span',
 						{ className: 'speed', ref: 'speed' },
-						'200m/s'
+						'0m/s'
 					)
 				)
 			);

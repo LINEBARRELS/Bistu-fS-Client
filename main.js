@@ -80,6 +80,10 @@ ipcMain.on('success',function(event,user,uid){
 
   });
 
+  fs.mkdir('./Files', (err) => {
+
+  });
+
 
   back.on('close',function(){
     back.webContents.send('quit');
@@ -152,7 +156,7 @@ ipcMain.on('createT',function(event,args,opt){
 ipcMain.on('fileArrive', function(event,name,posi,file,length) {
 
   if(!temp[name]){
-    temp[name]=fs.openSync('../rec/'+name,'w+');
+    temp[name]=fs.openSync('./Files/'+name,'w+');
   }
   // var buff=Buffer.from(file)
 
@@ -217,6 +221,7 @@ ipcMain.on('fmReturn',function(event,data){
 })
 
 ipcMain.on('complete',function(event,data){
+  fs.closeSync(temp[data]);
   mainWindow.webContents.send('complete',data)
 })
 
