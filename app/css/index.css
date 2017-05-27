@@ -15,6 +15,13 @@
 
 @font-face
 {
+    font-family: rou;
+
+    src: url(../font/Fontfabric.otf);
+}
+
+@font-face
+{
     font-family: avr;
 
     src: url(../font/AvenirLTStd-Book.otf);
@@ -276,8 +283,8 @@ body
 
 .sideItem
 {
-    font-family: side;
-    font-size: x-large;
+    font-family: rou;
+    font-size: large;
 
     display: block;
 
