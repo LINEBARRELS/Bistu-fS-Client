@@ -11,7 +11,7 @@ var parse=require('parse-torrent')
 
 
   try{
-     var so=io.connect('http://10.16.66.85:8080');
+     var so=io.connect('http://192.168.193.1:8080');
    }catch(e){
     log(e);
    }
@@ -71,10 +71,11 @@ var parse=require('parse-torrent')
 
 
   so.on('pieceUpdate', function(data) {
-    // ipc.send('pieceMessage',data.file,data.piece,data.holder)
+
     console.log('有块请求被回应',data.hash,data.piece,data.holder);
-    // fileMission[data.hash].pieceMessage[data.piece]=data.holder
-    fileMission[data.hash].updateMessage(data.piece,data.holder)
+    if(fileMission[data.hash]){
+      fileMission[data.hash].updateMessage(data.piece,data.holder)
+    }
   });
 
   so.on('searchResult',  function(data) {

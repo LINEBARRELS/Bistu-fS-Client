@@ -106,7 +106,7 @@ ipcMain.on('success',function(event,user,uid){
 
     mainWindow.webContents.on('did-finish-load', function () {
 
-      mainWindow.webContents.send('userinfo',user);
+      mainWindow.webContents.send('userinfo',user,uid);
 
   	});
   	// mainWindow.show()
@@ -156,7 +156,7 @@ ipcMain.on('createT',function(event,args,opt){
 ipcMain.on('fileArrive', function(event,name,posi,file,length) {
 
   if(!temp[name]){
-    temp[name]=fs.openSync('./Files/'+name,'w+');
+    temp[name]=fs.openSync('./rec/'+name,'w+');
   }
   // var buff=Buffer.from(file)
 

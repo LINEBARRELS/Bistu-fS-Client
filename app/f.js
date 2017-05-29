@@ -5774,11 +5774,12 @@ var store = (0, _redux.createStore)(_Root.rootReducer);
 
 window.t_fm = 233;
 
-ipc.on('userinfo', function (event, arg) {
-	console.log(arg);
+ipc.on('userinfo', function (event, user, uid) {
+	console.log(uid);
 	// window.so=so
 	// so.username=arg;
-	window.username = arg;
+	window.username = user;
+	window.uid = uid;
 	// so.emit('onLine',arg);
 	// ipc.send('roomInit',so.username)
 
@@ -6271,6 +6272,7 @@ var Upload = function (_React$Component) {
 				comment: this.state.detail,
 				type: this.state.type
 			};
+			this.refs.submit.disabled = true;
 			console.log('????');
 			this.context.ipc.send('createT', this.state, options);
 		}
@@ -6291,10 +6293,20 @@ var Upload = function (_React$Component) {
 		key: 'componentDidUpdate',
 		value: function componentDidUpdate() {
 			var s = this.state;
-			if (s.path && s.name && s.type) {
-				this.refs.submit.disabled = null;
-			} else {
-				this.refs.submit.disabled = true;
+			try {
+				if (s.path && s.name && s.type) {
+
+					this.refs.submit.innerHTML = '可提交';
+					this.refs.submit.disabled = null;
+				} else {
+					var err = !s.path ? '文件错误或空' : null || !s.name ? '任务名不科学' : null || !s.type ? '类型没选' : null;
+					console.log(err);
+					this.refs.submit.disabled = true;
+					throw err;
+				}
+			} catch (e) {
+
+				this.refs.submit.innerHTML = e;
 			}
 		}
 	}, {
@@ -6544,7 +6556,6 @@ var Index = function (_React$Component) {
 
 			if (this.state.files.length > 0) {
 				this.state.files.forEach(function (item, index) {
-					console.log(item);
 					blocks.push(React.createElement(_block.Block, { key: item['_id'], fileName: item.fileName, missionName: item.missionName, type: item.type, detail: item.detail, hash: item.hash }));
 				});
 			} else {

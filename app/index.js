@@ -22,11 +22,12 @@ var store = createStore(rootReducer);
 window.t_fm=233;
 
 
-ipc.on('userinfo',function(event,arg) {
-	console.log(arg);
+ipc.on('userinfo',function(event,user,uid) {
+	console.log(uid);
 	// window.so=so
 	// so.username=arg;
-	window.username=arg
+	window.username=user;
+	window.uid=uid;
 	// so.emit('onLine',arg);
 	// ipc.send('roomInit',so.username)
 

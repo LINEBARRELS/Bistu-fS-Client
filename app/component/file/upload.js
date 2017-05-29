@@ -46,6 +46,7 @@ class Upload extends React.Component {
       		comment:this.state.detail,
       		type:this.state.type
     	}
+    	this.refs.submit.disabled=true;
     	console.log('????');
 		this.context.ipc.send('createT',this.state,options)
 	}
@@ -63,10 +64,21 @@ class Upload extends React.Component {
 
 	componentDidUpdate(){
 		var s=this.state
+		try{
 		if(s.path&&s.name&&s.type){
+			
+			this.refs.submit.innerHTML='可提交';
 			this.refs.submit.disabled=null;
+			
 		}else{
+			var err=!s.path?'文件错误或空':null||!s.name?'任务名不科学':null||!s.type?'类型没选':null;
+			console.log(err);
 			this.refs.submit.disabled=true;
+			throw err;
+		}
+		}catch(e){
+			
+			this.refs.submit.innerHTML=e;
 		}
 	}
 

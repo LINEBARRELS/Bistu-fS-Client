@@ -60,11 +60,13 @@ function file (torr){
 }
 	// methods
 	file.prototype.start=function(){
+		if(this.completed!==this.total){
 		this.status=true;
+
 		this.watcher=setInterval(()=>{
-		if(this.on<=this.limit&&this.cur!=this.pieceNum){
+		if(this.on<=this.limit&&this.cur!=this.pieceNum&&this.filePieces.length!=0){
 			let piece=this.filePieces.shift();
-			this.cur =this.cur+1;
+			
 
 			this.piecesBelong[piece]=this.pieceMessage[piece]||null;
 
@@ -92,6 +94,7 @@ function file (torr){
       			console.log(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState);
       			
       			if(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState==='open'){
+      				this.cur =this.cur+1;
       				this.handle(piece);   
       			}else{
       				this.filePieces.push(piece);
@@ -100,22 +103,23 @@ function file (torr){
   
 			}//pieceHolder 
 		}//first if
-			// this.cons.send('message',peerConnectByUser)
+
 		}, 10);//watcher
 
 
 
 		this.checker=setInterval(()=>{
 			if(this.cur===this.pieceNum){
-
-				for(let i of this.recode){
-					if(peerConnectByUser[this.piecesBelong[i]].temp[i].length===0){
+				var s=localStorage.getItem(this.hash),
+					t=s.split(',')
+				for(let i=0;i<t.length;i++){
+					if(!t[i]){
 						// console.log(i,'检测到部分异常');
 
 						this.piecesBelong[i]=this.pieceMessage[i];
 						if(!peerConnectByUser[this.piecesBelong[i]]){
 							peerConnectByUser[this.piecesBelong[i]]=peer(this.piecesBelong[i]);
-							peerConnectByUser[this.piecesBelong[i]].startOffer()
+							peerConnectByUser[this.piecesBelong[i]].startOffer();
 						}
 
 						if(!peerConnectByUser[this.piecesBelong[i]].temp[i]){
@@ -132,7 +136,7 @@ function file (torr){
 				}
 			}
 		}, 2000);//checker
-
+		}
 	}//start
 
 	file.prototype.updateMessage=function(pieceNum,holder){
@@ -163,8 +167,8 @@ function file (torr){
 
 			dc.onopen=function(eventO){
 				// console.log(piece,'连接开始',eventO);
-				console.log(piece+',连接开始')
-				var tem=JSON.stringify({file:this.fileName,piece:this.recode.indexOf(piece),length:this.pieceLength,hash:this.hash})
+				console.log(piece+',连接开始');
+				var tem=JSON.stringify({file:this.fileName,tl:this.total,piece:this.recode.indexOf(piece),length:this.pieceLength,hash:this.hash})
 				eventO.currentTarget.send(tem);
 				this.on=this.on-1;
 
@@ -175,7 +179,7 @@ function file (torr){
               		
               		var data=Buffer.from(event.data);
               		// console.log(data);
-              		console.log('接收方收到数据',event.target.label);
+              		
               		peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label],data])
 
               		
@@ -187,25 +191,28 @@ function file (torr){
 
               		if (l==this.pieceLength||l==this.last) {
 
-              		this.completed=this.completed + l;
+              			this.completed=this.completed + l;
 
 
+              			
 
+              			if(this.completed===this.total){
+              				ipc.send('complete',this.fileName);
+              				this.status=false;
+              			}
+              			var position=this.recode.indexOf(event.target.label);
 
-              		if(this.completed===this.total){
-              			ipc.send('complete',this.fileName);
-              			this.status=false;
-              		}
-              		var position=this.recode.indexOf(event.target.label);
+              			console.log('接收方收到数据',event.target.label,position);
 
-              		this.localR[position] = 1;
-              		localStorage.setItem(this.hash,this.localR)
+              			this.localR[position] = 1;
+              			localStorage.setItem(this.hash,this.localR)
 
-               		ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
+               			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
-               		dc.close();
-               		peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
-            		}
+               			dc.close();
+               			// peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;
+               			// peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
+            		}//ok
 			}.bind(this)//onmessage
 
 			this.on =this.on+1;
