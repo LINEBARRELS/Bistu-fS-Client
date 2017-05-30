@@ -109,28 +109,30 @@ function file (torr){
 
 
 		this.checker=setInterval(()=>{
-			if(this.cur===this.pieceNum){
+			if(this.filePieces.length==0&&this.completed!==this.total){
 				var s=localStorage.getItem(this.hash),
-					t=s.split(',')
+					t=s.split(',');
+				console.log(t);
 				for(let i=0;i<t.length;i++){
 					if(!t[i]){
-						// console.log(i,'检测到部分异常');
-
-						this.piecesBelong[i]=this.pieceMessage[i];
-						if(!peerConnectByUser[this.piecesBelong[i]]){
-							peerConnectByUser[this.piecesBelong[i]]=peer(this.piecesBelong[i]);
-							peerConnectByUser[this.piecesBelong[i]].startOffer();
+						console.log(i,'检测到部分异常');
+						var ii=this.recode[i];
+						if(peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
+						this.piecesBelong[i]=this.pieceMessage[ii];
+						if(!peerConnectByUser[this.piecesBelong[ii]]){
+							peerConnectByUser[this.piecesBelong[ii]]=peer(this.piecesBelong[ii]);
+							peerConnectByUser[this.piecesBelong[ii]].startOffer();
 						}
 
-						if(!peerConnectByUser[this.piecesBelong[i]].temp[i]){
-      					peerConnectByUser[this.piecesBelong[i]].temp[i]=Buffer.allocUnsafe(0);
+						if(!peerConnectByUser[this.piecesBelong[ii]].temp[ii]){
+      					peerConnectByUser[this.piecesBelong[ii]].temp[ii]=Buffer.allocUnsafe(0);
       					// console.log('接收方建立dc缓存');
       					}
 
-      					if(peerConnectByUser[this.piecesBelong[i]].dc['test'].readyState==='open'){
-      						this.handle(i);   
+      					if(peerConnectByUser[this.piecesBelong[ii]].dc['test'].readyState==='open'){
+      						this.handle(ii);   
       					}
-      					
+      					}
 					}
 					
 				}
