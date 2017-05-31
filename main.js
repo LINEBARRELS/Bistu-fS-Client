@@ -46,7 +46,7 @@ app.on('ready', function() {
 	})
 	// login.openDevTools()
 	login.loadURL('file://'+__dirname+'/login.html');
-  login.openDevTools();
+
 });
 
 
@@ -162,7 +162,7 @@ ipcMain.on('fileArrive', function(event,name,posi,file,length) {
 
   fs.write(temp[name],file,0,file.length,posi*length,(err, written, buffer)=>{
     if(!err){
-      mainWindow.webContents.send('fileWriteCom',written);
+      mainWindow.webContents.send('fileWriteCom',written,buffer);
     }else{
       mainWindow.webContents.send('fileWriteCom',err);
     }
@@ -221,7 +221,7 @@ ipcMain.on('fmReturn',function(event,data){
 })
 
 ipcMain.on('complete',function(event,data){
-  fs.closeSync(temp[data]);
+  // fs.closeSync(temp[data]);
   mainWindow.webContents.send('complete',data)
 })
 

@@ -205,7 +205,7 @@ function file (torr){
               			}
               			var position=this.recode.indexOf(event.target.label);
 
-              			console.log('接收方收到数据',event.target.label,position);
+              			console.log('接收方收到数据',position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]);
 
               			this.localR[position] = 1;
               			localStorage.setItem(this.hash,this.localR)
@@ -214,7 +214,7 @@ function file (torr){
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
                			dc.close();
                			// peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;
-               			// peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
+               			peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
             		}//ok
 			}.bind(this)//onmessage
 

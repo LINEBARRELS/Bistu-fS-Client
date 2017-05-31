@@ -64,7 +64,7 @@
             // v=null;
             // var sf=buffer;
             // console.log(pd.piece,sf.length);
-            console.log(sf.length);
+            console.log(sf.length,sf,pd.piece);
             if (sf.length===0) {
               throw 'wtf?';
             }

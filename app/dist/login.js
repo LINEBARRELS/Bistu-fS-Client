@@ -11,11 +11,12 @@ var login=document.querySelectorAll('.button')[0],
 login.addEventListener('click',  function(event) {
 	event.preventDefault();
 	// ipc.send('success','zero')
+    login.disabled=true;
 	var head=new Headers()
 	head.set('username',user.value);
 	head.set('password',pass.value);
 
-    fetch("http://192.168.1.101:8080/login",{
+    fetch("http://10.3.137.157:8080/login",{
 	method:'post',
 	headers:head
 	}).then(
@@ -30,6 +31,7 @@ login.addEventListener('click',  function(event) {
             		ipc.send('success',user.value,data.uid)
             	}else{
             		alert('登录失败')
+                    login.disabled=false;
             	}
         	})
     	},function(reject){
@@ -45,10 +47,11 @@ login.addEventListener('click',  function(event) {
 regist.addEventListener('click',  function(event) {
 	event.preventDefault();
 	// ipc.send('success','zero')
+    regist.disabled=true;
 	var head=new Headers()
 	head.set('username',user.value);
 	head.set('password',pass.value);
-	fetch("http://192.168.1.101:8080/reg",{
+	fetch("http://10.3.137.157:8080/reg",{
 	method:'post',
 	headers:head
 	}).then(
@@ -61,8 +64,10 @@ regist.addEventListener('click',  function(event) {
         	response.json().then(function(data){
             	if (data.registResult==='success'){
             		alert('注册成功~')
+                    regist.disabled=false;
             	}else{
-            		alert('注册失败')
+            		alert('注册失败');
+                    regist.disabled=false;
             	}
         	})
     	}

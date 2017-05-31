@@ -11,7 +11,7 @@ var parse=require('parse-torrent')
 
 
   try{
-     var so=io.connect('http://192.168.1.101:8080');
+     var so=io.connect('http://10.3.137.157:8080');
    }catch(e){
     log(e);
    }

@@ -29,7 +29,7 @@ ipc.on('userinfo',function(event,user,uid) {
 	window.username=user;
 	window.uid=uid;
 	// so.emit('onLine',arg);
-	// ipc.send('roomInit',so.username)
+	// ipc.send('roomInit',so.username);
 
 	ReactDOM.render(<R ipc={ipc} store={store}/>,layout);
 });
@@ -61,8 +61,8 @@ window.BitbyM=function(num){
 	return (num/1048576).toString().slice(0,5)+'MB'
 }
 
-ipc.on('fileWriteCom',(event,mess)=>{
-	console.log(mess);
+ipc.on('fileWriteCom',(event,mess,buf)=>{
+	console.log(mess,buf);
 })//写文件完成
 
 
