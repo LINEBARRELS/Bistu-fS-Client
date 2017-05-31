@@ -11,7 +11,7 @@ var parse=require('parse-torrent')
 
 
   try{
-     var so=io.connect('http://192.168.193.1:8080');
+     var so=io.connect('http://192.168.1.101:8080');
    }catch(e){
     log(e);
    }
@@ -46,7 +46,9 @@ var parse=require('parse-torrent')
   });
 
   so.on('torrentArrive',function(data){
-    var fm=new file(Buffer.from(data)) //////////////////////???
+    if(!fileMission[data.hash]){
+      var fm=new file(Buffer.from(data.torr))
+    }
     // ipc.send('fmToMain',fm)
   });
 

@@ -51,18 +51,18 @@
             // totalFile[pd.hash]=fs.readFileSync('./Files/'+pd.file);
             // var sf=totalFile[pd.hash].slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
             totalFile[pd.hash]=fs.openSync('./Files/'+pd.file,'r');
-            fs.watch('./Files/'+pd.file,function(){
-              totalFile[pd.hash]=fs.openSync('./Files/'+pd.file,'r');
-            })
+            // fs.watch('./Files/'+pd.file,function(){
+            //   totalFile[pd.hash]=fs.openSync('./Files/'+pd.file,'r');
+            // })
           }
           
           // var sf=totalFile[pd.hash].slice(pd.piece*pd.length,(pd.piece+1)*pd.length);
           var len=(pd.tl-pd.piece*pd.length)>=pd.length?pd.length:(pd.tl-pd.piece*pd.length);
-          var v=Buffer.allocUnsafe(len);
-          fs.read(totalFile[pd.hash], v, 0, len, pd.piece*pd.length, function(err,byteRead,buffer){
+          var sf=Buffer.allocUnsafe(len);
+          fs.read(totalFile[pd.hash], sf, 0, len, pd.piece*pd.length, function(err,byteRead,buffer){
             
-            v=null;
-            var sf=buffer;
+            // v=null;
+            // var sf=buffer;
             // console.log(pd.piece,sf.length);
             console.log(sf.length);
             if (sf.length===0) {

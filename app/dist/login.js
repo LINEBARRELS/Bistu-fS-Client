@@ -15,7 +15,7 @@ login.addEventListener('click',  function(event) {
 	head.set('username',user.value);
 	head.set('password',pass.value);
 
-    fetch("http://192.168.193.1:8080/login",{
+    fetch("http://192.168.1.101:8080/login",{
 	method:'post',
 	headers:head
 	}).then(
@@ -48,7 +48,7 @@ regist.addEventListener('click',  function(event) {
 	var head=new Headers()
 	head.set('username',user.value);
 	head.set('password',pass.value);
-	fetch("http://192.168.193.1:8080/reg",{
+	fetch("http://192.168.1.101:8080/reg",{
 	method:'post',
 	headers:head
 	}).then(

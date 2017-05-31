@@ -117,8 +117,9 @@ function file (torr){
 					if(!t[i]){
 						console.log(i,'检测到部分异常');
 						var ii=this.recode[i];
+						console.log(ii);
 						if(peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
-						this.piecesBelong[i]=this.pieceMessage[ii];
+						this.piecesBelong[ii]=this.pieceMessage[ii];
 						if(!peerConnectByUser[this.piecesBelong[ii]]){
 							peerConnectByUser[this.piecesBelong[ii]]=peer(this.piecesBelong[ii]);
 							peerConnectByUser[this.piecesBelong[ii]].startOffer();

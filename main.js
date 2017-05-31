@@ -46,7 +46,7 @@ app.on('ready', function() {
 	})
 	// login.openDevTools()
 	login.loadURL('file://'+__dirname+'/login.html');
-  // login.openDevTools();
+  login.openDevTools();
 });
 
 
@@ -156,7 +156,7 @@ ipcMain.on('createT',function(event,args,opt){
 ipcMain.on('fileArrive', function(event,name,posi,file,length) {
 
   if(!temp[name]){
-    temp[name]=fs.openSync('./rec/'+name,'w+');
+    temp[name]=fs.openSync('./Files/'+name,'w+');
   }
   // var buff=Buffer.from(file)
 

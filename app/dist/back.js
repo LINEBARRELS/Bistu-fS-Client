@@ -68,6 +68,7 @@ ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType,fil
 	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,hash:hash,creator:so.uid,fileType:fileType,fileDetail:fileDetail});
 	localStorage.setItem(hash,'allClean');
 	console.log(missionName,'种子生成完成,文件为',fileName);
+	so.emit('join',hash)
 
 })
 
