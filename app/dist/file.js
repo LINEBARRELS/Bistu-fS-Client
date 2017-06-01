@@ -119,6 +119,7 @@ function file (torr){
 						var ii=this.recode[i];
 						console.log(ii);
 						if(peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
+
 						this.piecesBelong[ii]=this.pieceMessage[ii];
 						if(!peerConnectByUser[this.piecesBelong[ii]]){
 							peerConnectByUser[this.piecesBelong[ii]]=peer(this.piecesBelong[ii]);
@@ -131,7 +132,7 @@ function file (torr){
       					}
 
       					if(peerConnectByUser[this.piecesBelong[ii]].dc['test'].readyState==='open'){
-      						this.handle(ii);   
+      						this.handle(ii,true);   
       					}
       					}
 					}
@@ -149,9 +150,12 @@ function file (torr){
 
 
 
-	file.prototype.handle=function(piece){
+	file.prototype.handle=function(piece,re){
 
 			let dc=null;
+
+
+			if(!re){
 
 			if(!peerConnectByUser[this.piecesBelong[piece]].dc[piece]){
 				dc=peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
@@ -164,7 +168,11 @@ function file (torr){
 
 			dc.pieceLength=this.pieceLength;
 
-			
+			}else if(re){
+				dc=peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
+
+				peerConnectByUser[this.piecesBelong[piece]].dc[piece]=dc;
+			}
 
 
 
