@@ -42,7 +42,7 @@ class Upload extends React.Component {
 	submit(e){
 		var options={
       		createdBy:username,
-      		pieceLength: 4194304,
+      		pieceLength: 8388608,
       		comment:this.state.detail,
       		type:this.state.type
     	}

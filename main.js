@@ -114,6 +114,9 @@ ipcMain.on('success',function(event,user,uid){
 
 
 ipcMain.on('quit', function(event) {
+
+  ipcMain.removeAllListeners('watchFm');
+  ipcMain.removeAllListeners('fmReturn');
   if(mainWindow){
     mainWindow.close();
   }
@@ -153,7 +156,7 @@ ipcMain.on('createT',function(event,args,opt){
 //   });
 // });
 
-ipcMain.on('fileArrive', function(event,name,posi,file,length,com) {
+ipcMain.on('fileArrive', function(event,name,posi,file,length,com,hash) {
 
   if(!temp[name]){
     temp[name]=fs.openSync('./Files/'+name,'w+');
@@ -162,10 +165,12 @@ ipcMain.on('fileArrive', function(event,name,posi,file,length,com) {
 
   fs.write(temp[name],file,0,file.length,posi*length,(err, written, buffer)=>{
     if(!err){
-      mainWindow.webContents.send('fileWriteCom',written,buffer);
-      // if(com===true){
-      //   fs.closeSync(temp[name]);
-      // }
+      // mainWindow.webContents.send('fileWriteCom',written,buffer);
+
+      back.webContents.send('fileWriteCom',hash,posi)
+      if(com===true){
+        fs.closeSync(temp[name]);
+      }
     }else{
       mainWindow.webContents.send('fileWriteCom',err);
 

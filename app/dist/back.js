@@ -49,6 +49,13 @@ ipc.on('downLoad', function(event,name) {
 
 });
 
+ipc.on('fileWriteCom', function(event,hash,posi) {
+
+  fileMission[hash].localR[posi]=1;
+  localStorage.setItem(hash,fileMission[hash].localR);
+
+});
+
 ipc.on('watchFm',function(event){
 	// console.log('?>?????');
 	ipc.send('fmReturn',fileMission)

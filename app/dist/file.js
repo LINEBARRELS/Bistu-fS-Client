@@ -119,7 +119,7 @@ function file (torr){
 						var ii=this.recode[i];
 						console.log(ii);
 						if(peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
-							
+
 						if(peerConnectByUser[this.piecesBelong[ii]].dc[ii]){
 							peerConnectByUser[this.piecesBelong[ii]].dc[ii].close();
 						}
@@ -223,10 +223,10 @@ function file (torr){
 
               			console.log('接收方收到数据',position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]);
 
-              			this.localR[position] = 1;
-              			localStorage.setItem(this.hash,this.localR)
+              			// this.localR[position] = 1;
+              			// localStorage.setItem(this.hash,this.localR)
 
-               			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength,com)
+               			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength,com,this.hash)
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
                			dc.close();
                			peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;

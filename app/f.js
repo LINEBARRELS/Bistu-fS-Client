@@ -5781,7 +5781,7 @@ ipc.on('userinfo', function (event, user, uid) {
 	window.username = user;
 	window.uid = uid;
 	// so.emit('onLine',arg);
-	// ipc.send('roomInit',so.username)
+	// ipc.send('roomInit',so.username);
 
 	ReactDOM.render(React.createElement(_app.R, { ipc: ipc, store: store }), layout);
 });
@@ -5813,8 +5813,8 @@ window.BitbyM = function (num) {
 	return (num / 1048576).toString().slice(0, 5) + 'MB';
 };
 
-ipc.on('fileWriteCom', function (event, mess) {
-	console.log(mess);
+ipc.on('fileWriteCom', function (event, mess, buf) {
+	console.log(mess, buf);
 }); //写文件完成
 
 
@@ -6268,7 +6268,7 @@ var Upload = function (_React$Component) {
 		value: function submit(e) {
 			var options = {
 				createdBy: username,
-				pieceLength: 4194304,
+				pieceLength: 8388608,
 				comment: this.state.detail,
 				type: this.state.type
 			};
