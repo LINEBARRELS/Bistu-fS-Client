@@ -198,9 +198,10 @@ function file (torr){
 
 
               			
-
+              			var com=false;
               			if(this.completed===this.total){
               				ipc.send('complete',this.fileName);
+              				com=true
               				this.status=false;
               			}
               			var position=this.recode.indexOf(event.target.label);
@@ -210,7 +211,7 @@ function file (torr){
               			this.localR[position] = 1;
               			localStorage.setItem(this.hash,this.localR)
 
-               			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength)
+               			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength,com)
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
                			dc.close();
                			// peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;
