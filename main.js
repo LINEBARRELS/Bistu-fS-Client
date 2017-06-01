@@ -163,9 +163,9 @@ ipcMain.on('fileArrive', function(event,name,posi,file,length,com) {
   fs.write(temp[name],file,0,file.length,posi*length,(err, written, buffer)=>{
     if(!err){
       mainWindow.webContents.send('fileWriteCom',written,buffer);
-      if(com===true){
-        fs.closeSync(temp[name]);
-      }
+      // if(com===true){
+      //   fs.closeSync(temp[name]);
+      // }
     }else{
       mainWindow.webContents.send('fileWriteCom',err);
 

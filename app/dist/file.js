@@ -119,6 +119,12 @@ function file (torr){
 						var ii=this.recode[i];
 						console.log(ii);
 						if(peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
+							
+						if(peerConnectByUser[this.piecesBelong[ii]].dc[ii]){
+							peerConnectByUser[this.piecesBelong[ii]].dc[ii].close();
+						}
+						
+						peerConnectByUser[this.piecesBelong[ii]].dc[ii]=null;
 
 						this.piecesBelong[ii]=this.pieceMessage[ii];
 						if(!peerConnectByUser[this.piecesBelong[ii]]){
@@ -139,7 +145,7 @@ function file (torr){
 					
 				}
 			}
-		}, 2000);//checker
+		}, 4000);//checker
 		}
 	}//start
 
@@ -169,6 +175,7 @@ function file (torr){
 			dc.pieceLength=this.pieceLength;
 
 			}else if(re){
+				peerConnectByUser[this.piecesBelong[piece]].temp[piece]=Buffer.allocUnsafe(0);
 				dc=peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
 
 				peerConnectByUser[this.piecesBelong[piece]].dc[piece]=dc;
@@ -222,7 +229,7 @@ function file (torr){
                			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength,com)
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
                			dc.close();
-               			// peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;
+               			peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;
                			peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
             		}//ok
 			}.bind(this)//onmessage
