@@ -1,8 +1,6 @@
 var parse =require('parse-torrent')
 var fs=require('fs')
-// var electron =require('electron')
-// const {electron} = require('electron')
-// const peer =require('./peer.js')
+
 
 
 function file (torr){
@@ -109,7 +107,7 @@ function file (torr){
 
 
 		this.checker=setInterval(()=>{
-			if(this.filePieces.length==0&&this.completed!==this.total){
+			if(this.filePieces.length==0&&this.completed!==this.total&&this.cur==this.pieceNum){
 				var s=localStorage.getItem(this.hash),
 					t=s.split(',');
 				console.log(t);
@@ -118,9 +116,10 @@ function file (torr){
 						console.log(i,'检测到部分异常');
 						var ii=this.recode[i];
 						console.log(ii);
-						if(peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
+						if(!peerConnectByUser[this.piecesBelong[ii]].temp[ii]||peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
 
 						if(peerConnectByUser[this.piecesBelong[ii]].dc[ii]){
+							peerConnectByUser[this.piecesBelong[ii]].dc[ii].onmessage=null;
 							peerConnectByUser[this.piecesBelong[ii]].dc[ii].close();
 						}
 						
@@ -133,12 +132,14 @@ function file (torr){
 						}
 
 						if(!peerConnectByUser[this.piecesBelong[ii]].temp[ii]){
-      					peerConnectByUser[this.piecesBelong[ii]].temp[ii]=Buffer.allocUnsafe(0);
+      					peerConnectByUser[this.piecesBelong[ii]].temp[ii]=Buffer.alloc(0);
       					// console.log('接收方建立dc缓存');
       					}
 
       					if(peerConnectByUser[this.piecesBelong[ii]].dc['test'].readyState==='open'){
       						this.handle(ii,true);   
+      					}else{
+      						this.filePieces.push(ii);
       					}
       					}
 					}
@@ -175,10 +176,12 @@ function file (torr){
 			dc.pieceLength=this.pieceLength;
 
 			}else if(re){
-				peerConnectByUser[this.piecesBelong[piece]].temp[piece]=Buffer.allocUnsafe(0);
+				this.completed=this.completed-peerConnectByUser[this.piecesBelong[piece]].temp[piece].length;
+				// peerConnectByUser[this.piecesBelong[piece]].temp[piece]=Buffer.allocUnsafe(0);
 				dc=peerConnectByUser[this.piecesBelong[piece]].pc.createDataChannel(piece);
 
 				peerConnectByUser[this.piecesBelong[piece]].dc[piece]=dc;
+				dc.pieceLength=this.pieceLength;
 			}
 
 
@@ -186,7 +189,7 @@ function file (torr){
 			dc.onopen=function(eventO){
 				// console.log(piece,'连接开始',eventO);
 				console.log(piece+',连接开始');
-				var tem=JSON.stringify({file:this.fileName,tl:this.total,piece:this.recode.indexOf(piece),length:this.pieceLength,hash:this.hash})
+				var tem=JSON.stringify({file:this.fileName,tl:this.total,piece:this.recode.indexOf(piece),length:this.pieceLength,hash:this.hash});
 				eventO.currentTarget.send(tem);
 				this.on=this.on-1;
 
@@ -201,7 +204,7 @@ function file (torr){
               		peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label],data])
 
               		
-              		console.log('完成度',this.completed);
+              		
 
               		var l=peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label].length;
               		// console.log(l);
@@ -210,18 +213,19 @@ function file (torr){
               		if (l==this.pieceLength||l==this.last) {
 
               			this.completed=this.completed + l;
-
-
+              			console.log('完成度',this.completed);
               			
               			var com=false;
               			if(this.completed===this.total){
               				ipc.send('complete',this.fileName);
               				com=true
               				this.status=false;
+              				// this.closeDc();
               			}
               			var position=this.recode.indexOf(event.target.label);
 
-              			console.log('接收方收到数据',position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]);
+              			// console.log('接收方收到数据',position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]);
+              			console.log('第'+position+'个块长度完整',re?'被重新开始':'第一次开始');
 
               			// this.localR[position] = 1;
               			// localStorage.setItem(this.hash,this.localR)
@@ -229,8 +233,11 @@ function file (torr){
                			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength,com,this.hash)
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
                			dc.close();
+               			dc.onmessage=null;
                			peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;
                			peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
+
+
             		}//ok
 			}.bind(this)//onmessage
 
@@ -239,11 +246,16 @@ function file (torr){
 
 	}//handle
 
+
+	// file.prototype.closeDc=function(){
+	// 	for(let i in this.piecesBelong){
+	// 		peerConnectByUser[this.piecesBelong[i]].dc[i].onmessage=null;
+	// 	}
+	// }
+
 	file.prototype.pause=function(){
 		this.status=false;
 		clearInterval(this.watcher);
 	}
 
-// window.file=file;
-// module.exports=file;
-// export {file}
+

@@ -5800,16 +5800,7 @@ window.Bit = function (num) {
 };
 
 window.BitbyM = function (num) {
-	// if(num<1048576){
 
-	// 	return (num/1024).toString().slice(0,5)+'KB'
-	// }else if(num<1073741824){
-
-	// 	return (num/1048576).toString().slice(0,5)+'MB'
-	// }else{
-
-	// 	return (num/1073741824).toString().slice(0,5)+'GB'
-	// }
 	return (num / 1048576).toString().slice(0, 5) + 'MB';
 };
 
@@ -7160,9 +7151,9 @@ var DownloadItem = function (_React$Component) {
 	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(nextProps) {
+			if (this.refs.speed) {
+				var speed = nextProps.completed - this.props.completed;
 
-			var speed = nextProps.completed - this.props.completed;
-			if (speed !== 0) {
 				this.refs.speed.innerHTML = BitbyM(speed) + '/s';
 			}
 		}

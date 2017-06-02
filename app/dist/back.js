@@ -23,9 +23,7 @@ ipc.on('socketInit', function(event,username,uid) {
  	localCashe.length===0?console.log('nothing to init!'):so.emit('join',localCashe)
 });
 
-// ipc.on('roomInited',function(event,files){
-// 	so.emit('join',files)
-// })
+
 
 ipc.on('quit',function(event){
 	so.disconnect();
