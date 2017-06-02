@@ -202,8 +202,9 @@ function file (torr){
 				console.log(e)
 				if(peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label]){
 
+					var p=peerConnectByUser[this.piecesBelong[e.target.label]];
 
-					if(peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label].length !== peerConnectByUser[this.piecesBelong[e.target.label]].dc[e.target.label].pieceLength){
+					if(p.temp[e.target.label].length !== this.pieceLength&&p.temp[e.target.label].length !== this.last){
 						this.completed=this.completed-peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label].length;
 						peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label]=null;
 					}

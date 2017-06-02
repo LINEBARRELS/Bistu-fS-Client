@@ -94,3 +94,16 @@ var deleting={}
       delete deleting[data];
     }
   })
+
+  so.on('connection_wrong',function(data){
+    for(let fm of fileMission){
+      for(let i in fm.piecesBelong){
+          if(fm.piecesBelong[i]===data){
+            fm.piecesBelong[i]=null;
+          }
+          if(fm.pieceMessage[i]){
+            fm.pieceMessage[i]=null;
+          }
+      }
+    }//fm
+  })
