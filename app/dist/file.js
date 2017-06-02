@@ -64,7 +64,8 @@ function file (torr){
 		this.watcher=setInterval(()=>{
 		if(this.on<=this.limit&&this.cur!=this.pieceNum&&this.filePieces.length!=0){
 			let piece=this.filePieces.shift();
-			
+			this.on=this.on+1;
+			this.cur =this.cur+1;
 
 			this.piecesBelong[piece]=this.pieceMessage[piece]||null;
 
@@ -92,7 +93,6 @@ function file (torr){
       			console.log(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState);
       			
       			if(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState==='open'){
-      				this.cur =this.cur+1;
       				this.handle(piece);   
       			}else{
       				this.filePieces.push(piece);
@@ -103,50 +103,6 @@ function file (torr){
 		}//first if
 
 		}, 10);//watcher
-
-
-
-		this.checker=setInterval(()=>{
-			if(this.filePieces.length==0&&this.completed!==this.total&&this.cur==this.pieceNum){
-				var s=localStorage.getItem(this.hash),
-					t=s.split(',');
-				console.log(t);
-				for(let i=0;i<t.length;i++){
-					if(!t[i]){
-						console.log(i,'检测到部分异常');
-						var ii=this.recode[i];
-						console.log(ii);
-						if(!peerConnectByUser[this.piecesBelong[ii]].temp[ii]||peerConnectByUser[this.piecesBelong[ii]].temp[ii].length==0){
-
-						if(peerConnectByUser[this.piecesBelong[ii]].dc[ii]){
-							peerConnectByUser[this.piecesBelong[ii]].dc[ii].onmessage=null;
-							peerConnectByUser[this.piecesBelong[ii]].dc[ii].close();
-						}
-						
-						peerConnectByUser[this.piecesBelong[ii]].dc[ii]=null;
-
-						this.piecesBelong[ii]=this.pieceMessage[ii];
-						if(!peerConnectByUser[this.piecesBelong[ii]]){
-							peerConnectByUser[this.piecesBelong[ii]]=peer(this.piecesBelong[ii]);
-							peerConnectByUser[this.piecesBelong[ii]].startOffer();
-						}
-
-						if(!peerConnectByUser[this.piecesBelong[ii]].temp[ii]){
-      					peerConnectByUser[this.piecesBelong[ii]].temp[ii]=Buffer.alloc(0);
-      					// console.log('接收方建立dc缓存');
-      					}
-
-      					if(peerConnectByUser[this.piecesBelong[ii]].dc['test'].readyState==='open'){
-      						this.handle(ii,true);   
-      					}else{
-      						this.filePieces.push(ii);
-      					}
-      					}
-					}
-					
-				}
-			}
-		}, 4000);//checker
 		}
 	}//start
 
@@ -200,7 +156,7 @@ function file (torr){
               		
               		var data=Buffer.from(event.data);
               		// console.log(data);
-              		
+              		this.completed=this.completed + data.length;
               		peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=Buffer.concat([peerConnectByUser[this.piecesBelong[piece]].temp[event.target.label],data])
 
               		
@@ -212,7 +168,7 @@ function file (torr){
 
               		if (l==this.pieceLength||l==this.last) {
 
-              			this.completed=this.completed + l;
+              			
               			console.log('完成度',this.completed);
               			
               			var com=false;
@@ -241,17 +197,22 @@ function file (torr){
             		}//ok
 			}.bind(this)//onmessage
 
-			this.on =this.on+1;
+			
 
 
 	}//handle
 
 
-	// file.prototype.closeDc=function(){
-	// 	for(let i in this.piecesBelong){
-	// 		peerConnectByUser[this.piecesBelong[i]].dc[i].onmessage=null;
-	// 	}
-	// }
+	file.prototype.closeDc=function(){
+		for(let i in this.piecesBelong){
+			if(peerConnectByUser[this.piecesBelong[i]].dc[i]){
+				peerConnectByUser[this.piecesBelong[i]].dc[i].onmessage=null;
+			}
+			if(peerConnectByUser[this.piecesBelong[i]].temp[i]){
+				peerConnectByUser[this.piecesBelong[i]].temp[i]=null;
+			}
+		}
+	}
 
 	file.prototype.pause=function(){
 		this.status=false;
