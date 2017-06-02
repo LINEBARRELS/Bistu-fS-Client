@@ -2,13 +2,14 @@
 
 //现存的peerconnection
 
-var io=require('socket.io-client')
+var io=require('socket.io-client');
 
 // var file=require('./file.js')
 
-var fs = require('fs')
-var parse=require('parse-torrent')
+var fs = require('fs');
+var parse=require('parse-torrent');
 
+var deleting={}
 
   try{
      var so=io.connect('http://10.16.66.87:8080');
@@ -19,7 +20,7 @@ var parse=require('parse-torrent')
     /////////////////////////////////////////////////////////////////////
 
   so.on('icecandidate',  function(data) {
-    peerConnectByUser[data.from].addCandidate(data.candidate)
+    peerConnectByUser[data.from].addCandidate(data.candidate);
     // console.log('new candicate!');
   });
 
@@ -27,7 +28,7 @@ var parse=require('parse-torrent')
 
     if (!peerConnectByUser[data.from]) {
       console.log('无现有peerconnection 创建');
-      peerConnectByUser[data.from]=peer(data.from)
+      peerConnectByUser[data.from]=peer(data.from);
     }
   
 
@@ -38,7 +39,7 @@ var parse=require('parse-torrent')
 
   so.on('answered', function(data) {
 
-    peerConnectByUser[data.from].setRomote(data.sdp,data.from)
+    peerConnectByUser[data.from].setRomote(data.sdp,data.from);
   });
 
   so.on('roommess', function(data) {
@@ -47,7 +48,7 @@ var parse=require('parse-torrent')
 
   so.on('torrentArrive',function(data){
     if(!fileMission[data.hash]){
-      var fm=new file(Buffer.from(data.torr))
+      var fm=new file(Buffer.from(data.torr));
     }
     // ipc.send('fmToMain',fm)
   });
@@ -62,15 +63,10 @@ var parse=require('parse-torrent')
 
       if(li[0]==='allClean'||li[data.piece]==1){
         console.log('应答');
-        so.emit('pieceSearch_Result',{hash:data.hash,file:data.file,piece:data.piece,holder:so.uid})
+        so.emit('pieceSearch_Result',{hash:data.hash,file:data.file,piece:data.piece,holder:so.uid});
       }
     }
   });
-
-  so.on('rrr',function(data){
-    console.log(data);
-  });
-
 
   so.on('pieceUpdate', function(data) {
 
@@ -83,3 +79,18 @@ var parse=require('parse-torrent')
   so.on('searchResult',  function(data) {
     ipc.send('searchResult',data);
   });
+
+  so.on('leave',function(data){
+
+    var dis = peerConnectByUser[data]
+    if (dis&&!deleting[data]) {
+      deleting[data]=true
+      for(let i in dis.dc){
+        if(dis.dc[i]){
+          dis.dc[i].close();
+        }
+      }
+
+      delete deleting[data];
+    }
+  })

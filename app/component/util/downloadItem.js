@@ -18,8 +18,9 @@ class DownloadItem extends React.Component {
 	componentWillReceiveProps(nextProps){
 		if(this.refs.speed){
 		var speed=nextProps.completed-this.props.completed;
-		
-			this.refs.speed.innerHTML=BitbyM(speed) +'/s'
+			if(speed>=0){
+				this.refs.speed.innerHTML=BitbyM(speed) +'/s'
+			}
 		}
 	}
 

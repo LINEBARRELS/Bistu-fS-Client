@@ -58,10 +58,11 @@ function file (torr){
 }
 	// methods
 	file.prototype.start=function(){
+
 		if(this.completed!==this.total){
 		this.status=true;
-
 		this.watcher=setInterval(()=>{
+			console.log('hahahahahahaha')
 		if(this.on<=this.limit&&this.cur!=this.pieceNum&&this.filePieces.length!=0){
 			let piece=this.filePieces.shift();
 			this.on=this.on+1;
@@ -188,7 +189,7 @@ function file (torr){
 
                			ipc.send('fileArrive',this.fileName,position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],this.pieceLength,com,this.hash)
                		// console.log(position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label],'有新块下载');
-               			dc.close();
+               			// dc.close();
                			dc.onmessage=null;
                			peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]=null;
                			peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
@@ -197,7 +198,40 @@ function file (torr){
             		}//ok
 			}.bind(this)//onmessage
 
-			
+			dc.onclose=function(e){
+				console.log(e)
+				if(peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label]){
+
+
+					if(peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label].length !== peerConnectByUser[this.piecesBelong[e.target.label]].dc[e.target.label].pieceLength){
+						this.completed=this.completed-peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label].length;
+						peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label]=null;
+					}
+					
+					//清除无用数据长度
+				}
+				
+				
+				peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
+
+				if(this.piecesBelong[event.target.label]==this.pieceMessage[event.target.label]){
+					this.piecesBelong[event.target.label]=null;
+					this.pieceMessage[event.target.label]=null;
+				}else{
+					this.piecesBelong[event.target.label]=null;
+				}
+				this.cur-=1;
+				this.filePieces.push(piece);
+			}.bind(this)
+			// dc.onerror=function(e){
+			// 	console.log(e)
+			// 	this.completed=this.completed-peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label].length;
+			// 	peerConnectByUser[this.piecesBelong[e.target.label]].temp[e.target.label]=null;
+			// 	peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
+
+			// 	this.piecesBelong[event.target.label]=null;
+			// 	this.filePieces.push(piece);
+			// }
 
 
 	}//handle
