@@ -63,7 +63,7 @@ function file (torr){
 		this.status=true;
 		this.watcher=setInterval(()=>{
 			console.log('hahahahahahaha')
-		if(this.on<=this.limit&&this.cur!=this.pieceNum&&this.filePieces.length!=0){
+		if(this.cur!=this.pieceNum&&this.filePieces.length!=0){
 			let piece=this.filePieces.shift();
 			this.on=this.on+1;
 			this.cur =this.cur+1;
@@ -89,9 +89,11 @@ function file (torr){
       					peerConnectByUser[this.piecesBelong[piece]].temp[piece]=Buffer.allocUnsafe(0);
       					// console.log('接收方建立dc缓存');
       			}
-      			console.log(peerConnectByUser[this.piecesBelong[piece]].pc.signalingState);
 
-      			console.log(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState);
+
+      			// console.log(peerConnectByUser[this.piecesBelong[piece]].pc.signalingState);
+
+      			// console.log(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState);
       			
       			if(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState==='open'){
       				this.handle(piece);   
@@ -170,7 +172,7 @@ function file (torr){
               		if (l==this.pieceLength||l==this.last) {
 
               			
-              			console.log('完成度',this.completed);
+              			// console.log('完成度',this.completed);
               			
               			var com=false;
               			if(this.completed===this.total){
@@ -211,14 +213,16 @@ function file (torr){
 					
 					//清除无用数据长度
 				}
-				
+				dc.onclose=null;
 				
 				peerConnectByUser[this.piecesBelong[event.target.label]].dc[event.target.label]=null;
-
+				console.log(event.target.label,'被移除')
 				if(this.piecesBelong[event.target.label]==this.pieceMessage[event.target.label]){
+					console.log('清除多余信息plas');
 					this.piecesBelong[event.target.label]=null;
 					this.pieceMessage[event.target.label]=null;
 				}else{
+					console.log('清除多余信息');
 					this.piecesBelong[event.target.label]=null;
 				}
 				this.cur-=1;

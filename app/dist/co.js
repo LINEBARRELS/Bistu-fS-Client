@@ -82,16 +82,18 @@ var deleting={}
 
   so.on('leave',function(data){
 
+    
     var dis = peerConnectByUser[data]
-    if (dis&&!deleting[data]) {
-      deleting[data]=true
+    if (dis!=null) {
+
       for(let i in dis.dc){
         if(dis.dc[i]){
-          dis.dc[i].close();
+          i!=='test'?dis.dc[i].close():null;
         }
       }
 
-      delete deleting[data];
+      // delete peerConnectByUser[data]
+
     }
   })
 
