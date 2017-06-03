@@ -7183,10 +7183,16 @@ var DownloadItem = function (_React$Component) {
 		value: function render() {
 
 			var pro = this.props.completed / this.props.total;
-			var icon = pro === 1 ? React.createElement('span', { className: '.over' }) : React.createElement(
+			var icon = pro === 1 ? React.createElement('span', { className: 'over' }) : React.createElement(
 				'span',
 				{ className: 'speed', ref: 'speed' },
 				'0m/s'
+			);
+			var on = pro >= 1 ? null : React.createElement(
+				'span',
+				null,
+				Bit(this.props.completed),
+				'  of  '
 			);
 
 			console.log('down render', this.props.name, this.props.status);
@@ -7210,12 +7216,7 @@ var DownloadItem = function (_React$Component) {
 					React.createElement(
 						'p',
 						null,
-						React.createElement(
-							'span',
-							null,
-							Bit(this.props.completed)
-						),
-						'   of    ',
+						on,
 						React.createElement(
 							'span',
 							null,

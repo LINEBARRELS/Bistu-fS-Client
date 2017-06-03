@@ -103,7 +103,7 @@ var deleting={}
           if(fm.piecesBelong[i]===data){
             fm.piecesBelong[i]=null;
           }
-          if(fm.pieceMessage[i]){
+          if(fm.pieceMessage[i]===data){
             fm.pieceMessage[i]=null;
           }
       }

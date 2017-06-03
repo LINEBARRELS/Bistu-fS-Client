@@ -44,7 +44,8 @@ class DownloadItem extends React.Component {
 	render(){
 
 		var pro=this.props.completed/this.props.total;
-		var icon=(pro===1)?(<span className='.over'></span>):(<span className='speed' ref='speed'>0m/s</span>);
+		var icon=(pro===1)?(<span className='over'></span>):(<span className='speed' ref='speed'>0m/s</span>);
+		var on=(pro>=1)?(null):(<span>{Bit(this.props.completed)}  of  </span>);
 
 		console.log('down render',this.props.name,this.props.status)
 		return <div className={'downloadBlock'+(this.props.status?' on':'')} data-hash={this.props.hash} onDoubleClick={this.downloadTrigger.bind(this)}>
@@ -54,7 +55,7 @@ class DownloadItem extends React.Component {
 				<div className='downloadProcess'>
 				<div style={{width:(pro*100)+'%'}}></div>
 				</div>
-				<p><span>{Bit(this.props.completed)}</span>   of    <span>{Bit(this.props.total)}</span>
+				<p>{on}<span>{Bit(this.props.total)}</span>
 				
 				</p>
 				{icon}
