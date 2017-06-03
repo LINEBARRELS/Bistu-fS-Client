@@ -47,12 +47,21 @@ ipc.on('downLoad', function(event,name) {
 
 });
 
-ipc.on('fileWriteCom', function(event,hash,posi) {
+ipc.on('fileWriteCom', function(event,hash,posi,written) {
 
+  fileMission[hash].completed+=written;
+    if( fileMission[hash].completed=== fileMission[hash].total){
+        ipc.send('complete', fileMission[hash].fileName);
+        fileMission[hash].status=false;
+        fileMission[hash].closeDc();
+        ipc.send('closeF',fileMission[hash].fileName)
+    }
   fileMission[hash].localR[posi]=1;
   localStorage.setItem(hash,fileMission[hash].localR);
 
 });
+
+
 
 ipc.on('watchFm',function(event){
 	// console.log('?>?????');

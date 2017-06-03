@@ -156,7 +156,7 @@ ipcMain.on('createT',function(event,args,opt){
 //   });
 // });
 
-ipcMain.on('fileArrive', function(event,name,posi,file,length,com,hash) {
+ipcMain.on('fileArrive', function(event,name,posi,file,length,hash) {
 
   if(!temp[name]){
     temp[name]=fs.openSync('./Files/'+name,'w+');
@@ -167,10 +167,8 @@ ipcMain.on('fileArrive', function(event,name,posi,file,length,com,hash) {
     if(!err){
       // mainWindow.webContents.send('fileWriteCom',written,buffer);
 
-      back.webContents.send('fileWriteCom',hash,posi)
-      if(com===true){
-        fs.closeSync(temp[name]);
-      }
+      back.webContents.send('fileWriteCom',hash,posi,written)
+
     }else{
       mainWindow.webContents.send('fileWriteCom',err);
 
@@ -231,7 +229,11 @@ ipcMain.on('fmReturn',function(event,data){
 
 ipcMain.on('complete',function(event,data){
   // fs.closeSync(temp[data]);
-  mainWindow.webContents.send('complete',data)
+  mainWindow.webContents.send('complete',data);
+})
+
+ipcMain.on('closeF',function(event,data){
+  fs.closeSync(temp[data]);
 })
 
 
