@@ -60,7 +60,7 @@ app.on('ready', function() {
 ipcMain.on('success',function(event,user,uid){
 	login.hide();
 	mainWindow = new BrowserWindow({
-    	// resizable:false,
+    	resizable:false,
     	transparent: true,
     	frame: false,
         height: 600,
@@ -93,7 +93,7 @@ ipcMain.on('success',function(event,user,uid){
     back.loadURL('file://' + __dirname + '/back.html');
     // back.hide();
 
-    mainWindow.openDevTools();
+    // mainWindow.openDevTools();
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
 

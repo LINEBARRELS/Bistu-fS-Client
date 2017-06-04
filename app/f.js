@@ -7183,7 +7183,7 @@ var DownloadItem = function (_React$Component) {
 		value: function render() {
 
 			var pro = this.props.completed / this.props.total;
-			var icon = pro === 1 ? React.createElement('span', { className: 'over' }) : React.createElement(
+			var icon = pro >= 1 ? React.createElement('span', { className: 'over' }) : React.createElement(
 				'span',
 				{ className: 'speed', ref: 'speed' },
 				'0m/s'

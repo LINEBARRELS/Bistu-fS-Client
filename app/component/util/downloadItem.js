@@ -44,7 +44,7 @@ class DownloadItem extends React.Component {
 	render(){
 
 		var pro=this.props.completed/this.props.total;
-		var icon=(pro===1)?(<span className='over'></span>):(<span className='speed' ref='speed'>0m/s</span>);
+		var icon=(pro>=1)?(<span className='over'></span>):(<span className='speed' ref='speed'>0m/s</span>);
 		var on=(pro>=1)?(null):(<span>{Bit(this.props.completed)}  of  </span>);
 
 		console.log('down render',this.props.name,this.props.status)
