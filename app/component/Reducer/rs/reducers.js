@@ -27,15 +27,19 @@ export const routerReducer = (state=Map({cur:'index'}),action) =>{
 // }
 
 
-export const fileReducer = (state=Map({content:[]}),action) =>{
+export const searchReducer = (state=List([{type:'doc',name:'123',content:'dfafdadf'},{type:'movie',name:'123',content:'dfafdadf'},{type:'game',name:'123',content:'dfafdadf'},{type:'music',name:'123',content:'dfafdadf'},{type:'doc',name:'123',content:'dfafdadf'}]),action) =>{
 
 	switch(action.type){
-		case 'searched':
+		case 'appendContent':
 		// return Object.assign({},state,{
 		// 	content:action.content
 		// })
-		return state.updateIn(['content'],v=>action.content)
+		return state.concat(List(action.content))
 
+		case 'fresh':
+
+		return state.mergeDeep(List(action.content))
+		
 		default:
 		return state
 	}
@@ -48,6 +52,32 @@ export const processReducer =(state=Map({process:0}),action)=>{
 	switch(action.type){
 		case 'moving':
 		return state.update('process',v=>action.process)
+		default:
+		return state
+	}
+
+}
+
+export const sideBarReducer = (state=false,action)=>{
+
+
+	switch(action.type){
+		case 'triggle':
+		return !state;
+		default:
+		return state
+	}
+
+}
+
+export const loading = (state=false,action)=>{
+
+
+	switch(action.type){
+		case 'load':
+		return true;
+		case 'complete':
+		return false;
 		default:
 		return state
 	}

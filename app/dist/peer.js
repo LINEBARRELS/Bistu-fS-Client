@@ -1,4 +1,7 @@
 // var peerInital=function(){
+(function(){
+
+
 
 	var configuration = {
    	'iceServers': [{
@@ -16,7 +19,7 @@
   	constructor:peer,
   	init:function(remote){
       this.roId=remote;
-			this.pc= new webkitRTCPeerConnection(null);
+			this.pc= new webkitRTCPeerConnection(configuration);
       this.dc={};
       this.temp={};
         	// this.pieceLen=length;
@@ -163,3 +166,5 @@
     
   peer.fn.init.prototype = peer.prototype;
 
+  window.peer=peer;
+})(window)

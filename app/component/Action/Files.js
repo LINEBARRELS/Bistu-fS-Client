@@ -1,8 +1,8 @@
-const fileAction = function(con){
+const searchAction = function(con){
 	return{
 		type:'searched',
 		content:con
 	}
 }
 
-export {fileAction}
+export {searchAction}

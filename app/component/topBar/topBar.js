@@ -1,4 +1,10 @@
 var React= require('react');
+var electron= require('electron');
+
+
+
+var ipc =electron.ipcRenderer;
+
 
 class TopBar extends React.Component {
 	constructor(props){
@@ -8,33 +14,35 @@ class TopBar extends React.Component {
 
 	}
 
-	componentDidMount() {
-		
-		this.context.store.subscribe(function(){
-			this.refs.icon.style.backgroundImage='url(./app/img/'+this.context.store.getState().toJS().routerReducer.cur+'.png)'
-		}.bind(this))
-   	}
 
 	quit(){
-		this.context.ipc.send('quit')
+		ipc.send('quit');
 	}
 
 	minmize(){
-		this.context.ipc.send('mini')
+		ipc.send('mini');
 	}
 	render(){
 
-		return <div>
-		       <div className='drag'></div>
-		       <span id='icon' ref='icon'></span>
-               <span id='min' onClick={this.minmize.bind(this)}></span>
-               <span id='close' onClick={this.quit.bind(this)}></span></div>
+		var current_page=this.props.cur;
+
+		var logo_img=<img src={'D:/frontEnd/Bistu-fS-Client/app/img/'+current_page+'.png'}/>
+		return <div className='app-bar'>
+
+			{this.props.children}
+			<div className='top-container'>
+				<div className='top-item min' onClick={this.minmize.bind(this)}><div></div></div>
+				<div className='top-item close' onClick={this.quit.bind(this)}><div></div></div>
+			</div>
+		</div>
 	}
 }
 
-TopBar.contextTypes={
-	store:React.PropTypes.object,
-	ipc:React.PropTypes.object
-}
+
 
 export {TopBar};
+
+
+// <div className='logo' onClick={this.props.onLogoClick}>
+// 	{logo_img}
+// </div>

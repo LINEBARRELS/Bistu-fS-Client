@@ -4,23 +4,24 @@ var ReactDOM=require('reactdom')
 var parse =require('parseT')
 
 
-import {R} from "./component/app.js";
+import AppR from "./component/app.js";
 
 
 import {createStore} from "redux";
 import {rootReducer} from "./component/Reducer/Root.js";
 
-// import {file} from './dist/file.js';
+import { Provider } from 'react-redux'
+
+import {fileAction} from "./component/Action/Files.js";
+import {fmUpdateAction} from "./component/Action/Missionupdate.js";
+
 var mission={}
-// window.file=file;
+
 var ipc =electron.ipcRenderer;
 var store = createStore(rootReducer);
 
-// window.store=store;
-// window.ipc =ipc;
 
-window.t_fm=233;
-
+window.st=store;
 
 ipc.on('userinfo',function(event,user,uid) {
 	console.log(uid);
@@ -30,8 +31,10 @@ ipc.on('userinfo',function(event,user,uid) {
 	window.uid=uid;
 	// so.emit('onLine',arg);
 	// ipc.send('roomInit',so.username);
-
-	ReactDOM.render(<R ipc={ipc} store={store}/>,layout);
+	// console.log(AppR)
+	ReactDOM.render(<Provider store={store}>
+    <AppR />
+  </Provider>,layout);
 });
 
 window.Bit=function(num){
@@ -52,6 +55,23 @@ window.BitbyM=function(num){
 	return (num/1048576).toString().slice(0,5)+'MB'
 }
 
+
+ipc.on('fmReturn',(event,fm)=>{
+	store.dispatch(fmUpdateAction(fm))
+})
+
+
+setInterval(()=>{
+	ipc.send('watchFm');
+}, 500);
+
+
+ipc.on('searchResult',(event,data)=>{
+	console.log('接收到搜索结果',data);
+	store.dispatch(fileAction(data))
+})
+
+
 ipc.on('fileWriteCom',(event,mess,buf)=>{
 	console.log(mess,buf);
 })//写文件完成
@@ -68,16 +88,20 @@ ipc.on('complete',(event,mess)=>{
 	})
 })
 
+ipc.on('torrentCreated',(event,torrent)=>{
+	console.log(torrent)
+})
 
 
 window.ondrop=function(e){
 	try{
-	e.preventDefault(); 
+	e.preventDefault();
 	return false;
 	}catch(e){
 	console.log(e);
+	}
 }
-}
+
 window.ondragover=function(e){
 	try{
 	e.preventDefault(); 

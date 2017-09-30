@@ -16,11 +16,14 @@ login.addEventListener('click',  function(event) {
 	head.set('username',user.value);
 	head.set('password',pass.value);
 
-    fetch("http://10.16.66.87:8080/login",{
+    console.log('key down!');
+
+    fetch("http://192.168.43.225:8080/login",{
 	method:'post',
 	headers:head
 	}).then(
     	function(response){
+            console.log('response!');
         	if(response.status!==200){
             	console.log("存在一个问题，状态码为："+response.status);
             	return;
@@ -51,7 +54,7 @@ regist.addEventListener('click',  function(event) {
 	var head=new Headers()
 	head.set('username',user.value);
 	head.set('password',pass.value);
-	fetch("http://10.16.66.87:8080/reg",{
+	fetch("http://192.168.43.225:8080/reg",{
 	method:'post',
 	headers:head
 	}).then(

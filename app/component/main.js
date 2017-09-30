@@ -1,112 +1,54 @@
 var React=require('react')
-var fs=require('fs')
 
 
 // import {peer} from "../dist/peer.js"
 
-import {Upload} from "./file/upload.js";
-import {Download} from "./file/download.js";
-import {User} from "./user/user.js";
-import {Index} from "./index/index.js"
-import {Message} from "./util/message.js"
+// import {Upload} from "./file/upload.js";
+// import {Download} from "./file/download.js";
+import Index from "./index/index-fix.js"
+import {UpLoad} from "./file/upload-fix.js"
+import DownLoad from "./file/download-fix.js"
+import {Loader} from './util/loader.js'
 
-import {fileAction} from "./Action/Files.js";
-import {fmUpdateAction} from "./Action/Missionupdate.js";
 
 var CSSTransitionGroup=React.addons.CSSTransitionGroup;
 
 
 class Main extends React.Component {
 
-	constructor(props){
-		super(props)
-
-		this.state={room:'',cur:'index'};
-
- 
-	}
-
-	
-	shouldComponentUpdate(nextProp,nextState){
-		// console.log('should',nextState);
-		if (nextState.cur===this.state.cur) {
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
-
-	componentDidMount(){
-		this.context.store.subscribe(()=>{
-			// console.log('cur改变');
-			let nextProcess = this.context.store.getState().toJS().processReducer,
-				nextCur=this.context.store.getState().toJS().routerReducer;
-
-
-
-				this.refs.pro.style.width=nextProcess.process+'%'
-
-			
-			this.setState({cur:nextCur.cur})
-		})
-
-		this.context.ipc.on('fmReturn',(event,fm)=>{
-			this.context.store.dispatch(fmUpdateAction(fm))
-		})
-
-		setInterval(()=>{
-			this.context.ipc.send('watchFm');
-		}, 500);
-
-		this.context.ipc.on('searchResult',(event,data)=>{
-			console.log('接收到搜索结果',data);
-			this.context.store.dispatch(fileAction(data))
-		})
-	}
-
-
 
 
 	render(){
-		// console.log(this.state.cur);
-		// console.log(this.context.store.getState());
-		var content = null
-		switch(this.state.cur){
+		let content = null;
+		switch(this.props.cur){
 	  		case 'index':
-
-	  		   	content =<Index key='index'/>
+	  		   	content =<div className='mainSection' key={this.props.cur}><Index /></div>
 	  		   	break;
 	  		case 'download':
 	  		   
-	  		  	content =<Download key='download'/>
+	  		  	content =<div className='mainSection' key={this.props.cur}><DownLoad /></div>
 	  		  	break;
 	  		case 'upload':
 	  		   
-	  			content =<Upload key='upload'/>
-	  			break;
-	  		case 'user':
-	  		  
-	  			content =<User key='user'/>
+	  			content =<div className='mainSection' key={this.props.cur}><UpLoad /></div>
 	  			break;
 	  	}
 
-	  	return <div id='main'><div className='process'refs='proBar'><div ref='pro'></div></div><Message /><CSSTransitionGroup
+	  	return <div className='main'>
+	  	<CSSTransitionGroup
           transitionName="example"
-          transitionEnterTimeout={300}
+          transitionEnterTimeout={150}
           transitionLeaveTimeout={150}>
 			{content}
-        </CSSTransitionGroup></div>
+        </CSSTransitionGroup>
+        <Loader on={this.props.loading}/>
+        </div>
 
 	  
 	}
 }
 
 
-Main.contextTypes={
-	store:React.PropTypes.object,
-	ipc:React.PropTypes.object
-}
 
 
 

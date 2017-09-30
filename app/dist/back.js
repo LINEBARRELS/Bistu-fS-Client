@@ -31,12 +31,13 @@ ipc.on('quit',function(event){
 
 ipc.on('search', function(event,search) {
 
+  console.log(search)
   so.emit('search',search,so.uid);
 
 });
 
 ipc.on('searchType', function(event,search) {
-
+	  console.log(search)
   so.emit('searchType',search,so.uid);
 
 });
@@ -76,13 +77,14 @@ ipc.on('triggle',function(event,name){
 })
 
 
-ipc.on('torrentCreated',function(event,torrent,fileName,missionName,fileType,fileDetail,hash){
+ipc.on('torrentCreated',function(event,torrent,args,hash,uid){
 
-	fs.writeFileSync('./torrents/'+missionName+'.torrent',new Buffer(torrent));
-	so.emit('torrent',{torrent:torrent,fileName:fileName,missionName:missionName,hash:hash,creator:so.uid,fileType:fileType,fileDetail:fileDetail});
-	localStorage.setItem(hash,'allClean');
-	console.log(missionName,'种子生成完成,文件为',fileName);
-	so.emit('join',hash)
+	console.log(torrent,args,hash)
+	fs.writeFileSync('./torrents/'+args.fileName+'.torrent',new Buffer(torrent));
+	so.emit('torrent',torrent,args,hash,uid);
+	// localStorage.setItem(hash,'allClean');
+	// console.log(missionName,'种子生成完成,文件为',args.fileName);
+	// so.emit('join',hash)
 
 })
 

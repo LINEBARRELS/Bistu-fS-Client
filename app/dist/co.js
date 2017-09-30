@@ -12,7 +12,7 @@ var parse=require('parse-torrent');
 var deleting={}
 
   try{
-     var so=io.connect('http://10.16.66.87:8080');
+     var so=io.connect('http://192.168.43.225:8080');
    }catch(e){
     log(e);
    }

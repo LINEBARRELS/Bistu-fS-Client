@@ -27,7 +27,7 @@ var file=require('./app/dist/file.js')
 var piece_message = {};
 var temp={};
 
-
+var uid=null;
 // global.fileMission={};
 // global.peerConnectByUser={};
 // global.so=null;
@@ -44,7 +44,7 @@ app.on('ready', function() {
 		height:450,
 		width:350
 	})
-	// login.openDevTools()
+	// login.openDevTools();
 	login.loadURL('file://'+__dirname+'/login.html');
 
 });
@@ -59,12 +59,16 @@ app.on('ready', function() {
 
 ipcMain.on('success',function(event,user,uid){
 	login.hide();
+
+  global.uid=uid;
 	mainWindow = new BrowserWindow({
-    	resizable:false,
+    	// resizable:false,
     	transparent: true,
     	frame: false,
         height: 600,
-        width: 800
+        width: 900,
+        minWidth:900,
+        minHeight:600
     });
 
 
@@ -93,7 +97,7 @@ ipcMain.on('success',function(event,user,uid){
     back.loadURL('file://' + __dirname + '/back.html');
     // back.hide();
 
-    // mainWindow.openDevTools();
+    mainWindow.openDevTools();
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
 
@@ -140,8 +144,8 @@ ipcMain.on('createT',function(event,args,opt){
         var name=tem.reverse()[0];
 
         var pt=parse(torrent)
-  			mainWindow.webContents.send('torrentCreated',torrent,name,args.name,args.type)
-        back.webContents.send('torrentCreated',torrent,name,args.name,args.type,args.detail,pt.infoHash)
+  			mainWindow.webContents.send('torrentCreated',pt)
+        back.webContents.send('torrentCreated' , torrent , args , pt.infoHash, uid)
   		}else{
   			back.webContents.send('err',err,args)
   		}
@@ -188,7 +192,7 @@ ipcMain.on('search', function(event,search) {
 
 });
 
-ipcMain.on('searchType', function(event,search) {
+ipcMain.on('searchByType', function(event,search) {
 
   back.webContents.send('searchType',search)
 
