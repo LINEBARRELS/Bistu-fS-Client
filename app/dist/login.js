@@ -18,7 +18,7 @@ login.addEventListener('click',  function(event) {
 
     console.log('key down!');
 
-    fetch("http://192.168.43.225:8080/login",{
+    fetch("http://localhost:8080/login",{
 	method:'post',
 	headers:head
 	}).then(
@@ -54,7 +54,7 @@ regist.addEventListener('click',  function(event) {
 	var head=new Headers()
 	head.set('username',user.value);
 	head.set('password',pass.value);
-	fetch("http://192.168.43.225:8080/reg",{
+	fetch("http://localhost:8080/reg",{
 	method:'post',
 	headers:head
 	}).then(

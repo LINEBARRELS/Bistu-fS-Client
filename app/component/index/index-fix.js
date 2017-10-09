@@ -1,6 +1,9 @@
 var React=require('react');
+import PropTypes from 'prop-types'
+
 
 import { connect } from 'react-redux'
+
 
 import {Poll} from '../util/poll.js'
 import {PollBlock} from '../util/pollBlock.js'

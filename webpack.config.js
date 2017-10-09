@@ -22,6 +22,10 @@ module.exports = {
    electron:'require("electron")',
    react:'window.React',
    reactdom:'window.ReactDOM',
-   parseT:'require("parse-torrent")'
- }
+   parseT:'require("parse-torrent")',
+   transitionGroup:'ReactTransitionGroup'
+ },
+ performance: {
+  hints: "warning"
+}
 }

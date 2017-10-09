@@ -4,8 +4,7 @@ var React=require('react');
 import {Input} from './input.js'
 import { Map, List,is } from 'immutable';
 
-
-var CSSTransitionGroup=React.addons.CSSTransitionGroup;
+import { CSSTransitionGroup } from 'transitionGroup'
 
 
 class Tag extends React.Component{

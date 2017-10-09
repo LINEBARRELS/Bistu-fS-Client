@@ -2,6 +2,7 @@ var React=require('react');
 
 
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 class DownLoad extends React.Component{
 

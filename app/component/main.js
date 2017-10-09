@@ -11,7 +11,7 @@ import DownLoad from "./file/download-fix.js"
 import {Loader} from './util/loader.js'
 
 
-var CSSTransitionGroup=React.addons.CSSTransitionGroup;
+import { CSSTransitionGroup } from 'transitionGroup'
 
 
 class Main extends React.Component {
@@ -37,7 +37,7 @@ class Main extends React.Component {
 	  	return <div className='main'>
 	  	<CSSTransitionGroup
           transitionName="example"
-          transitionEnterTimeout={150}
+          transitionEnterTimeout={300}
           transitionLeaveTimeout={150}>
 			{content}
         </CSSTransitionGroup>
