@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import {Poll} from '../util/poll.js'
 import {PollBlock} from '../util/pollBlock.js'
 
-import {Banner} from '../util/banner.js'
+import Banner from '../util/banner.js'
 
 class Index extends React.Component{
 

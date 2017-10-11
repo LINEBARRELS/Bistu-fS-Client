@@ -2,6 +2,8 @@ var React=require('react');
 var electron= require('electron');
 
 
+import { connect } from 'react-redux'
+import {searchAction} from '../Action/Files.js'
 
 var ipc =electron.ipcRenderer;
 
@@ -16,7 +18,7 @@ class Banner extends React.Component{
             			return;
         			}
         			resp.json().then((data)=>{
-        				console.log(data)
+        				this.props.dispatch(searchAction(data));
         			})
 				})//fetch
 			}
@@ -50,4 +52,4 @@ class Banner extends React.Component{
 }
 
 
-export {Banner}
+export default connect()(Banner)
