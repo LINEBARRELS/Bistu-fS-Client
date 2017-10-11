@@ -12,7 +12,7 @@ import {rootReducer} from "./component/Reducer/Root.js";
 
 import { Provider } from 'react-redux'
 
-import {fileAction} from "./component/Action/Files.js";
+import {searchAction} from "./component/Action/Files.js";
 import {fmUpdateAction} from "./component/Action/Missionupdate.js";
 
 var mission={}
@@ -69,7 +69,7 @@ setInterval(()=>{
 
 ipc.on('searchResult',(event,data)=>{
 	console.log('接收到搜索结果',data);
-	store.dispatch(fileAction(data))
+	store.dispatch(searchAction(data))
 })
 
 

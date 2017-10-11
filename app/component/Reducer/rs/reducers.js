@@ -27,7 +27,7 @@ export const routerReducer = (state=Map({cur:'index'}),action) =>{
 // }
 
 
-export const searchReducer = (state=List([{type:'doc',name:'123',content:'dfafdadf'},{type:'movie',name:'123',content:'dfafdadf'},{type:'game',name:'123',content:'dfafdadf'},{type:'music',name:'123',content:'dfafdadf'},{type:'doc',name:'123',content:'dfafdadf'}]),action) =>{
+export const searchReducer = (state=List([]),action) =>{
 
 	switch(action.type){
 		case 'appendContent':
@@ -40,6 +40,10 @@ export const searchReducer = (state=List([{type:'doc',name:'123',content:'dfafda
 
 		return state.mergeDeep(List(action.content))
 		
+		case 'searchInit':
+
+		return List(action.content)
+
 		default:
 		return state
 	}

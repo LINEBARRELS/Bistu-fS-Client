@@ -1,6 +1,6 @@
 const searchAction = function(con){
 	return{
-		type:'searched',
+		type:'appendContent',
 		content:con
 	}
 }

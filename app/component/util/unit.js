@@ -26,7 +26,10 @@ class Unit extends React.Component{
 		return <div className='unit' onClick={(event)=>{
 			if(event.target.classList[0]==='unit-item'){
 				this.setState({on:event.target.dataset['id']});
-				this.props.onItemClick.call(this,event,event.target.dataset['val']);
+				if(this.props.onItemClick){
+					this.props.onItemClick.call(this,event,event.target.dataset['val']);
+				}
+				
 			}
 		}}>
 		{items}</div>

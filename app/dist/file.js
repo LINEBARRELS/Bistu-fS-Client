@@ -7,26 +7,26 @@ function file (torr){
 	// constructor {
 		// code
 		var parsedTorrent=parse(torr);
-		this.filePieces=parsedTorrent.pieces;
-		this.recode=parsedTorrent.pieces.concat();
+		this.filePieces=parsedTorrent.pieces;//各个文件块的hash值
+		this.recode=parsedTorrent.pieces.concat();//记录各个文件块的index
 		this.pieceNum=parsedTorrent.pieces.length;
-		this.piecesBelong={};
+		this.piecesBelong={};//确定的文件持有者
 
 		this.status=false;
 
-		this.hash=parsedTorrent.infoHash;
+		this.hash=parsedTorrent.infoHash;//hash值
 		this.fileName=parsedTorrent.files[0].name;
 		this.creator=parsedTorrent.createdBy;
 		this.total=parsedTorrent.length;
 		this.pieceLength=parsedTorrent.pieceLength;
 		this.last=parsedTorrent.lastPieceLength;
 
-		this.localR=new Array(this.pieceNum);
+		this.localR=new Array(this.pieceNum);//对应本地localStroage
 
  		this.completed=0;
 
 
-		this.pieceMessage={};
+		this.pieceMessage={};//新获得的,尚未使用的持有者
 
 		this.downloading=[];
 
@@ -42,14 +42,14 @@ function file (torr){
 
 		var storage=localStorage.getItem(this.hash);
 
-		if(storage===null){
+		if(storage===null){//本地不存在localStorage的话初始化为全0数组
 			var st=new Array(this.pieceNum);
 			st.fill(0);
 			localStorage.setItem(this.hash,st);
 			storage =st= null;
 		}
 		
-		so.emit('join',this.hash)
+		so.emit('join',this.hash)//加入此文件对应房间
 
 
 		console.log(this.fileName+'mission init complete');
@@ -60,10 +60,10 @@ function file (torr){
 	file.prototype.start = function(){
 
 		if(this.completed !== this.total){
-		this.status = true;
+		this.status = true;//状态:开始
 		this.watcher = setInterval(()=>{
-			console.log('hahahahahahaha')
-		if(this.cur != this.pieceNum&&this.filePieces.length != 0){
+			// console.log('hahahahahahaha')
+		if(this.cur != this.pieceNum && this.filePieces.length != 0){//下载未完成 && 剩余块不为0
 			let piece = this.filePieces.shift();
 			this.on = this.on+1;
 			this.cur = this.cur+1;
@@ -73,7 +73,6 @@ function file (torr){
 			let belongTemp = this.piecesBelong[piece];
 			
 			if(!belongTemp){
-				// console.log(piece+',没有文件持有者信息');
 				console.log(piece,',没有文件持有者信息')
 
 				var p=this.recode.indexOf(piece);
@@ -81,15 +80,14 @@ function file (torr){
 				this.filePieces.push(piece);
 				this.cur =this.cur-1;
 			}else{
-				if (!peerConnectByUser[belongTemp]) {
+				if (!peerConnectByUser[belongTemp]) {//不存在与此用户的连接,尝试建立连接
 					peerConnectByUser[belongTemp] = peer(belongTemp);
 					peerConnectByUser[belongTemp].startOffer();
 				}
 			
 
-				if(!peerConnectByUser[belongTemp].temp[piece]){
+				if(!peerConnectByUser[belongTemp].temp[piece]){//没有建立缓存,建立缓存
       					peerConnectByUser[belongTemp].temp[piece] = Buffer.allocUnsafe(0);
-      					// console.log('接收方建立dc缓存');
       			}
 
 
@@ -98,7 +96,7 @@ function file (torr){
       			// console.log(peerConnectByUser[this.piecesBelong[piece]].dc['test'].readyState);
       			
       			if(peerConnectByUser[belongTemp].dc['test'].readyState === 'open'){
-      				this.handle(piece);   
+      				this.handle(piece);//连接建立完成,尝试传输数据
       			}else{
       				this.filePieces.push(piece);
 					this.cur =this.cur-1;
@@ -118,12 +116,12 @@ function file (torr){
 
 
 
-	file.prototype.handle = function(piece,re){
+	file.prototype.handle = function(piece){
 
 			let dc=null;
 			let belongTemp=this.piecesBelong[piece];
 
-			if(!re){
+
 
 			if(!peerConnectByUser[belongTemp].dc[piece]){
 				dc=peerConnectByUser[belongTemp].pc.createDataChannel(piece);
@@ -136,18 +134,9 @@ function file (torr){
 
 			dc.pieceLength=this.pieceLength;
 
-			}else if(re){
-				this.completed=this.completed-peerConnectByUser[belongTemp].temp[piece].length;
-				// peerConnectByUser[this.piecesBelong[piece]].temp[piece]=Buffer.allocUnsafe(0);
-				dc=peerConnectByUser[belongTemp].pc.createDataChannel(piece);
-
-				peerConnectByUser[belongTemp].dc[piece]=dc;
-				dc.pieceLength=this.pieceLength;
-			}
 
 
-
-			dc.onopen=function(eventO){
+			dc.onopen=function(event){
 				// console.log(piece,'连接开始',eventO);
 				console.log(piece+',连接开始');
 				var tem=JSON.stringify({file:this.fileName,
@@ -156,7 +145,7 @@ function file (torr){
 					length:this.pieceLength,
 					hash:this.hash});
 				
-				eventO.currentTarget.send(tem);
+				event.currentTarget.send(tem);
 				this.on=this.on-1;
 
 			}.bind(this)
@@ -191,7 +180,7 @@ function file (torr){
               			var position=this.recode.indexOf(event.target.label);
 
               			// console.log('接收方收到数据',position,peerConnectByUser[this.piecesBelong[event.target.label]].temp[event.target.label]);
-              			console.log('第'+position+'个块长度完整',re?'被重新开始':'第一次开始');
+              			console.log('第'+position+'个块长度完整');
 
               			// this.localR[position] = 1;
               			// localStorage.setItem(this.hash,this.localR)

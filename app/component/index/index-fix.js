@@ -16,7 +16,7 @@ class Index extends React.Component{
 		// console.log(this.props.search);
 		let poll_item=[];
 		this.props.search.forEach((item,index)=>{
-			poll_item.push(<PollBlock className={item.type} header={item.name} content={item.content}/>)
+			poll_item.push(<PollBlock className={item.type} header={item.missionName} content={item.fileName}/>)
 		})
 		return <div>
 				<Banner />
