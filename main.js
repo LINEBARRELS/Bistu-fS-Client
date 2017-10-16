@@ -42,7 +42,9 @@ app.on('ready', function() {
 		transparent:true,
 		frame:false,
 		height:450,
-		width:350
+		width:670,
+    minWidth:670,
+    minHeight:450
 	})
 	// login.openDevTools();
 	login.loadURL('file://'+__dirname+'/login.html');

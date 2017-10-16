@@ -4,21 +4,46 @@
 	<link rel="stylesheet" type="text/css" href="./app/css/login.css">
 </head>
 <body>
-<div id='main'>
-	<div id='topBar'>
-		<span id='min'></span>
-		<span id='close'></span>
-	</div>
-	<img src='./app/img/share.png'>
-	<h1>BISTU fs System</h1>
 
-	<div id='form'>
-		<input type="text"  placeholder="用户名" class='loginInput' data-username=''>
-		<input type="password"  placeholder="密码" class='loginInput' data-password=''>
+<div id='main'>
+
+	<div class='panel on' id='login'>
+		<header>
+			<h1>Fs Client</h1>
+			<small>一个没卵用的平台</small>
+
+			<span></span>
+		</header>
+
+		<button class=''>Sign in</button>
 	</div>
-	
-	<button type="button" name="login" class="button">登陆</button>
-	<button type="button" name="regist" class="button">注册</button>
+	<div class='panel' id='register'>
+		<h3>没时间解释了,快上车</h3>
+		<h2>没有帐号?<small>创建一个</small></h2>
+		<button class=''>Sign up</button>
+	</div>
+
+	<div class='form'>
+		<div>
+			<small>长度大于6小于15</small>
+			<input type="text" name="username" placeholder='用户名'>
+			<small class='err-message'></small>			
+		</div>
+
+		<div>
+			<small>长度大于6小于15</small>
+			<input type="password" name="password" placeholder='密码'>
+			<small class='err-message'></small>			
+		</div>
+
+		<div  class='other'>
+			<input type="password" name="comfirm-pass" placeholder='确认密码'>
+			<small class='err-message'></small>			
+		</div>
+
+	</div>
+
 </div>
+
 </body>
 <script type="text/javascript" src='./app/dist/login.js'></script>

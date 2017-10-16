@@ -4,18 +4,18 @@ var ReactDOM=require('reactdom')
 var parse =require('parseT')
 
 
-import AppR from "./component/app.js";
+import AppR from "./component/app.js"
 
 
 import {createStore} from "redux";
-import {rootReducer} from "./component/Reducer/Root.js";
+import {rootReducer} from "./component/Reducer/Root.js"
 
 import { Provider } from 'react-redux'
 
-import {searchAction} from "./component/Action/Files.js";
-import {fmUpdateAction} from "./component/Action/Missionupdate.js";
+import {searchAction} from "./component/Action/Files.js"
+import {fmUpdateAction} from "./component/Action/Missionupdate.js"
 
-var mission={}
+var mission={};
 
 var ipc =electron.ipcRenderer;
 var store = createStore(rootReducer);
@@ -41,24 +41,24 @@ ipc.on('userinfo',function(event,user,uid) {
 window.Bit=function(num){
 	if(num<1048576){
 
-		return (num/1024).toString().slice(0,5)+'KB'
+		return (num/1024).toString().slice(0,5)+'KB';
 	}else if(num<1073741824){
 
-		return (num/1048576).toString().slice(0,5)+'MB'
+		return (num/1048576).toString().slice(0,5)+'MB';
 	}else{
 
-		return (num/1073741824).toString().slice(0,5)+'GB'
+		return (num/1073741824).toString().slice(0,5)+'GB';
 	}
 }
 
 window.BitbyM=function(num){
 
-	return (num/1048576).toString().slice(0,5)+'MB'
+	return (num/1048576).toString().slice(0,5)+'MB';
 }
 
 
 ipc.on('fmReturn',(event,fm)=>{
-	store.dispatch(fmUpdateAction(fm))
+	store.dispatch(fmUpdateAction(fm));
 })
 
 
@@ -69,7 +69,7 @@ setInterval(()=>{
 
 ipc.on('searchResult',(event,data)=>{
 	console.log('接收到搜索结果',data);
-	store.dispatch(searchAction(data))
+	store.dispatch(searchAction(data));
 })
 
 
@@ -90,7 +90,7 @@ ipc.on('complete',(event,mess)=>{
 })
 
 ipc.on('torrentCreated',(event,torrent)=>{
-	console.log(torrent)
+	console.log(torrent);
 })
 
 

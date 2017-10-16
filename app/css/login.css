@@ -1,16 +1,47 @@
-@font-face{
-	font-family: title;
-	src:url(../font/thinfont-thin.ttf);
+@font-face
+{
+    font-family: title;
+
+    src: url(../font/thinfont-thin.ttf);
 }
 
-@keyframes in{
-    0%{opacity:0;}
+@font-face
+{
+    font-family: cam;
 
-    100%{opacity:1;}
+    src: url(../font/Hyperspace.ttf);
+}
+
+@font-face
+{
+    font-family: vamp;
+
+    src: url(../font/VAMPG___.TTF);
+}
+
+@font-face
+{
+    font-family: bla;
+
+    src: url(../font/SourceHanSansCN-ExtraLight.otf);
+}
+
+@keyframes in
+{
+    0%
+    {
+        opacity: 0;
+    }
+
+    100%
+    {
+        opacity: 1;
+    }
 }
 
 *
 {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -20,146 +51,282 @@ body
 {
     width: 100%;
     height: 100%;
-    animation: in 0.5s ease backwards;
+
+    animation: in .5s ease backwards;
 }
 
+header
+{
+    font-family: cam,bla;
 
+    position: relative;
 
-h1,img{
-	user-select:none;
-	-webkit-user-drag: none;
-	cursor: default;
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    padding-left: 20px;
+
+    color: #fcfaf2;
+    background: #0c0c0c;
+
+    -webkit-app-region: drag;
 }
 
-body:after{
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background:url(../img/bk2.jpg);
-	background-size: cover;
-	background-position-x: -170px;
-	filter: blur(1px);
-	z-index: -1;
-	opacity: .9;
-}
+header span
+{
+    position: absolute;
+    top: 0;
+    right: 0;
 
-#main{
-	width: 100%;
-	height: 100%;
-	
-	background-image: linear-gradient(0deg, rgba(0,0,0,.01),rgba(43,44,78,.4));
-	overflow:hidden;
-}
+    width: 32px;
+    height: 32px;
 
-img{
-	position: absolute;
-	top: 20px;
-    left: 140px;
-}
-
-h1{
-	font-family: title;
-	text-align: center;
-	position: absolute;
-	top: 110px;
-    color: #3399FF;
-    left: 40px;
-}
-
-.loginInput{
-	margin: 0 auto;
-	width: 100%;
-	outline: none;
-    background: rgba(11,16,19,.5);
-    border: none;
-    height: 50px;
-    font-size: 20px;
-    color: white;
-    font-family: sans-serif;
-}
-
-.loginInput:first-of-type{
-	margin-top: 180px;
-	border-bottom: solid 1px rgb(55, 98, 107);
-}
-
-.button{
-	display: block;
-    outline: none;
-    background: transparent;
-    text-decoration: none;
-    width: 50%;
-    height: 30px;
-    margin-left: 46px;
-    border-radius: 4px;
-    transition: all .3s cubic-bezier(.645,.045,.355,1);
     cursor: pointer;
-    margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
+    transition: all .3s;
 
+    background-image: url(../img/login-close.png);
+
+    -webkit-app-region: no-drag;
 }
 
-.button:disabled{
-	opacity: .3;
+header span:hover
+{
+    background-image: url(../img/login-close-on.png);
 }
 
-.button:nth-of-type(1){
-	border: 1px solid #3399FF;
-	color: #3399FF;
+#main
+{
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+
+    height: 100%;
+
+    align-items: center;
+    justify-content: center;
 }
 
-.button:nth-of-type(2){
-	border: 1px solid #ED143D;
-	color: #ED143D;
+#login
+{
+    background: rgba(35,37,51,1);
 }
 
-.button:nth-of-type(1):hover{
-	color:white;
-	background: #3399FF;
+#register
+{
+    background: #fffffb;
 }
 
-.button:nth-of-type(2):hover{
-	color:white;
-	background: #ED143D;
+
+.panel
+{
+    position: relative;
+
+    height: 80%;
+
+    transition: all .6s;
+
+    flex: 1 1 0;
 }
 
-#topBar{
-	position: absolute;
-	width: 100%;
-	height: 50px;
-	-webkit-app-region: drag;
+.on
+{
+    height: 100%;
+
+    flex: 2 2 0;
 }
 
-#min{
-	-webkit-app-region: no-drag;
-	width: 32px;
-	height: 32px;
-	background: url('../img/最小化.png');
-	transition: all .5s;
+
+.panel button
+{
+    font-size: 18px;
+
+    position: absolute;
+    bottom: 80px;
+
+    display: flex;
+
+    width: 100%;
+    height: 50px;
+
+    cursor: pointer;
+    transition: all .5s;
+
+    border: none;
+    outline: none;
+
+    justify-content: center;
+    align-items: center;
 }
 
-#min:hover{
-	cursor: pointer;
-	background-color: : rgba(189,192,186,.4);
+.panel button:disabled
+{
+    opacity: .7;
 }
 
-#close{
-	-webkit-app-region: no-drag;
-	float: right;
-	width: 32px;
-	height: 32px;
-	background: url('../img/loginClose.png');
-	transition: all .5s;
-
-	user-select: none;
-    -webkit-user-drag: none;
+#login button
+{
+    color: white;
+    background: rgb(79, 82, 111);
 }
 
-#close:hover{
-	cursor: pointer;
-	background-color: rgba(208,16,76,.7);
+#login button:hover
+{
+    background-color: rgb(104, 108, 144);
+}
+
+#register button
+{
+    color: white;
+    background: rgb(97,189,85);
+}
+
+
+#register button:hover
+{
+    background: rgb(116, 222, 102);
+}
+
+
+.panel.on button
+{
+    bottom: 0;
+}
+
+
+#register > h3
+{
+    font-family: bla;
+
+    width: 100%;
+    height: 50px;
+    padding: 20px;
+
+    transition: all .3s;
+
+    opacity: 0;
+    color: #878e83;
+}
+
+#register > h2
+{
+    font-family: bla;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 50px;
+
+    transition: all .3s;
+
+    color: #878e83;
+
+    justify-content: center;
+    align-items: center;
+}
+
+#register.on > h3
+{
+    font-family: bla;
+
+    width: 100%;
+    height: 50px;
+
+    opacity: 1;
+    color: #878e83;
+}
+
+#register.on > h2
+{
+    font-family: bla;
+
+    width: 100%;
+    height: 50px;
+
+    opacity: 0;
+    color: #878e83;
+}
+
+
+.form .other
+{
+    display: none;
+}
+
+.form-right .other
+{
+    display: flex;
+}
+
+
+
+
+
+
+
+
+
+.form
+{
+    position: absolute;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 66.7%;
+    padding: 40px;
+
+    transition: all .5s;
+}
+
+.form > div
+{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+}
+
+.form  small
+{
+
+    color: #878e83;
+}
+
+.form  input
+{
+    font-family: bla;
+    font-size: 20px;
+    font-weight: 600;
+
+    position: relative;
+
+    margin-bottom: 10px;
+
+    transition: all .3s;
+
+    color: #878e83;
+    border: none;
+    border-bottom: 2px solid;
+    border-radius: 2px;
+    outline: none;
+    background-color: transparent;
+}
+
+.form-right .err
+{
+    border-bottom: 2px solid #cb1b45;
+}
+
+.err-message
+{
+    text-align: center;
+
+    color: #cb1b45;
+}
+
+.form-right
+{
+    left: 33.3%;
 }
