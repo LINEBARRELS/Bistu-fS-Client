@@ -1,5 +1,6 @@
 var React=require('react');
 
+import { CSSTransitionGroup } from 'transitionGroup'
 
 class Poll extends React.Component{
 
@@ -9,7 +10,6 @@ class Poll extends React.Component{
 		var ct0=[],
 			ct1=[],
 			ct2=[];
-
 		list.forEach((item,index)=>{
 
 			if(index%3==0){
@@ -22,9 +22,15 @@ class Poll extends React.Component{
 		})
 
 		return <div className='poll'>
-			<div className='column'>{ct0}</div>
-			<div className='column'>{ct1}</div>
-			<div className='column'>{ct2}</div>
+			<div className='column'>
+					{ct0}
+			</div>
+			<div className='column'>
+          			{ct1}
+			</div>
+			<div className='column'>
+          			{ct2}
+        	</div>
 		</div>
 	}
 }

@@ -60,9 +60,9 @@ class Tag extends React.Component{
         </CSSTransitionGroup>
 			</div>
 			<div className='add-content'>
-			<Input type='underline' placeholder='标签' onChange={(event)=>{
+			<Input placeholder='标签' onChange={(event)=>{
 				this.setState({addition:event.target.value})
-			}} value={this.state.addition}/>
+			}} value={this.state.addition} button='right'/>
 			<div className='tag' onClick={this.addTag.bind(this)}>添加Tag!</div>
 			</div>
 		</div>

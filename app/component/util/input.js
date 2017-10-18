@@ -14,13 +14,19 @@ class Input extends React.Component{
 	}
 
 	render(){
-		var cl=this.props.type=='dark'?'input input-dark':'input input-underline';
-		var ph=this.props.dark?null:<i>{this.props.placeholder}</i>
+
+		var cl = 'input';
+		var ph = this.props.placeholder?<label htmlFor={this.props.name}>{this.props.placeholder}</label>:null;
+
+		if(this.props.button){
+			cl=cl+' '+this.props.button
+		}
 
 		return <div className={cl} id={this.props.id}>
+				{ph}
 		<input type='text' onKeyDown={this.props.onKeyDown} onChange={this.props.onChange} onFocus={this.active.bind(this)} onBlur={this.recover.bind(this)}
-			value={this.props.value} name={this.props.name}/>
-		{ph}
+			value={this.props.value} name={this.props.name} id={this.props.name}/>
+
 		</div>
 	}
 }

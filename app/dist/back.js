@@ -1,94 +1,90 @@
-var fs=require('fs');
-var electron= require('electron');
-var ipc =electron.ipcRenderer;
+var fs = require('fs');
+var electron = require('electron');
+var ipc = electron.ipcRenderer;
 
-var fileMission={};
-var peerConnectByUser={};
-var totalFile={};
+var fileMission = {};
+var peerConnectByUser = {};
+var totalFile = {};
 
+ipc.on('socketInit', function(event, username, uid) {
+  so.username = username;
+  so.uid = uid;
+  console.log(uid);
+  so.emit('onLine', so.uid);
 
-
-ipc.on('socketInit', function(event,username,uid) {
-	so.username=username;
-	so.uid=uid;
-	console.log(uid);
-	so.emit('onLine',so.uid);
-	
- 	console.log(so.username,'init');
- 	// ipc.send('roomInit',so.username)
- 	let localCashe=[]
- 	for(let i in localStorage){
- 		localCashe.push(i)
- 	}
- 	localCashe.length===0?console.log('nothing to init!'):so.emit('join',localCashe)
+  console.log(so.username, 'init');
+  // ipc.send('roomInit',so.username)
+  let localCashe = []
+  for (let i in localStorage) {
+    localCashe.push(i)
+  }
+  localCashe.length === 0
+    ? console.log('nothing to init!')
+    : so.emit('join', localCashe)
 });
 
-
-
-ipc.on('quit',function(event){
-	so.disconnect();
+ipc.on('quit', function(event) {
+  so.disconnect();
 })
 
-ipc.on('search', function(event,search) {
+ipc.on('search', function(event, search) {
 
   console.log(search)
-  so.emit('search',search,so.uid);
+  so.emit('search', search, so.uid);
 
 });
 
-ipc.on('searchType', function(event,search) {
-	  console.log(search)
-  so.emit('searchType',search,so.uid);
+ipc.on('searchType', function(event, search) {
+  console.log(search)
+  so.emit('searchType', search, so.uid);
 
 });
 
-ipc.on('downLoad', function(event,name) {
+ipc.on('downLoad', function(event, name) {
 
-  so.emit('downLoad',name);
-
-});
-
-ipc.on('fileWriteCom', function(event,hash,posi,written) {
-
-  fileMission[hash].completed+=written;
-    if( fileMission[hash].completed=== fileMission[hash].total){
-        ipc.send('complete', fileMission[hash].fileName);
-        fileMission[hash].status=false;
-        fileMission[hash].closeDc();
-        ipc.send('closeF',fileMission[hash].fileName)
-    }
-  fileMission[hash].localR[posi]=1;
-  localStorage.setItem(hash,fileMission[hash].localR);
+  so.emit('downLoad', name);
 
 });
 
+ipc.on('fileWriteCom', function(event, hash, posi, written) {
 
+  fileMission[hash].completed += written;
+  if (fileMission[hash].completed === fileMission[hash].total) {
+    ipc.send('complete', fileMission[hash].fileName);
+    fileMission[hash].status = false;
+    fileMission[hash].closeDc();
+    ipc.send('closeF', fileMission[hash].fileName)
+  }
+  fileMission[hash].localR[posi] = 1;
+  localStorage.setItem(hash, fileMission[hash].localR);
 
-ipc.on('watchFm',function(event){
-	// console.log('?>?????');
-	ipc.send('fmReturn',fileMission)
+});
+
+ipc.on('watchFm', function(event) {
+  // console.log('?>?????');
+  ipc.send('fmReturn', fileMission)
 })
 
-ipc.on('triggle',function(event,name){
-	if(fileMission[name]){
-		fileMission[name].status?fileMission[name].pause():fileMission[name].start();
-	}
-	
-})
-
-
-ipc.on('torrentCreated',function(event,torrent,args,hash,uid){
-
-	console.log(torrent,args,hash)
-	fs.writeFileSync('./torrents/'+args.fileName+'.torrent',new Buffer(torrent));
-	so.emit('torrent',torrent,args,hash,uid);
-	localStorage.setItem(hash,'allClean');
-	console.log(missionName,'种子生成完成,文件为',args.fileName);
-	so.emit('join',hash)
+ipc.on('triggle', function(event, name) {
+  if (fileMission[name]) {
+    fileMission[name].status
+      ? fileMission[name].pause()
+      : fileMission[name].start();
+  }
 
 })
 
-ipc.on('err',function(event,e,arg){
-	console.log(e,arg);
+ipc.on('torrentCreated', function(event, torrent, args, hash, uid) {
+
+  console.log(torrent, args, hash)
+  fs.writeFileSync('./torrents/' + args.fileName + '.torrent', new Buffer(torrent));
+  so.emit('torrent', torrent, args, hash, uid);
+  localStorage.setItem(hash, 'allClean');
+  console.log(missionName, '种子生成完成,文件为', args.fileName);
+  so.emit('join', hash)
+
 })
 
+ipc.on('err', function(event, e, arg) {
+  console.log(e, arg);
+})
