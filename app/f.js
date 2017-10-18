@@ -7408,7 +7408,7 @@ var UpLoad = function (_React$Component) {
         React.createElement(
           'div',
           { className: 'col col-4' },
-          React.createElement(_input.Input, { placeholder: '\u540D\u79F0', onChange: this.handleChange.bind(this), name: 'missionName', value: this.state.missionName }),
+          React.createElement(_input.Input, { placeholder: '\u540D\u79F0', onChange: this.handleChange.bind(this), name: 'missionName' }),
           React.createElement(
             _unit.Unit,
             { onItemClick: itemClick.bind(this) },
@@ -7433,7 +7433,7 @@ var UpLoad = function (_React$Component) {
               'doc'
             )
           ),
-          React.createElement('textarea', { className: 'text-area', placeholder: '\u7B80\u4ECB,\u4E0D\u5927\u4E8E100', onChange: this.handleChange.bind(this), name: 'intro', value: this.state.intro }),
+          React.createElement('textarea', { className: 'text-area', placeholder: '\u7B80\u4ECB,\u4E0D\u5927\u4E8E100', onChange: this.handleChange.bind(this), name: 'intro' }),
           React.createElement(_tag.Tag, { onChange: tagSelect.bind(this) })
         ),
         React.createElement(
@@ -7788,7 +7788,7 @@ var Banner = function (_React$Component) {
 				'header',
 				{ className: 'banner', onClick: function onClick(event) {
 						if (event.target.tagName == 'LABEL') {
-							fetch('http://localhost:8080/search/' + event.target.getAttribute('name')).then(function (resp) {
+							fetch('http://192.168.1.102:8080/search/' + event.target.getAttribute('name'), { credentials: 'include' }).then(function (resp) {
 								if (resp.status !== 200) {
 									console.log("存在一个问题，状态码为：" + resp.status);
 									return;

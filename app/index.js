@@ -20,7 +20,7 @@ var store = createStore(rootReducer);
 
 window.st = store;
 
-ipc.on('userinfo', function(event, user, uid) {
+ipc.on('userinfo', function(event, user, uid ) {
   console.log(uid);
   // window.so=so
   // so.username=arg;

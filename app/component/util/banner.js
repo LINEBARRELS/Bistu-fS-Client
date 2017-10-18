@@ -12,7 +12,7 @@ class Banner extends React.Component{
 	render(){
 		return <header className='banner' onClick={(event)=>{
 			if(event.target.tagName=='LABEL'){
-				fetch('http://localhost:8080/search/'+event.target.getAttribute('name')).then((resp)=>{
+				fetch('http://192.168.1.102:8080/search/'+event.target.getAttribute('name'),{credentials:'include'}).then((resp)=>{
 					if(resp.status!==200){
             			console.log("存在一个问题，状态码为："+resp.status);
             			return;

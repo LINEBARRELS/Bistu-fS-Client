@@ -26,6 +26,7 @@ var temp = {};
 
 var uid = null;
 
+let ses = null;
 
 app.on('ready', function() {
   login = new BrowserWindow({
@@ -45,10 +46,14 @@ app.on('ready', function() {
 // app.on('quit',function(){
 
 // })
+ipcMain.on('login',function(event,user,pass){
+
+
+})
 
 ipcMain.on('success', function(event, user, uid) {
   login.hide();
-
+   const ses = login.webContents.session;
   global.uid = uid;
   mainWindow = new BrowserWindow({
     // resizable:false,

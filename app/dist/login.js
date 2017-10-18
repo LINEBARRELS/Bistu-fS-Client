@@ -91,9 +91,10 @@ var form = document.querySelector('.form')
     head.set('username', user.value);
     head.set('password', pass.value);
 
-    fetch("http://localhost:8080/login", {
+    fetch("http://192.168.1.102:8080/login", {
       method: 'post',
-      headers: head
+      headers: head,
+      credentials:'include'
     }).then(function(response) {
       console.log('response!');
       if (response.status !== 200) {
@@ -124,9 +125,10 @@ var form = document.querySelector('.form')
     var head = new Headers()
     head.set('username', user.value);
     head.set('password', pass.value);
-    fetch("http://localhost:8080/reg", {
+    fetch("http://192.168.1.102:8080/reg", {
       method: 'post',
-      headers: head
+      headers: head,
+      credentials:'include'
     }).then(function(response) {
       if (response.status !== 200) {
         console.log("存在一个问题，状态码为：" + response.status);
