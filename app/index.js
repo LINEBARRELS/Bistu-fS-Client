@@ -80,9 +80,9 @@ ipc.on('complete', (event, mess) => {
   })
 })
 
-ipc.on('torrentCreated', (event, torrent) => {
-  console.log(torrent);
-})
+// ipc.on('torrentCreated', (event, torrent) => {
+//   console.log(torrent);
+// })
 
 window.ondrop = function(e) {
   try {

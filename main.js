@@ -25,11 +25,7 @@ var piece_message = {};
 var temp = {};
 
 var uid = null;
-// global.fileMission={};
-// global.peerConnectByUser={};
-// global.so=null;
 
-var eventCore = new event();
 
 app.on('ready', function() {
   login = new BrowserWindow({
@@ -91,7 +87,8 @@ ipcMain.on('success', function(event, user, uid) {
     mainWindow.webContents.send('userinfo', user, uid);
 
   });
-  // mainWindow.show()
+
+  login.close();
 }); //
 
 ipcMain.on('quit', function(event) {
@@ -197,9 +194,9 @@ ipcMain.on('searchResult', function(event, data) {
   mainWindow.webContents.send('searchResult', data);
 })
 
-// ipcMain.on('fmToMain',function(event,data){
-//   mainWindow.webContents.send('fm',data);
-// })
+ipcMain.on('torrentCreated',function(event){
+  mainWindow.webContents.send('torrentCreated');
+})
 
 ipcMain.on('fmReturn', function(event, data) {
   mainWindow.webContents.send('fmReturn', data);

@@ -24,6 +24,13 @@ class UpLoad extends React.Component {
     })
   }
 
+  componentDidMount(){
+    ipc.on('torrentCreated',() => {
+      this.setState({})
+      alert('种子生成完成!')
+    })
+  }
+
   shouldComponentUpdate(nextProps = {}, nextState = {}) {
     const thisProps = this.props || {},
       thisState = this.state || {};
@@ -77,14 +84,14 @@ class UpLoad extends React.Component {
     let ok = this.checkState();
     return <div className='col-container'>
       <div className='col col-4'>
-        <Input placeholder='名称' onChange={this.handleChange.bind(this)} name='missionName'/>
+        <Input placeholder='名称' onChange={this.handleChange.bind(this)} name='missionName' />
         <Unit onItemClick={itemClick.bind(this)}>
           <UnitItem data='movie'>movie</UnitItem>
           <UnitItem data='music'>music</UnitItem>
           <UnitItem data='game'>game</UnitItem>
           <UnitItem data='doc'>doc</UnitItem>
         </Unit>
-        <textarea className='text-area' placeholder='简介,不大于100' onChange={this.handleChange.bind(this)} name='intro'></textarea>
+        <textarea className='text-area' placeholder='简介,不大于100' onChange={this.handleChange.bind(this)} name='intro' ></textarea>
         <Tag onChange={tagSelect.bind(this)}/>
       </div>
       <div className='col col-6'>

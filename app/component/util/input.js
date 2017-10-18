@@ -16,7 +16,7 @@ class Input extends React.Component{
 	render(){
 
 		var cl = 'input';
-		var ph = this.props.placeholder?<label htmlFor={this.props.name}>{this.props.placeholder}</label>:null;
+		var ph = this.props.placeholder?<label htmlFor={this.props.name}>{this.props.placeholder + ':'}</label>:null;
 
 		if(this.props.button){
 			cl=cl+' '+this.props.button

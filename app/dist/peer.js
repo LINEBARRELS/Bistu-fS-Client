@@ -19,13 +19,13 @@
   	constructor:peer,
   	init:function(remote){
       this.roId=remote;
-			this.pc= new webkitRTCPeerConnection(configuration);
+			this.pc= new webkitRTCPeerConnection();
       this.dc={};
       this.temp={};
         	// this.pieceLen=length;
       this.pc.negoState = false;
       this.pc.onicecandidate = function (evt) {
-   		
+
         if (evt.candidate){
      		 so.emit('candidate',{
          		 'candidate': evt.candidate,
@@ -33,7 +33,7 @@
          		 'from':so.uid
        	  });
           console.log('candidate');
-     	  } 
+     	  }
    		}.bind(this);
 
 
@@ -55,12 +55,12 @@
             totalFile[pd.hash]=fs.openSync('./Files/'+pd.file,'r');
 
           }
-          
+
 
           var len=(pd.tl-pd.piece*pd.length)>=pd.length?pd.length:(pd.tl-pd.piece*pd.length);
           var sf=Buffer.allocUnsafe(len);
           fs.read(totalFile[pd.hash], sf, 0, len, pd.piece*pd.length, function(err,byteRead,buffer){
-            
+
 
             console.log(sf.length,sf,pd.piece);
             if (sf.length===0) {
@@ -92,27 +92,27 @@
           }
 
           }//pd
-          
-      		}.bind(this);//onmessage		
+
+      		}.bind(this);//onmessage
    			}.bind(this);//ondatachanal
   		}//init
   }
 
   function sendOffer(desc){
    		this.pc.setLocalDescription(desc);
-        
+
    		so.emit('offer',{sdp:desc,to:this.roId,from:so.uid})
 	}
 
 	function answerOffer(desc){
 		this.pc.setLocalDescription(desc);
-       
+
 		so.emit('answer',{sdp:desc,to:this.roId,from:so.uid})
 	}
 
   function split(arr,file,pos){
     if(pos<file.length){
-    
+
       var c=file.slice(pos,pos+65536);
       arr.push(c)
       return split(arr,file,pos+65536);
@@ -144,7 +144,7 @@
   		this.pc.createOffer(sendOffer.bind(this),function(err){
 		    console.log(err);
 	    })
-		
+
   }
 
   peer.prototype.answer=function(){
@@ -155,7 +155,7 @@
 		console.log(err);
 		})
 
-		
+
   }
 
   peer.prototype.addCandidate=function(can){
@@ -163,7 +163,7 @@
         this.pc.addIceCandidate(new RTCIceCandidate(can));
   }
 
-    
+
   peer.fn.init.prototype = peer.prototype;
 
   window.peer=peer;

@@ -80,7 +80,7 @@ ipc.on('torrentCreated', function(event, torrent, args, hash, uid) {
   fs.writeFileSync('./torrents/' + args.fileName + '.torrent', new Buffer(torrent));
   so.emit('torrent', torrent, args, hash, uid);
   localStorage.setItem(hash, 'allClean');
-  console.log(missionName, '种子生成完成,文件为', args.fileName);
+  console.log('种子生成完成,文件为', args.fileName);
   so.emit('join', hash)
 
 })

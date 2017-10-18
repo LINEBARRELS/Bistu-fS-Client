@@ -16,9 +16,9 @@ var deleting={}
    }catch(e){
     log(e);
    }
- 
-    /////////////////////////////////////////////////////////////////////
 
+    /////////////////////////////////////////////////////////////////////
+    console.log(so);
   so.on('icecandidate',  function(data) {
     peerConnectByUser[data.from].addCandidate(data.candidate);
     // console.log('new candicate!');
@@ -30,7 +30,7 @@ var deleting={}
       console.log('无现有peerconnection 创建');
       peerConnectByUser[data.from]=peer(data.from);
     }
-  
+
 
     peerConnectByUser[data.from].setRomote(data.sdp,data.from)
 
@@ -41,6 +41,11 @@ var deleting={}
 
     peerConnectByUser[data.from].setRomote(data.sdp,data.from);
   });
+
+
+  so.on('reconnect',function(data) {
+    so.emit('onLine', so.uid);
+  })
 
   so.on('roommess', function(data) {
     console.log(data.from);
@@ -82,7 +87,7 @@ var deleting={}
 
   so.on('leave',function(data){
 
-    
+
     var dis = peerConnectByUser[data]
     if (dis!=null) {
 
