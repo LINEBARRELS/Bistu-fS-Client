@@ -14,21 +14,20 @@ class Index extends React.Component {
     // console.log(this.props.search);
     let poll_item = [];
     this.props.search.forEach((item, index) => {
-      poll_item.push(<PollBlock className={item.type} header={item.missionName} content={item.fileName} key={index}/>)
+      poll_item.push(<PollBlock className={item.type} header={item.missionName} content={item.fileName} key={item.hash}/>)
     })
     return <div>
       <Banner/>
-      <Poll content={this.props.search}>
+      <Poll>
         {poll_item}
-      </Poll>
-    </div>;
+      </Poll></div>;
   }
 }
 
 function mapStateToProps(state) {
 
   var st = state.toJS();
-  return {search: st.searchReducer, current: st.routerReducer.cur}
+  return {search: st.searchReducer.result ,current: st.routerReducer.cur}
 }
 
 export default connect(mapStateToProps)(Index);

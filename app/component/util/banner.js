@@ -9,16 +9,22 @@ var ipc =electron.ipcRenderer;
 
 
 class Banner extends React.Component{
+	constructor(){
+		super();
+	}
 	render(){
 		return <header className='banner' onClick={(event)=>{
 			if(event.target.tagName=='LABEL'){
-				fetch('http://192.168.1.102:8080/search/'+event.target.getAttribute('name'),{credentials:'include'}).then((resp)=>{
+				var url = event.target.getAttribute('name');
+				fetch('http://localhost:8080/search/'+url,{credentials:'include'}).then((resp)=>{
 					if(resp.status!==200){
             			console.log("存在一个问题，状态码为："+resp.status);
             			return;
         			}
         			resp.json().then((data)=>{
-        				this.props.dispatch(searchAction(data));
+								var cur = this.props.curType;
+								var actionType = cur === url?'fresh':'searchInit';
+        				this.props.dispatch(searchAction(data,url,actionType));
         			})
 				})//fetch
 			}
@@ -46,10 +52,14 @@ class Banner extends React.Component{
 			<div className='banner-item' >
 				<input type='radio' name='ban' id='doc'/>
 				<label htmlFor='doc' name='doc'>文档</label>
-			</div>
-		</header>
+			</div></header>
 	}
 }
 
+function mapStateToProps(state) {
 
-export default connect()(Banner)
+  var st = state.toJS();
+  return {curType: st.searchReducer.type}
+}
+
+export default connect(mapStateToProps)(Banner)

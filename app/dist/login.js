@@ -91,7 +91,7 @@ var form = document.querySelector('.form')
     head.set('username', user.value);
     head.set('password', pass.value);
 
-    fetch("http://192.168.1.102:8080/login", {
+    fetch("http://localhost:8080/login", {
       method: 'post',
       headers: head,
       credentials:'include'
@@ -125,7 +125,7 @@ var form = document.querySelector('.form')
     var head = new Headers()
     head.set('username', user.value);
     head.set('password', pass.value);
-    fetch("http://192.168.1.102:8080/reg", {
+    fetch("http://localhost:8080/reg", {
       method: 'post',
       headers: head,
       credentials:'include'

@@ -57,9 +57,7 @@ ipc.on('fmReturn', (event, fm) => {
   store.dispatch(fmUpdateAction(fm));
 })
 
-setInterval(() => {
-  ipc.send('watchFm');
-}, 500);
+
 
 ipc.on('searchResult', (event, data) => {
   console.log('接收到搜索结果', data);

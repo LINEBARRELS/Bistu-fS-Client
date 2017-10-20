@@ -5,9 +5,11 @@ import PropTypes from 'prop-types'
 
 import {Unit} from '../util/unit.js'
 import {UnitItem} from '../util/unitItem.js'
+import {Progress} from '../util/progress.js'
 
 import {BlockTable} from '../blockTable/blockTable.js'
-import {BlockItem} from '../blockTable/BlockItem.js'
+import {BlockItem} from '../blockTable/blockItem.js'
+import {BlockContent} from '../blockTable/blockContent.js'
 
 class DownLoad extends React.Component {
 
@@ -18,22 +20,30 @@ class DownLoad extends React.Component {
   render() {
 
     let titles = ['文件名', '类型', '完成度', '即时速度'];
-		let blockItems = [];
-		for (let i of Object.values(this.props.download)) {
-				let blockValue = Object.values(i);
-				blockItems.push(<BlockItem val={i} />)
-		}
+    let blockItems = [];
+    for (let i of Object.entries(this.props.download)) {
+      let blockValue = Object.values(i);
+      blockItems.push(<BlockItem key={i[0]} ondbClick={itemDBClick} data={i[0]} status={i[1].status}>
+          <BlockContent>{i[1].fileName}</BlockContent>
+          <BlockContent>{i[1].type}</BlockContent>
+          <BlockContent><Progress present={i[1].completed}/></BlockContent>
+          <BlockContent>{Bit(12412515)}</BlockContent>
+        </BlockItem>)
+    }
     return <div>
-      <Unit>
+      <Unit id='download-bar'>
         <UnitItem data='on'>进行中</UnitItem>
         <UnitItem data='off'>已完成</UnitItem>
       </Unit>
 
       <BlockTable title={titles}>
-				
-			</BlockTable>
-    </div>
+        {blockItems}
+      </BlockTable></div>
   }
+}
+
+function itemDBClick(data){
+    console.log(data)
 }
 
 function mapStateToProps(state) {

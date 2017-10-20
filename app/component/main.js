@@ -33,8 +33,7 @@ class Main extends React.Component {
       <CSSTransitionGroup transitionName="example" transitionEnterTimeout={300} transitionLeaveTimeout={150}>
         {content}
       </CSSTransitionGroup>
-      <Loader on={this.props.loading}/>
-    </div>
+      <Loader on={this.props.loading}/></div>
 
   }
 }

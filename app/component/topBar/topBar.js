@@ -33,8 +33,7 @@ class TopBar extends React.Component {
 			<div className='top-container'>
 				<div className='top-item min' onClick={this.minmize.bind(this)}><div></div></div>
 				<div className='top-item close' onClick={this.quit.bind(this)}><div></div></div>
-			</div>
-		</div>
+			</div></div>
 	}
 }
 

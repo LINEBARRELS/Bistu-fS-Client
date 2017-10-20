@@ -29,9 +29,9 @@ class Unit extends React.Component{
 				if(this.props.onItemClick){
 					this.props.onItemClick.call(this,event,event.target.dataset['val']);
 				}
-				
+
 			}
-		}}>
+		}} id={this.props.id}>
 		{items}</div>
 	}
 }

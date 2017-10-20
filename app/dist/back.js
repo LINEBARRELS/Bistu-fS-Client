@@ -23,6 +23,13 @@ ipc.on('socketInit', function(event, username, uid) {
     : so.emit('join', localCashe)
 });
 
+
+setInterval(() => {
+  ipc.send('fmReturn', fileMission);
+}, 500);
+
+
+
 ipc.on('quit', function(event) {
   so.disconnect();
 })
@@ -60,10 +67,10 @@ ipc.on('fileWriteCom', function(event, hash, posi, written) {
 
 });
 
-ipc.on('watchFm', function(event) {
-  // console.log('?>?????');
-  ipc.send('fmReturn', fileMission)
-})
+// ipc.on('watchFm', function(event) {
+//   // console.log('?>?????');
+//   ipc.send('fmReturn', fileMission)
+// })
 
 ipc.on('triggle', function(event, name) {
   if (fileMission[name]) {

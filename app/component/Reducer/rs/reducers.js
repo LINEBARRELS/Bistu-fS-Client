@@ -25,22 +25,20 @@ export const routerReducer = (state = Map({cur: 'index'}), action) => {
 
 // }
 
-export const searchReducer = (state = List([]), action) => {
+export const searchReducer = (state = Map({result:List([]),type:''}), action) => {
 
-  switch (action.type) {
+  switch (action.actionType) {
     case 'appendContent':
-      // return Object.assign({},state,{
-      // 	content:action.content
-      // })
-      return state.concat(List(action.content))
+
+      return state.updateIn(['result'], v => v.concat(List(action.content) ) );
+      // state.concat(List(action.content))
 
     case 'fresh':
 
-      return state.mergeDeep(List(action.content))
+      return state.updateIn(['result'], v => v.mergeDeep(List(action.content)) );
 
     case 'searchInit':
-
-      return List(action.content)
+      return state.setIn(['result'],List(action.content)).setIn(['type'],action.type);
 
     default:
       return state
@@ -48,16 +46,16 @@ export const searchReducer = (state = List([]), action) => {
 
 }
 
-export const processReducer = (state = Map({process: 0}), action) => {
-
-  switch (action.type) {
-    case 'moving':
-      return state.update('process', v => action.process)
-    default:
-      return state
-  }
-
-}
+// export const processReducer = (state = Map({process: 0}), action) => {
+//
+//   switch (action.type) {
+//     case 'moving':
+//       return state.update('process', v => action.process)
+//     default:
+//       return state
+//   }
+//
+// }
 
 export const sideBarReducer = (state = false, action) => {
 
@@ -84,7 +82,8 @@ export const loading = (state = false, action) => {
 }
 
 export const downloadReducer = (state = Map({
-  ['adfasd2e']: Map({fileName: 'adsf', completed: 40, total: 100, status: true, type: 'doc'})
+  ['adfasd2e']: Map({fileName: 'adsf', completed: 0.4, status:true, type: 'doc'}),
+  ['asdfssdf2e']: Map({fileName: 'adsf', completed: 0.4, status:true, type: 'doc'})
 }), action) => {
   switch (action.type) {
     case 'fmUpdate':

@@ -1,7 +1,8 @@
-const searchAction = function(con){
+const searchAction = function(cont,type,actionType){
 	return{
-		type:'appendContent',
-		content:con
+		type:type,
+		actionType:actionType,
+		content:cont
 	}
 }
 
