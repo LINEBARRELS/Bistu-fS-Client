@@ -7185,13 +7185,8 @@ var BlockItem = function (_React$Component) {
   _createClass(BlockItem, [{
     key: 'render',
     value: function render() {
-      // let content = [];
-      //
-      // for (let i of Object.values(this.props.val)) {
-      //   content.push(<div className='block-content'>{i.toString()}</div>);
-      // }
+
       var on = this.props.status ? ' on' : null;
-      console.log(this.props.ondbClick);
       return React.createElement(
         'div',
         { className: 'block-item' + on, onDoubleClick: this.props.ondbClick.bind(this, this.props.data) },
@@ -7498,7 +7493,7 @@ var UpLoad = function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      ipc.on('torrentCreated', function () {
+      ipc.on('uploadComplete', function () {
         _this2.setState({});
         alert('种子生成完成!');
       });
@@ -7556,7 +7551,7 @@ var UpLoad = function (_React$Component) {
         comment: this.state.intro,
         type: this.state.type
       };
-      ipc.send('createT', this.state, option);
+      ipc.send('createT', this.state, option, uid);
     }
   }, {
     key: 'render',
@@ -7690,10 +7685,10 @@ var Index = function (_React$Component) {
   _createClass(Index, [{
     key: 'render',
     value: function render() {
-      // console.log(this.props.search);
+      console.log(this.props.search);
       var poll_item = [];
       this.props.search.forEach(function (item, index) {
-        poll_item.push(React.createElement(_pollBlock.PollBlock, { className: item.type, header: item.missionName, content: item.fileName, key: item.hash }));
+        poll_item.push(React.createElement(_pollBlock.PollBlock, { className: item.file_type, header: item.mission_name, content: item.file_name, key: item.hash }));
       });
       return React.createElement(
         'div',
@@ -8244,20 +8239,15 @@ var PollBlock = function (_React$Component) {
 		value: function render() {
 			var cl = 'colum-item-inner ' + this.props.className;
 
-			var img = this.props.img ? this.props.img : 'D:/frontEnd/Bistu-fS-Client/app/img/' + this.props.className + '.png';
+			// var img=this.props.img?this.props.img:('D:/frontEnd/Bistu-fS-Client/app/img/'+this.props.className+'.png')
 
-			var style = {
-				background: 'url(' + img + ')',
-				backgroundRepeat: 'no-repeat',
-				backgroundPosition: '50%'
-			};
 			return React.createElement(
 				'div',
 				{ className: 'column-item' },
 				React.createElement(
 					'div',
 					{ className: cl },
-					React.createElement('div', { className: 'inner-icon', style: style }),
+					React.createElement('div', { className: 'inner-icon' }),
 					React.createElement(
 						'div',
 						{ className: 'inner-content' },

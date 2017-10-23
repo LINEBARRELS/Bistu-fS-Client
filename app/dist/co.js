@@ -85,6 +85,10 @@ var deleting={}
     ipc.send('searchResult',data);
   });
 
+  so.on('uploadComplete',function(data) {
+    ipc.send('uploadComplete')
+  })
+
   so.on('leave',function(data){
 
 

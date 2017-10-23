@@ -103,8 +103,9 @@ var form = document.querySelector('.form')
       }
       //检查响应文本
       response.json().then(function(data) {
-        if (data.loginResult === 'success') {
-          ipc.send('success', user.value, data.uid)
+        console.log(data.id);
+        if (data.resp === true) {
+          ipc.send('success', user.value, data.id)
         } else {
           alert('登录失败')
           login.disabled = false;
@@ -136,13 +137,7 @@ var form = document.querySelector('.form')
       }
       //检查响应文本
       response.json().then(function(data) {
-        if (data.registResult === 'success') {
-          alert('注册成功~')
-          regist.disabled = false;
-        } else {
-          alert('注册失败');
-          regist.disabled = false;
-        }
+          console.log(data)
       })
     }).catch(function(err) {
       console.log("Fetch错误:" + err);

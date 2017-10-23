@@ -114,7 +114,7 @@ ipcMain.on('mini', function(event) {
   mainWindow.minimize();
 });
 
-ipcMain.on('createT', function(event, args, opt) {
+ipcMain.on('createT', function(event, args, opt, uid) {
 
   createTorrent(args.path, opt, function(err, torrent) {
     if (!err) {
@@ -122,7 +122,7 @@ ipcMain.on('createT', function(event, args, opt) {
       var name = tem.reverse()[0];
 
       var pt = parse(torrent)
-      mainWindow.webContents.send('torrentCreated', pt)
+      // mainWindow.webContents.send('torrentCreated', pt)
       back.webContents.send('torrentCreated', torrent, args, pt.infoHash, uid)
     } else {
       back.webContents.send('err', err, args)
@@ -210,6 +210,10 @@ ipcMain.on('fmReturn', function(event, data) {
 ipcMain.on('complete', function(event, data) {
   // fs.closeSync(temp[data]);
   mainWindow.webContents.send('complete', data);
+})
+
+ipcMain.on('uploadComplete',function(event, data) {
+  mainWindow.webContents.send('uploadComplete')
 })
 
 ipcMain.on('closeF', function(event, data) {

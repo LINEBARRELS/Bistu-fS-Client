@@ -25,7 +25,7 @@ class UpLoad extends React.Component {
   }
 
   componentDidMount(){
-    ipc.on('torrentCreated',() => {
+    ipc.on('uploadComplete',() => {
       this.setState({})
       alert('种子生成完成!')
     })
@@ -77,7 +77,7 @@ class UpLoad extends React.Component {
       comment: this.state.intro,
       type: this.state.type
     }
-    ipc.send('createT', this.state, option);
+    ipc.send('createT', this.state, option, uid);
   }
 
   render() {

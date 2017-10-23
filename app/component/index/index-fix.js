@@ -11,10 +11,10 @@ import Banner from '../util/banner.js'
 class Index extends React.Component {
 
   render() {
-    // console.log(this.props.search);
+    console.log(this.props.search);
     let poll_item = [];
     this.props.search.forEach((item, index) => {
-      poll_item.push(<PollBlock className={item.type} header={item.missionName} content={item.fileName} key={item.hash}/>)
+      poll_item.push(<PollBlock className={item.file_type} header={item.mission_name} content={item.file_name} key={item.hash}/>)
     })
     return <div>
       <Banner/>
