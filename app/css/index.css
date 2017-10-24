@@ -283,7 +283,6 @@ html, body {
   width: 180px;
 }
 
-
 #top-search>input {
   padding-right: 24px;
 }
@@ -619,15 +618,12 @@ html, body {
   font-size: smaller;
 }
 
-
-
-
 .movie {
   height: 150px;
   border: 1px solid #00896c;
 }
 
-.movie > div:first-of-type{
+.movie>div:first-of-type {
   background-image: url('../img/movie.png');
   background-repeat: no-repeat;
   background-position: 50%;
@@ -637,15 +633,12 @@ html, body {
   background: #00896c;
 }
 
-
-
-
 .music {
   height: 120px;
   border: 1px solid #724938;
 }
 
-.music > div:first-of-type{
+.music>div:first-of-type {
   background-image: url('../img/music.png');
   background-repeat: no-repeat;
   background-position: 50%;
@@ -655,15 +648,12 @@ html, body {
   background: #724938;
 }
 
-
-
-
 .game {
   height: 130px;
   border: 1px solid #9f353a;
 }
 
-.game > div:first-of-type{
+.game>div:first-of-type {
   background-image: url('../img/game.png');
   background-repeat: no-repeat;
   background-position: 50%;
@@ -673,15 +663,12 @@ html, body {
   background: #9f353a;
 }
 
-
-
-
 .doc {
   height: 100px;
   border: 1px solid #4e4f97;
 }
 
-.doc > div:first-of-type{
+.doc>div:first-of-type {
   background-image: url('../img/doc.png');
   background-repeat: no-repeat;
   background-position: 50%;
@@ -690,8 +677,6 @@ html, body {
 .doc>.inner-content {
   background: #4e4f97;
 }
-
-
 
 .row {
   display: flex;
@@ -1093,7 +1078,7 @@ html, body {
   flex-direction: column;
 }
 
-.block-title {
+/*.block-title {
   display: flex;
   margin-bottom: 10px;
   font-family: bla;
@@ -1104,7 +1089,7 @@ html, body {
 .block-title>div {
   flex: 1 1 0;
   padding-left: 10px;
-}
+}*/
 
 .block-item {
   display: flex;
@@ -1119,8 +1104,7 @@ html, body {
   position: relative;
 }
 
-
-.block-item::before{
+.block-item::before {
   content: '';
   position: absolute;
   top: 0;
@@ -1129,10 +1113,10 @@ html, body {
   height: 100%;
   background-color: inherit;
   transition: all .3s;
-  background:#CB1B45;
+  background: #CB1B45;
 }
 
-.block-item.on::before{
+.block-item.on::before {
   background: rgba(89, 158, 249, 1);
 }
 
@@ -1143,17 +1127,28 @@ html, body {
   justify-content: flex-start;
   align-items: center;
   position: relative;
-
 }
 
-.process{
+.block-content.block-content-1 {
+  flex: 1 1 0;
+}
+
+.block-content.block-content-2 {
+  flex: 2 2 0;
+}
+
+.block-content.block-content-3 {
+  flex: 3 3 0;
+}
+
+.process {
   width: 100%;
   height: .5em;
-  background: rgba(0,0,0,.9);
+  background: rgba(0, 0, 0, .9);
   border-radius: 2px;
 }
 
-.process > div{
+.process>div {
   position: relative;
   background: rgba(89, 158, 249, 1);
   transition: all .3s;
@@ -1161,13 +1156,12 @@ html, body {
   border-radius: 2px;
 }
 
-.process.on > div::after{
+.process.on>div::after {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(to right,rgba(250,248,248,.1),rgba(250,248,248,.7));
+  background: linear-gradient(to right, rgba(250, 248, 248, .1), rgba(250, 248, 248, .7));
   animation: progress-ing 2s ease infinite;
-
 }

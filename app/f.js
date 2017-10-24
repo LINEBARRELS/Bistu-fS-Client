@@ -260,6 +260,12 @@ process.umask = function() { return 0; };
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("electron");
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -5243,7 +5249,7 @@ process.umask = function() { return 0; };
 }));
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/**
@@ -5278,7 +5284,7 @@ if (process.env.NODE_ENV !== 'production') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5295,12 +5301,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = require("electron");
 
 /***/ }),
 /* 6 */
@@ -6222,7 +6222,7 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return subscriptionShape; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return storeShape; });
@@ -6681,7 +6681,7 @@ var _redux = __webpack_require__(25);
 
 var _Root = __webpack_require__(32);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _Files = __webpack_require__(14);
 
@@ -6690,7 +6690,7 @@ var _Missionupdate = __webpack_require__(29);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var fs = __webpack_require__(86);
-var electron = __webpack_require__(5);
+var electron = __webpack_require__(2);
 var ReactDOM = __webpack_require__(88);
 var parse = __webpack_require__(87);
 
@@ -6735,7 +6735,8 @@ window.BitbyM = function (num) {
   return (num / 1048576).toString().slice(0, 5) + 'MB';
 };
 
-ipc.on('fmReturn', function (event, fm) {
+ipc.on('fm', function (event, fm) {
+  // console.log(fm);
   store.dispatch((0, _Missionupdate.fmUpdateAction)(fm));
 });
 
@@ -6788,28 +6789,27 @@ window.ondragover = function (e) {
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 exports.fmUpdateAction = undefined;
 
-var _immutable = __webpack_require__(2);
+var _immutable = __webpack_require__(3);
 
 var fmUpdateAction = function fmUpdateAction(fm) {
-	var t = (0, _immutable.Map)({});
+  var t = (0, _immutable.Map)({});
 
-	for (var i in fm) {
-		var t = t.set(i, (0, _immutable.Map)({ fileName: fm[i].fileName,
-			completed: fm[i].completed,
-			total: fm[i].total,
-			hash: fm[i].hash,
-			status: fm[i].status,
-			type: fm[i].type }));
-	}
+  for (var i in fm) {
+    var t = t.set(i, (0, _immutable.Map)({
+      fileName: fm[i].fileName,
+      completed: fm[i].completed / fm[i].total,
+      total: fm[i].total,
+      hash: fm[i].hash,
+      status: fm[i].status,
+      createdBy: fm[i].creatorName
+    }));
+  }
 
-	return {
-		type: 'fmUpdate',
-		fileMission: t
-	};
+  return { type: 'fmUpdate', fileMission: t };
 };
 
 exports.fmUpdateAction = fmUpdateAction;
@@ -6889,9 +6889,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.downloadReducer = exports.loading = exports.sideBarReducer = exports.searchReducer = exports.routerReducer = undefined;
 
-var _immutable = __webpack_require__(2);
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+var _immutable = __webpack_require__(3);
 
 var routerReducer = exports.routerReducer = function routerReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _immutable.Map)({ cur: 'index' });
@@ -6989,9 +6987,7 @@ var loading = exports.loading = function loading() {
 };
 
 var downloadReducer = exports.downloadReducer = function downloadReducer() {
-  var _Map;
-
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _immutable.Map)((_Map = {}, _defineProperty(_Map, 'adfasd2e', (0, _immutable.Map)({ fileName: 'adsf', completed: 0.4, status: true, type: 'doc' })), _defineProperty(_Map, 'asdfssdf2e', (0, _immutable.Map)({ fileName: 'adsf', completed: 0.4, status: true, type: 'doc' })), _Map));
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _immutable.Map)({});
   var action = arguments[1];
 
   switch (action.type) {
@@ -7015,11 +7011,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _propTypes = __webpack_require__(3);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _main = __webpack_require__(41);
 
@@ -7138,10 +7134,10 @@ var BlockContent = function (_React$Component) {
   _createClass(BlockContent, [{
     key: 'render',
     value: function render() {
-
+      var classPlus = this.props.percent ? 'block-content-' + this.props.percent : '';
       return React.createElement(
         'div',
-        { className: 'block-content' },
+        { className: 'block-content ' + classPlus },
         this.props.children
       );
     }
@@ -7186,7 +7182,7 @@ var BlockItem = function (_React$Component) {
     key: 'render',
     value: function render() {
 
-      var on = this.props.status ? ' on' : null;
+      var on = this.props.status ? ' on' : '';
       return React.createElement(
         'div',
         { className: 'block-item' + on, onDoubleClick: this.props.ondbClick.bind(this, this.props.data) },
@@ -7220,7 +7216,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(0);
-var electron = __webpack_require__(5);
+var electron = __webpack_require__(2);
 
 var BlockTable = function (_React$Component) {
 	_inherits(BlockTable, _React$Component);
@@ -7236,43 +7232,9 @@ var BlockTable = function (_React$Component) {
 		value: function render() {
 			var header = [];
 
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = this.props.title[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var i = _step.value;
-
-					header.push(React.createElement(
-						'div',
-						null,
-						i
-					));
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
 			return React.createElement(
 				'div',
 				{ className: 'block-table' },
-				React.createElement(
-					'div',
-					{ className: 'block-title' },
-					header
-				),
 				this.props.children
 			);
 		}
@@ -7296,9 +7258,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
-var _propTypes = __webpack_require__(3);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -7323,6 +7285,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(0);
+var electron = __webpack_require__(2);
+var ipc = electron.ipcRenderer;
 
 var DownLoad = function (_React$Component) {
   _inherits(DownLoad, _React$Component);
@@ -7352,28 +7316,29 @@ var DownLoad = function (_React$Component) {
         for (var _iterator = Object.entries(this.props.download)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var i = _step.value;
 
-          var blockValue = Object.values(i);
+          // let blockValue = Object.values(i);
+          console.log(i[1]);
           blockItems.push(React.createElement(
             _blockItem.BlockItem,
             { key: i[0], ondbClick: itemDBClick, data: i[0], status: i[1].status },
             React.createElement(
               _blockContent.BlockContent,
-              null,
+              { percent: '1' },
               i[1].fileName
             ),
             React.createElement(
               _blockContent.BlockContent,
-              null,
-              i[1].type
+              { percent: '1' },
+              i[1].createdBy
             ),
             React.createElement(
               _blockContent.BlockContent,
-              null,
+              { percent: '2' },
               React.createElement(_progress.Progress, { present: i[1].completed })
             ),
             React.createElement(
               _blockContent.BlockContent,
-              null,
+              { percent: '1' },
               Bit(12412515)
             )
           ));
@@ -7397,20 +7362,6 @@ var DownLoad = function (_React$Component) {
         'div',
         null,
         React.createElement(
-          _unit.Unit,
-          { id: 'download-bar' },
-          React.createElement(
-            _unitItem.UnitItem,
-            { data: 'on' },
-            '\u8FDB\u884C\u4E2D'
-          ),
-          React.createElement(
-            _unitItem.UnitItem,
-            { data: 'off' },
-            '\u5DF2\u5B8C\u6210'
-          )
-        ),
-        React.createElement(
           _blockTable.BlockTable,
           { title: titles },
           blockItems
@@ -7423,7 +7374,7 @@ var DownLoad = function (_React$Component) {
 }(React.Component);
 
 function itemDBClick(data) {
-  console.log(data);
+  ipc.send('triggle', data);
 }
 
 function mapStateToProps(state) {
@@ -7455,7 +7406,7 @@ var _unitItem = __webpack_require__(7);
 
 var _tag = __webpack_require__(50);
 
-var _immutable = __webpack_require__(2);
+var _immutable = __webpack_require__(3);
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -7466,7 +7417,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(0);
-var electron = __webpack_require__(5);
+var electron = __webpack_require__(2);
 
 var ipc = electron.ipcRenderer;
 
@@ -7496,6 +7447,10 @@ var UpLoad = function (_React$Component) {
       ipc.on('uploadComplete', function () {
         _this2.setState({});
         alert('种子生成完成!');
+      });
+
+      ipc.on('uploadFail', function () {
+        alert('上传失败');
       });
     }
   }, {
@@ -7551,6 +7506,7 @@ var UpLoad = function (_React$Component) {
         comment: this.state.intro,
         type: this.state.type
       };
+      console.log(uid);
       ipc.send('createT', this.state, option, uid);
     }
   }, {
@@ -7649,11 +7605,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _propTypes = __webpack_require__(3);
+var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _poll = __webpack_require__(46);
 
@@ -7672,6 +7628,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(0);
+var electron = __webpack_require__(2);
+
+
+var ipc = electron.ipcRenderer;
 
 var Index = function (_React$Component) {
   _inherits(Index, _React$Component);
@@ -7688,7 +7648,7 @@ var Index = function (_React$Component) {
       console.log(this.props.search);
       var poll_item = [];
       this.props.search.forEach(function (item, index) {
-        poll_item.push(React.createElement(_pollBlock.PollBlock, { className: item.file_type, header: item.mission_name, content: item.file_name, key: item.hash }));
+        poll_item.push(React.createElement(_pollBlock.PollBlock, { className: item.file_type, header: item.mission_name, content: item.file_name, data: item.hash, key: item.hash }));
       });
       return React.createElement(
         'div',
@@ -7705,6 +7665,10 @@ var Index = function (_React$Component) {
 
   return Index;
 }(React.Component);
+
+function db(data) {
+  ipc.send('download', data);
+}
 
 function mapStateToProps(state) {
 
@@ -7834,7 +7798,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(0);
-var electron = __webpack_require__(5);
+var electron = __webpack_require__(2);
 
 var ipc = electron.ipcRenderer;
 
@@ -7910,7 +7874,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(5);
 
 var _Files = __webpack_require__(14);
 
@@ -7921,7 +7885,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(0);
-var electron = __webpack_require__(5);
+var electron = __webpack_require__(2);
 
 var ipc = electron.ipcRenderer;
 
@@ -8224,6 +8188,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var React = __webpack_require__(0);
+var electron = __webpack_require__(2);
+
+var ipc = electron.ipcRenderer;
 
 var PollBlock = function (_React$Component) {
 	_inherits(PollBlock, _React$Component);
@@ -8237,13 +8204,17 @@ var PollBlock = function (_React$Component) {
 	_createClass(PollBlock, [{
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var cl = 'colum-item-inner ' + this.props.className;
 
 			// var img=this.props.img?this.props.img:('D:/frontEnd/Bistu-fS-Client/app/img/'+this.props.className+'.png')
-
 			return React.createElement(
 				'div',
-				{ className: 'column-item' },
+				{ className: 'column-item', onDoubleClick: function onDoubleClick(event) {
+						console.log(_this2.props.data);
+						ipc.send('download', _this2.props.data);
+					} },
 				React.createElement(
 					'div',
 					{ className: cl },
@@ -8427,7 +8398,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _input = __webpack_require__(6);
 
-var _immutable = __webpack_require__(2);
+var _immutable = __webpack_require__(3);
 
 var _transitionGroup = __webpack_require__(13);
 
@@ -9595,7 +9566,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_PropTypes__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_warning__ = __webpack_require__(12);
@@ -10257,7 +10228,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = __webpack_require__(2);
+var _immutable = __webpack_require__(3);
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
@@ -10335,7 +10306,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = __webpack_require__(2);
+var _immutable = __webpack_require__(3);
 
 var _immutable2 = _interopRequireDefault(_immutable);
 

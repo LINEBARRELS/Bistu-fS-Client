@@ -29,6 +29,10 @@ class UpLoad extends React.Component {
       this.setState({})
       alert('种子生成完成!')
     })
+
+    ipc.on('uploadFail',() => {
+      alert('上传失败')
+    })
   }
 
   shouldComponentUpdate(nextProps = {}, nextState = {}) {
@@ -77,6 +81,7 @@ class UpLoad extends React.Component {
       comment: this.state.intro,
       type: this.state.type
     }
+    console.log(uid);
     ipc.send('createT', this.state, option, uid);
   }
 

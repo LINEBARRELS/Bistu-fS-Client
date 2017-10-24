@@ -47,7 +47,7 @@ ipc.on('searchType', function(event, search) {
 
 });
 
-ipc.on('downLoad', function(event, name) {
+ipc.on('download', function(event, name) {
 
   so.emit('downLoad', name);
 
@@ -79,7 +79,7 @@ ipc.on('triggle', function(event, name) {
       : fileMission[name].start();
   }
 
-})
+});
 
 ipc.on('torrentCreated', function(event, torrent, args, hash, uid) {
 
@@ -90,8 +90,13 @@ ipc.on('torrentCreated', function(event, torrent, args, hash, uid) {
   console.log('种子生成完成,文件为', args.fileName);
   so.emit('join', hash)
 
-})
+});
+
+setInterval(()=>{
+  ipc.send('fm',fileMission);
+},500);
+
 
 ipc.on('err', function(event, e, arg) {
   console.log(e, arg);
-})
+});

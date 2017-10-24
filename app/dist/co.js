@@ -54,8 +54,13 @@ var deleting={}
   so.on('torrentArrive',function(data){
     if(!fileMission[data.hash]){
       var fm=new file(Buffer.from(data.torr));
+      fm.setCreatorName(data.createdBy)
+      let myNotification = new Notification('种子下载完成', {
+        body: '请前往下载页面确认'
+      })
     }
-    // ipc.send('fmToMain',fm)
+    console.log(fm);
+    ipc.send('fm',fileMission)
   });
 
   so.on('pieceSearch',function(data){
@@ -87,6 +92,10 @@ var deleting={}
 
   so.on('uploadComplete',function(data) {
     ipc.send('uploadComplete')
+  })
+
+  so.on('uploadFail',function(data) {
+    ipc.send('uploadFail')
   })
 
   so.on('leave',function(data){

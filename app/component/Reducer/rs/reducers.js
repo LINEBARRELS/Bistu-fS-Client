@@ -81,10 +81,7 @@ export const loading = (state = false, action) => {
 
 }
 
-export const downloadReducer = (state = Map({
-  ['adfasd2e']: Map({fileName: 'adsf', completed: 0.4, status:true, type: 'doc'}),
-  ['asdfssdf2e']: Map({fileName: 'adsf', completed: 0.4, status:true, type: 'doc'})
-}), action) => {
+export const downloadReducer = (state = Map({}), action) => {
   switch (action.type) {
     case 'fmUpdate':
       return state.mergeDeep(action.fileMission)

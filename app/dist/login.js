@@ -137,7 +137,12 @@ var form = document.querySelector('.form')
       }
       //检查响应文本
       response.json().then(function(data) {
-          console.log(data)
+          if (data.affectedRows === 1) {
+            alert('注册成功');
+          }else {
+            alert('注册失败');
+          }
+          regist.disabled = false;
       })
     }).catch(function(err) {
       console.log("Fetch错误:" + err);

@@ -53,8 +53,10 @@ window.BitbyM = function(num) {
   return (num / 1048576).toString().slice(0, 5) + 'MB';
 }
 
-ipc.on('fmReturn', (event, fm) => {
+ipc.on('fm', (event, fm) => {
+  // console.log(fm);
   store.dispatch(fmUpdateAction(fm));
+
 })
 
 

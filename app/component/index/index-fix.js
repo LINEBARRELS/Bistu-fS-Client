@@ -1,4 +1,5 @@
 var React = require('react');
+var electron= require('electron');
 import PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
@@ -8,20 +9,28 @@ import {PollBlock} from '../util/pollBlock.js'
 
 import Banner from '../util/banner.js'
 
+var ipc =electron.ipcRenderer;
+
+
+
 class Index extends React.Component {
 
   render() {
     console.log(this.props.search);
     let poll_item = [];
     this.props.search.forEach((item, index) => {
-      poll_item.push(<PollBlock className={item.file_type} header={item.mission_name} content={item.file_name} key={item.hash}/>)
+      poll_item.push(<PollBlock className={item.file_type} header={item.mission_name} content={item.file_name} data={item.hash} key={item.hash}/>)
     })
     return <div>
-      <Banner/>
-      <Poll>
+      <Banner />
+      <Poll >
         {poll_item}
       </Poll></div>;
   }
+}
+
+function db(data){
+  ipc.send('download',data)
 }
 
 function mapStateToProps(state) {
