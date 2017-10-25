@@ -1,15 +1,17 @@
 var React = require('react');
 
-class BlockItem extends React.Component{
+class BlockItem extends React.Component {
   constructor() {
     super();
   }
 
-  render(){
+  render() {
 
-    let on = this.props.status?' on':'';
-    return <div className={'block-item'+on} onDoubleClick={this.props.ondbClick.bind(this,this.props.data)}>
-    {this.props.children}</div>
+    let on = this.props.status
+      ? ' on'
+      : '';
+    return <div className={'block-item' + on} onDoubleClick={this.props.ondbClick.bind(this, this.props.data)}>
+      {this.props.children}</div>
 
   }
 }
