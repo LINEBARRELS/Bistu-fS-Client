@@ -98,8 +98,8 @@ ipcMain.on('success', function(event, user, uid) {
 
 ipcMain.on('quit', function(event) {
 
-  ipcMain.removeAllListeners('watchFm');
-  ipcMain.removeAllListeners('fmReturn');
+  // ipcMain.removeAllListeners('watchFm');
+  // ipcMain.removeAllListeners('fmReturn');
   if (mainWindow) {
     mainWindow.close();
   }
@@ -222,6 +222,10 @@ ipcMain.on('uploadFail',function(event, data) {
 
 ipcMain.on('closeF', function(event, data) {
   fs.closeSync(temp[data]);
+})
+
+ipcMain.on('message', function(event, data) {
+  mainWindow.webContents.send('message',data)
 })
 
 //////////////////////////////////////////////////////

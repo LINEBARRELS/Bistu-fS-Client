@@ -25,20 +25,20 @@ export const routerReducer = (state = Map({cur: 'index'}), action) => {
 
 // }
 
-export const searchReducer = (state = Map({result:List([]),type:''}), action) => {
+export const searchReducer = (state = Map({result: List([]), type: ''}), action) => {
 
   switch (action.actionType) {
     case 'appendContent':
 
-      return state.updateIn(['result'], v => v.concat(List(action.content) ) );
+      return state.updateIn(['result'], v => v.concat(List(action.content)));
       // state.concat(List(action.content))
 
     case 'fresh':
 
-      return state.updateIn(['result'], v => v.mergeDeep(List(action.content)) );
+      return state.updateIn(['result'], v => v.mergeDeep(List(action.content)));
 
     case 'searchInit':
-      return state.setIn(['result'],List(action.content)).setIn(['type'],action.type);
+      return state.setIn(['result'], List(action.content)).setIn(['type'], action.type);
 
     default:
       return state
@@ -46,16 +46,36 @@ export const searchReducer = (state = Map({result:List([]),type:''}), action) =>
 
 }
 
-// export const processReducer = (state = Map({process: 0}), action) => {
-//
-//   switch (action.type) {
-//     case 'moving':
-//       return state.update('process', v => action.process)
-//     default:
-//       return state
-//   }
-//
+// message:{
+//   content:string,
+//   from:uid
 // }
+
+// friends:{
+//   uid:{
+//     username:string,
+//     unread:num,
+//     last:string
+//   }
+// }
+
+export const messageReducer = (state = Map({unread:0,friends:Map({}),messages:List([]),on:''}), action) => {
+
+  switch (action.type) {
+    case 'newMessage':
+      return state.updateIn('unread', v => v+=1)
+          .updateIn(['messages'],v => v.push(action.message))
+          .updateIn(['friends',action.message.from],v => v === undefined ?v={username:'',unread:0,last:''}:null)
+          .updateIn(['friends',action.message.from],v => v={username:action.message.username,unread:(v.unread|0)+1,last:action.message.content} )
+    case 'clearUnread':
+      return state.updateIn(['unread'], v => v = 0);
+    case 'loadUser':
+      return state.updateIn(['friends',action.user,'unread'], v => 0).set('on',action.user);
+    default:
+      return state
+  }
+
+}
 
 export const sideBarReducer = (state = false, action) => {
 

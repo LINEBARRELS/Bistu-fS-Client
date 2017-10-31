@@ -12,6 +12,7 @@ import {Provider} from 'react-redux'
 
 import {searchAction} from "./component/Action/Files.js"
 import {fmUpdateAction} from "./component/Action/Missionupdate.js"
+import {messageAction} from "./component/Action/Message.js"
 
 var mission = {};
 
@@ -71,7 +72,7 @@ ipc.on('fileWriteCom', (event, mess, buf) => {
 }) //写文件完成
 
 ipc.on('message', (event, mess) => {
-  console.log(mess);
+  store.dispatch(messageAction(mess))
 })
 
 ipc.on('complete', (event, mess) => {

@@ -10,7 +10,7 @@ class Progress extends React.Component {
       ? 'process'
       : 'process on';
     let st = {
-      width: this.props.*100 + '%'
+      width: this.props.present*100 + '%'
     }
     return <div className={on}>
       <div style={st}></div>

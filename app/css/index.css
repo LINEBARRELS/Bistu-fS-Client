@@ -270,6 +270,44 @@ html, body {
   height: 100%;
 }
 
+.tip-icon {
+  width: 20px;
+  height: 20px;
+  background-image: url(../img/message.png);
+  position: relative;
+  left: 350px;
+  align-self: center;
+  cursor: pointer;
+}
+
+.tip {
+  position: absolute;
+  width: 100px;
+  height: 200px;
+  background-color: rgba(48, 51, 60, 1);
+  transition: all .3s;
+  top: 28px;
+  left: -40px;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, .6);
+  display: none;
+}
+
+.tip::before {
+  content: '';
+  position: absolute;
+  /* border-color: rgb(30, 33, 41); */
+  border-bottom: 10px solid rgb(30, 33, 41);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tip-icon.open>.tip {
+  display: block;
+}
+
 .top-item {
   position: relative;
   display: block;
@@ -700,8 +738,20 @@ html, body {
 
 .col>* {}
 
+.col-2 {
+  flex: 2 2 0;
+}
+
+.col-3 {
+  flex: 4 4 0;
+}
+
 .col-4 {
   flex: 4 4 0;
+}
+
+.col-5 {
+  flex: 5 5 0;
 }
 
 .col-6 {
@@ -1078,6 +1128,13 @@ html, body {
   flex-direction: column;
 }
 
+.download-null {
+  text-align: center;
+  margin-top: 150px;
+  font-size: x-large;
+  font-family: bla;
+}
+
 /*.block-title {
   display: flex;
   margin-bottom: 10px;
@@ -1164,4 +1221,16 @@ html, body {
   height: 100%;
   background: linear-gradient(to right, rgba(250, 248, 248, .1), rgba(250, 248, 248, .7));
   animation: progress-ing 2s ease infinite;
+}
+
+
+
+.item-group{
+
+}
+
+
+
+.item{
+
 }

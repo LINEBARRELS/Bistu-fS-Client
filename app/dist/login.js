@@ -105,7 +105,7 @@ var form = document.querySelector('.form')
       response.json().then(function(data) {
         console.log(data.id);
         if (data.resp === true) {
-          ipc.send('success', user.value, data.id)
+          ipc.send('success', data.username, data.id)
         } else {
           alert('登录失败')
           login.disabled = false;

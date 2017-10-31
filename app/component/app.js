@@ -43,9 +43,12 @@ class App extends React.Component {
         <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\index.png' data='index' disc='主页'/>
         <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\download.png' data='download' disc='下载'/>
         <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\upload.png' data='upload' disc='上传文件'/>
+        <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\chat.png' data='chat' disc='信息'/>
+        <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\user set.png' data='user' disc='设置'/>
       </SideBar>
 
       <Main cur={this.props.current} loading={this.props.loading}/>
+      
     </div>
   }
 }

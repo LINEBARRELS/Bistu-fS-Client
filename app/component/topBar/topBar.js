@@ -1,7 +1,8 @@
 var React= require('react');
 var electron= require('electron');
 
-
+import {Icon} from '../util/icon.js'
+import {Tip} from '../util/tip.js'
 
 var ipc =electron.ipcRenderer;
 
@@ -30,7 +31,9 @@ class TopBar extends React.Component {
 		return <div className='app-bar'>
 
 			{this.props.children}
+			<Icon ><Tip/></Icon>
 			<div className='top-container'>
+
 				<div className='top-item min' onClick={this.minmize.bind(this)}><div></div></div>
 				<div className='top-item close' onClick={this.quit.bind(this)}><div></div></div>
 			</div></div>

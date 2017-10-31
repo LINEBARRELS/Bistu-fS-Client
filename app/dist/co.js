@@ -44,7 +44,7 @@ so.on('answered', function(data) {
 so.on('reconnect', function(data) {
   console.log('reconnect');
   so.emit('onLine', so.uid);
-})
+});
 
 so.on('roommess', function(data) {
   console.log(data.from);
@@ -116,6 +116,10 @@ so.on('leave', function(data) {
     // delete peerConnectByUser[data]
 
   }
+})
+
+so.on('message',function(message){
+  ipc.send('message',message)
 })
 
 so.on('connection_wrong', function(data) {

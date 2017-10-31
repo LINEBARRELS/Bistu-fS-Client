@@ -7,6 +7,9 @@ var React = require('react')
 import Index from "./index/index-fix.js"
 import {UpLoad} from "./file/upload-fix.js"
 import DownLoad from "./file/download-fix.js"
+import Chat from "./chat/chat.js"
+import {User} from "./user/user.js"
+
 import {Loader} from './util/loader.js'
 
 import {CSSTransitionGroup} from 'transitionGroup'
@@ -26,6 +29,14 @@ class Main extends React.Component {
       case 'upload':
 
         content = <div className='mainSection' key={this.props.cur}><UpLoad/></div>
+        break;
+      case 'chat':
+
+        content = <div className='mainSection' key={this.props.cur}><Chat/></div>
+        break;
+      case 'user':
+
+          content = <div className='mainSection' key={this.props.cur}><User/></div>
         break;
     }
 

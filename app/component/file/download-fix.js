@@ -6,8 +6,6 @@ var ipc = electron.ipcRenderer;
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
-import {Unit} from '../util/unit.js'
-import {UnitItem} from '../util/unitItem.js'
 import {Progress} from '../util/progress.js'
 
 import {BlockTable} from '../blockTable/blockTable.js'
@@ -27,7 +25,6 @@ class DownLoad extends React.Component {
     let blockItems = [];
     for (let i of Object.entries(this.props.download)) {
       // let blockValue = Object.values(i);
-          console.log(i[1]);
       blockItems.push(<BlockItem key={i[0]} ondbClick={itemDBClick} data={i[0]} status={i[1].status}>
           <BlockContent percent='1'>{i[1].fileName}</BlockContent>
           <BlockContent percent='1'>{i[1].createdBy}</BlockContent>
@@ -35,10 +32,10 @@ class DownLoad extends React.Component {
           <BlockContent percent='1'>{Bit(12412515)}</BlockContent>
         </BlockItem>)
     }
+    let content = blockItems.length === 0 ? <p className='download-null'>没有下载任务</p> : blockItems;
     return <div>
-
       <BlockTable title={titles}>
-        {blockItems}
+        {content}
       </BlockTable></div>
   }
 }
