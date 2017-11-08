@@ -26,9 +26,9 @@ class DownLoad extends React.Component {
     for (let i of Object.entries(this.props.download)) {
       // let blockValue = Object.values(i);
       blockItems.push(<BlockItem key={i[0]} ondbClick={itemDBClick} data={i[0]} status={i[1].status}>
-          <BlockContent percent='1'>{i[1].fileName}</BlockContent>
+          <BlockContent percent='2'>{i[1].fileName}</BlockContent>
           <BlockContent percent='1'>{i[1].createdBy}</BlockContent>
-          <BlockContent percent='2'><Progress present={i[1].completed}/></BlockContent>
+          <BlockContent percent='1'><Progress present={i[1].completed}/></BlockContent>
           <BlockContent percent='1'>{Bit(12412515)}</BlockContent>
         </BlockItem>)
     }

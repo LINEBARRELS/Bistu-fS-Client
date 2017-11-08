@@ -46,14 +46,11 @@ app.on('ready', function() {
 // app.on('quit',function(){
 
 // })
-ipcMain.on('login',function(event,user,pass){
-
-
-})
+ipcMain.on('login', function(event, user, pass) {})
 
 ipcMain.on('success', function(event, user, uid) {
   login.hide();
-   const ses = login.webContents.session;
+  const ses = login.webContents.session;
   global.uid = uid;
   mainWindow = new BrowserWindow({
     // resizable:false,
@@ -165,30 +162,40 @@ ipcMain.on('fileArrive', function(event, name, posi, file, length, hash) {
 
 ipcMain.on('search', function(event, search) {
 
-  back.webContents.send('search', search)
+  back.webContents.send('search', search);
 
 });
 
 ipcMain.on('searchByType', function(event, search) {
 
-  back.webContents.send('searchType', search)
+  back.webContents.send('searchType', search);
 
 });
 
 ipcMain.on('download', function(event, name) {
 
-  back.webContents.send('download', name)
+  back.webContents.send('download', name);
 
 });
 
 ipcMain.on('watchFm', function(event, name) {
 
-  back.webContents.send('watchFm')
+  back.webContents.send('watchFm');
 })
 
 ipcMain.on('triggle', function(event, name) {
 
-  back.webContents.send('triggle', name)
+  back.webContents.send('triggle', name);
+})
+
+ipcMain.on('emitMessage', function(event, value, to, from, username) {
+
+  back.webContents.send('emitMessage', {
+    content: value,
+    from: from,
+    username:username
+  },to);
+
 })
 
 //////////////////////////////////////////////////////////
@@ -199,7 +206,7 @@ ipcMain.on('searchResult', function(event, data) {
   mainWindow.webContents.send('searchResult', data);
 })
 
-ipcMain.on('torrentCreated',function(event){
+ipcMain.on('torrentCreated', function(event) {
   mainWindow.webContents.send('torrentCreated');
 })
 
@@ -212,11 +219,11 @@ ipcMain.on('complete', function(event, data) {
   mainWindow.webContents.send('complete', data);
 })
 
-ipcMain.on('uploadComplete',function(event, data) {
+ipcMain.on('uploadComplete', function(event, data) {
   mainWindow.webContents.send('uploadComplete')
 })
 
-ipcMain.on('uploadFail',function(event, data) {
+ipcMain.on('uploadFail', function(event, data) {
   mainWindow.webContents.send('uploadFail')
 })
 
@@ -225,7 +232,7 @@ ipcMain.on('closeF', function(event, data) {
 })
 
 ipcMain.on('message', function(event, data) {
-  mainWindow.webContents.send('message',data)
+  mainWindow.webContents.send('message', data)
 })
 
 //////////////////////////////////////////////////////

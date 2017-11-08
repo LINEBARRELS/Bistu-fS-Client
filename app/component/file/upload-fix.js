@@ -14,7 +14,7 @@ class UpLoad extends React.Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {type:'doc'};
   }
 
   handleChange(event) {
@@ -62,17 +62,12 @@ class UpLoad extends React.Component {
 
   checkState() {
 
-    if (Object.keys(this.state).length < 5) {
-      return false;
-    }
+    let keyTocheck = ['missionName','type','path']
 
-    for (let key in this.state) {
-      if (this.state[key] === '') {
-        return false;
-      }
-    }
+    return keyTocheck.every((item)=>{
+      return this.state[item]&&this.state[item].length!==0?true:false;
+    })
 
-    return true;
   }
 
   submit(event) {
@@ -88,18 +83,18 @@ class UpLoad extends React.Component {
   render() {
     let ok = this.checkState();
     return <div className='col-container'>
-      <div className='col col-4'>
-        <Input placeholder='名称' onChange={this.handleChange.bind(this)} name='missionName' />
+      <div className='col col-4 upload-col'>
+        <Input label='名称' onChange={this.handleChange.bind(this)} name='missionName' />
         <Unit onItemClick={itemClick.bind(this)}>
           <UnitItem data='movie'>movie</UnitItem>
           <UnitItem data='music'>music</UnitItem>
           <UnitItem data='game'>game</UnitItem>
           <UnitItem data='doc'>doc</UnitItem>
         </Unit>
-        <textarea className='text-area' placeholder='简介,不大于100' onChange={this.handleChange.bind(this)} name='intro' ></textarea>
+        <textarea className='text-area' label='简介,不大于100' onChange={this.handleChange.bind(this)} name='intro' ></textarea>
         <Tag onChange={tagSelect.bind(this)}/>
       </div>
-      <div className='col col-6'>
+      <div className='col col-6 upload-col'>
         <div className='file-select' onDrop={fileSelect.bind(this)}>把文件拖放至此<small>记得把文件放入客户端所在的file文件夹中,否则无法共享</small>
         </div>
         <button className='submit-button' disabled={!ok} onClick={this.submit.bind(this)}>commit!</button>

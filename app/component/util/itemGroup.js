@@ -1,4 +1,5 @@
 var React = require('react');
+import {CSSTransitionGroup} from 'transitionGroup'
 
 class ItemGroup extends React.Component {
   constructor() {
@@ -7,7 +8,9 @@ class ItemGroup extends React.Component {
 
   render(){
     return <div className='item-group'>
-    {this.props.children}
+    <CSSTransitionGroup transitionName="tagAni" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+      {this.props.children}
+    </CSSTransitionGroup>
     </div>
   }
 }

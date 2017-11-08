@@ -49,6 +49,7 @@ export const searchReducer = (state = Map({result: List([]), type: ''}), action)
 // message:{
 //   content:string,
 //   from:uid
+//   own:boolean 是否为自己的信息
 // }
 
 // friends:{
@@ -59,14 +60,19 @@ export const searchReducer = (state = Map({result: List([]), type: ''}), action)
 //   }
 // }
 
-export const messageReducer = (state = Map({unread:0,friends:Map({}),messages:List([]),on:''}), action) => {
+export const messageReducer = (state = Map({unread:0,friends:Map({}),messages:List([]),on:null}), action) => {
 
   switch (action.type) {
     case 'newMessage':
+      if(!state.hasIn(['frients',action.message.from])){
+        console.log('用户初始化');
+        state = state.setIn(['friends',action.message.from],Map({username:'',unread:0,last:''}))
+      }
       return state.updateIn('unread', v => v+=1)
           .updateIn(['messages'],v => v.push(action.message))
-          .updateIn(['friends',action.message.from],v => v === undefined ?v={username:'',unread:0,last:''}:null)
-          .updateIn(['friends',action.message.from],v => v={username:action.message.username,unread:(v.unread|0)+1,last:action.message.content} )
+          .setIn(['friends',action.message.from,'username'],action.message.username)
+          .updateIn(['friends',action.message.from,'unread'],v=> ++v )
+          .setIn(['friends',action.message.from,'last'],action.message.content)
     case 'clearUnread':
       return state.updateIn(['unread'], v => v = 0);
     case 'loadUser':

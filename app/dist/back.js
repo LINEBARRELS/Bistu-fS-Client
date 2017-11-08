@@ -92,6 +92,11 @@ ipc.on('torrentCreated', function(event, torrent, args, hash, uid) {
 
 });
 
+ipc.on('emitMessage',function(event, message, to){
+  console.log(message,to);
+  so.emit('message',message,to)
+})
+
 setInterval(()=>{
   ipc.send('fm',fileMission);
 },500);

@@ -6,10 +6,15 @@ class Item extends React.Component {
   }
 
   render(){
-    return <div className='item'>
-    <a>{this.props.user}</a>
-    <div>{this.props.unread}</div>
-    <div>{this.props.last}</div>
+
+    let tip = this.props.unread === 0?null:<div className='item-tip'>{this.props.unread}</div>
+
+    return <div className='item' onClick={(event)=>{
+        this.props.onClick(this.props.value)
+    }}>
+    <a className='item-title'>{this.props.title}</a>
+    {tip}
+    <div className='item-content'>{this.props.content}</div>
     </div>
   }
 }
