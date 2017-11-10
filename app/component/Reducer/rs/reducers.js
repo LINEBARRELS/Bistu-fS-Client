@@ -66,7 +66,7 @@ export const messageReducer = (state = Map({unread:0,friends:Map({}),messages:Li
     case 'newMessage':
       if(!state.hasIn(['frients',action.message.from])){
         console.log('用户初始化');
-        state = state.setIn(['friends',action.message.from],Map({username:'',unread:0,last:''}))
+        state = state.setIn(['friends',action.message.from],Map({username:'',unread:0,last:''}));
       }
       return state.updateIn('unread', v => v+=1)
           .updateIn(['messages'],v => v.push(action.message))
@@ -77,6 +77,10 @@ export const messageReducer = (state = Map({unread:0,friends:Map({}),messages:Li
       return state.updateIn(['unread'], v => v = 0);
     case 'loadUser':
       return state.updateIn(['friends',action.user,'unread'], v => 0).set('on',action.user);
+    case 'userInit':
+      return state.setIn(['friends',action.userinfo.uid],Map({username:action.userinfo.name,unread:0,last:''}));
+    case 'ownInput':
+      return state.updateIn(['messages'],v=>v.push(action.message));
     default:
       return state
   }

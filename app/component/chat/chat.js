@@ -38,7 +38,7 @@ class Chat extends React.Component {
     if (chatStore.on !== null){
       for (let i of chatStore.messages) {
         if (i.from === chatStore.on) {
-          let own = i.own
+          let own = i.own === true
             ? 'own'
             : '';
           chating.push(
@@ -46,19 +46,21 @@ class Chat extends React.Component {
           );
         }
       }
-    }//if
+    }else {
+      chating.push(<p>没有聊天记录</p>);
+    }
 
-    if (chating.length === 0) {
+    if (chatStore.on === null) {
       result.push(<p>没有聊天记录</p>);
     }else {
       result.push(<div className='chat-header'>{chatStore.friends[chatStore.on].username}</div>);
       result.push(<div className='chat-list'>{chating}</div>);
-      result.push(<div className='chat-footer'><Input onChange={setInputValue.bind(this)} value={this.state.chatBar}/><button onClick={sendMessage.bind(this)}>发送</button></div>);
+      result.push(<div className='chat-footer'><Input onChange={setInputValue.bind(this)} onEnter={sendMessage.bind(this)} value={this.state.chatBar}/><button onClick={sendMessage.bind(this)}>发送</button></div>);
     }
 
     return <div className='col-container'>
       <div className='col col-2 chat-user'>
-        <Search />
+        <Search resultClick={addFriends.bind(this)}/>
         <ItemGroup>
           {groupContent}
         </ItemGroup>
@@ -74,8 +76,13 @@ function setInputValue(event){
     this.setState({chatBar:event.target.value})
 }
 function sendMessage(){
-  ipc.send('emitMessage',this.state.chatBar,this.props.message.on,window.uid,window.username)
-  this.setState({chatBar:''})
+  this.props.dispatch({type:'ownInput',message:{content:this.state.chatBar,from:this.props.message.on,own:true}});
+  ipc.send('emitMessage',this.state.chatBar,this.props.message.on,window.uid,window.username);
+  this.setState({chatBar:''});
+}
+
+function addFriends(event,data){
+  this.props.dispatch({type:'userInit',userinfo:data});
 }
 
 function mapStateToProps(state) {

@@ -21,8 +21,8 @@
 }
 
 @font-face {
-  font-family: lato;
-  src: url(../font/lato-italic.ttf);
+  font-family:hys;
+  src: url(../font/HYSongYunLangHeiW.ttf);
 }
 
 @font-face {
@@ -56,13 +56,13 @@
 }
 
 @font-face {
-  font-family: code;
-  src: url('../font/Western/CODE Bold.otf');
+  font-family: hya;
+  src: url('../font/hya.ttf');
 }
 
 @font-face {
-  font-family: nexa;
-  src: url('../font/Western/Nexa Light.otf');
+  font-family: hyb;
+  src: url('../font/hyb.ttf');
 }
 
 html, body {
@@ -778,7 +778,7 @@ html, body {
 }
 
 .input>input {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, hys;
   font-size: 14px;
   display: block;
   width: 100%;
@@ -796,7 +796,6 @@ html, body {
   /*    border-right: 0px;*/
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  font-weight: bold;
 }
 
 .input.right>input {
@@ -1246,7 +1245,7 @@ html, body {
 
 .item-title {
   font-family: cnx;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bolder;
 }
 
@@ -1287,14 +1286,36 @@ html, body {
 
 .search input{
   border-radius: 0;
+  border-right: none;
 }
+
 
 .search .searchResult{
-  height: 0;
+  /*height: 0;*/
   width: 100%;
   overflow: hidden;
+  border-bottom: 1px solid rgba(34, 36, 38, .25);
+  background: rgba(247, 248, 251, 0.95);
+  margin-top: -1px;
 }
 
+.result-item:hover{
+  background: rgb(241, 241, 241);
+}
+
+.searchResult .result-item{
+  padding: .3em;
+  cursor: pointer;
+}
+
+.searchResult .result-item .header{
+  font-family: hys;
+}
+
+.searchResult .result-item .meta{
+  font-size: small;
+  font-family: hys;
+}
 
 .chat-user {
   background-color: rgb(255, 255, 253);
@@ -1328,6 +1349,8 @@ html, body {
   flex: 1 1 0;
   width: 100%;
   overflow-x:hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-footer{
@@ -1382,8 +1405,10 @@ html, body {
   margin: 10px;
   max-width: 50%;
   background: white;
+  min-width: 30%;
 }
 
 .chat-block.own{
-
+  align-self: flex-end;
+  color: rgb(177, 210, 253);
 }
