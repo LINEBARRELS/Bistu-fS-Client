@@ -15,7 +15,7 @@ class PollBlock extends React.Component {
       <div className={cl}>
         <div className='inner-icon'></div>
         <div className='inner-content'>
-          <h3>{this.props.header}</h3>
+          <div>{this.props.header}</div>
           <p>{this.props.content}</p>
         </div>
       </div>

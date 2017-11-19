@@ -13,6 +13,14 @@ class Search extends Component {
     }
   }
 
+  componentDidMount(){
+    document.body.addEventListener('click', (event) => {
+      if(event.target !== this.textInput){
+          this.setState({result: []});
+      }
+    });
+  }
+
   setValue(event) {
     this.setState({search: event.target.value})
   }
@@ -35,7 +43,7 @@ class Search extends Component {
 
   render() {
     return <div className='search'>
-      <Input onChange={this.setValue.bind(this)} onEnter={this.fetchData.bind(this)} onBlur={()=>{this.setState(result:[])}} placeholder='搜索用户..'/>
+      <Input onChange={this.setValue.bind(this)} onEnter={this.fetchData.bind(this)} onBlur={()=>{this.setState(result:[])}} placeholder='搜索用户..' ref={(input) => { this.textInput = input; }} />
       <SearchResult result={this.state.result} clickHandler={this.props.resultClick}/>
     </div>
   }

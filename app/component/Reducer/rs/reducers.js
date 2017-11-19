@@ -25,7 +25,7 @@ export const routerReducer = (state = Map({cur: 'index'}), action) => {
 
 // }
 
-export const searchReducer = (state = Map({result: List([]), type: ''}), action) => {
+export const searchReducer = (state = Map({result: List([]), type: '',page:0}), action) => {
 
   switch (action.actionType) {
     case 'appendContent':
@@ -64,7 +64,7 @@ export const messageReducer = (state = Map({unread:0,friends:Map({}),messages:Li
 
   switch (action.type) {
     case 'newMessage':
-      if(!state.hasIn(['frients',action.message.from])){
+      if(!state.hasIn(['friends',action.message.from])){
         console.log('用户初始化');
         state = state.setIn(['friends',action.message.from],Map({username:'',unread:0,last:''}));
       }

@@ -4,26 +4,17 @@
   padding: 0;
 }
 
-@import url(https://fonts.googleapis.com/css?family=Raleway:500);
-@font-face {
-  font-family: side;
-  src: url(../font/DancingScript-Regular.otf);
-}
 
-@font-face {
-  font-family: rou;
-  src: url(../font/Fontfabric.otf);
-}
 
 @font-face {
   font-family: avr;
-  src: url(../font/AvenirLTStd-Book.otf);
+  src: url(../font/avenirnextregular.otf);
 }
 
-@font-face {
+/*@font-face {
   font-family:hys;
   src: url(../font/HYSongYunLangHeiW.ttf);
-}
+}*/
 
 @font-face {
   font-family: icon;
@@ -40,10 +31,10 @@
   src: url('../font/Chrobot.otf');
 }
 
-@font-face {
+/*@font-face {
   font-family: cnX;
   src: url('../font/cnX.ttf');
-}
+}*/
 
 @font-face {
   font-family: enY;
@@ -52,17 +43,32 @@
 
 @font-face {
   font-family: hel;
-  src: url('../font/Helvetica/Helvetica.ttf');
+  src: url('../font/Helvetica.ttf');
 }
 
 @font-face {
-  font-family: hya;
-  src: url('../font/hya.ttf');
+  font-family: hyz;
+  src: url('../font/hyz.ttf');
 }
 
 @font-face {
   font-family: hyb;
   src: url('../font/hyb.ttf');
+}
+
+@font-face {
+  font-family: cal;
+  src: url('../font/calibri.ttf');
+}
+
+@font-face {
+	font-family: nexa;
+	src: url('../font/Nexa Light.otf');
+}
+
+@font-face {
+  font-family: lt;
+  src: url('../font/lt.ttf');
 }
 
 html, body {
@@ -478,7 +484,7 @@ html, body {
 }
 
 .banner-item {
-  font-family: cnx;
+  font-family: avr,hyz;
   display: flex;
   height: 100%;
   text-align: center;
@@ -637,23 +643,25 @@ html, body {
 }
 
 .inner-content {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', code, bla;
   height: 100%;
   margin-left: 30%;
-  padding: 10px;
+  padding: .5em;
   cursor: pointer;
-  color: #fcfaf2;
+  /*color: #fcfaf2;*/
 }
 
-.inner-content h3 {
+.inner-content div {
   /* overflow-wrap: normal; */
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: code, bla;
+  font-family: avr,hyz;
+  font-size: 22px;
 }
 
 .inner-content p {
-  font-size: smaller;
+  word-break: break-all;
+  font-size: 15px;
+  font-family: cal,hyz;
 }
 
 .movie {
@@ -665,10 +673,11 @@ html, body {
   background-image: url('../img/movie.png');
   background-repeat: no-repeat;
   background-position: 50%;
+  background-color: #00896c;
 }
 
 .movie>.inner-content {
-  background: #00896c;
+
 }
 
 .music {
@@ -680,10 +689,11 @@ html, body {
   background-image: url('../img/music.png');
   background-repeat: no-repeat;
   background-position: 50%;
+  background-color: #724938;
 }
 
 .music>.inner-content {
-  background: #724938;
+
 }
 
 .game {
@@ -695,10 +705,11 @@ html, body {
   background-image: url('../img/game.png');
   background-repeat: no-repeat;
   background-position: 50%;
+  background-color: #9f353a;
 }
 
 .game>.inner-content {
-  background: #9f353a;
+
 }
 
 .doc {
@@ -710,10 +721,11 @@ html, body {
   background-image: url('../img/doc.png');
   background-repeat: no-repeat;
   background-position: 50%;
+  background-color: #4e4f97;
 }
 
 .doc>.inner-content {
-  background: #4e4f97;
+
 }
 
 .row {
@@ -758,7 +770,6 @@ html, body {
 }
 
 .input {
-  font-family: cnx;
   font-size: 14px;
   position: relative;
   display: flex;

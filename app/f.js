@@ -6908,7 +6908,7 @@ var routerReducer = exports.routerReducer = function routerReducer() {
 // }
 
 var searchReducer = exports.searchReducer = function searchReducer() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _immutable.Map)({ result: (0, _immutable.List)([]), type: '' });
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _immutable.Map)({ result: (0, _immutable.List)([]), type: '', page: 0 });
   var action = arguments[1];
 
 
@@ -6955,7 +6955,7 @@ var messageReducer = exports.messageReducer = function messageReducer() {
 
   switch (action.type) {
     case 'newMessage':
-      if (!state.hasIn(['frients', action.message.from])) {
+      if (!state.hasIn(['friends', action.message.from])) {
         console.log('用户初始化');
         state = state.setIn(['friends', action.message.from], (0, _immutable.Map)({ username: '', unread: 0, last: '' }));
       }
@@ -8697,7 +8697,7 @@ var PollBlock = function (_React$Component) {
             'div',
             { className: 'inner-content' },
             React.createElement(
-              'h3',
+              'div',
               null,
               this.props.header
             ),
@@ -8814,6 +8814,17 @@ var Search = function (_Component) {
   }
 
   _createClass(Search, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      document.body.addEventListener('click', function (event) {
+        if (event.target !== _this2.textInput) {
+          _this2.setState({ result: [] });
+        }
+      });
+    }
+  }, {
     key: 'setValue',
     value: function setValue(event) {
       this.setState({ search: event.target.value });
@@ -8821,7 +8832,7 @@ var Search = function (_Component) {
   }, {
     key: 'fetchData',
     value: function fetchData(event) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (event.target && event.target.value !== '') {
         var header = new Headers();
@@ -8832,7 +8843,7 @@ var Search = function (_Component) {
             return;
           }
           resp.json().then(function (data) {
-            _this2.setState({ result: data });
+            _this3.setState({ result: data });
           });
         }); //fetch
       }
@@ -8840,14 +8851,16 @@ var Search = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _react2.default.createElement(
         'div',
         { className: 'search' },
         _react2.default.createElement(_input.Input, { onChange: this.setValue.bind(this), onEnter: this.fetchData.bind(this), onBlur: function onBlur() {
-            _this3.setState(result);
-          }, placeholder: '\u641C\u7D22\u7528\u6237..' }),
+            _this4.setState(result);
+          }, placeholder: '\u641C\u7D22\u7528\u6237..', ref: function ref(input) {
+            _this4.textInput = input;
+          } }),
         _react2.default.createElement(_searchResult.SearchResult, { result: this.state.result, clickHandler: this.props.resultClick })
       );
     }
