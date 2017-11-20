@@ -14,11 +14,11 @@ class Search extends Component {
   }
 
   componentDidMount(){
-    document.body.addEventListener('click', (event) => {
-      if(event.target !== this.textInput){
-          this.setState({result: []});
-      }
-    });
+    // document.body.addEventListener('click', (event) => {
+    //   if(event.target !== this.textInput){
+    //       this.setState({result: []});
+    //   }
+    // });
   }
 
   setValue(event) {

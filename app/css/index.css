@@ -71,11 +71,22 @@
   src: url('../font/lt.ttf');
 }
 
+@font-face {
+  font-family: hyq;
+  src: url('../font/HYQiHei-50S Light.ttf');
+}
+
+@font-face {
+  font-family: ari;
+  src: url('../font/Arial-Regular.ttf');
+}
+
 html, body {
   width: 100%;
   height: 100%;
   animation: in .5s ease backwards;
   color: #fcfaf2;
+  font-family: ari,hyq;
 }
 
 @keyframes in {
@@ -219,7 +230,7 @@ html, body {
 }
 
 .main {
-  font-family: sans-serif;
+  /*font-family: sans-serif;*/
   position: relative;
   z-index: 2;
   right: 0;
@@ -484,7 +495,7 @@ html, body {
 }
 
 .banner-item {
-  font-family: avr,hyz;
+  font-family: cal,hyz;
   display: flex;
   height: 100%;
   text-align: center;
@@ -654,14 +665,14 @@ html, body {
   /* overflow-wrap: normal; */
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: avr,hyz;
+  font-family: ari,hyq;
   font-size: 22px;
 }
 
 .inner-content p {
   word-break: break-all;
-  font-size: 15px;
-  font-family: cal,hyz;
+  font-size: 14px;
+  font-family: ari,hyq;
 }
 
 .movie {
@@ -779,7 +790,7 @@ html, body {
 }
 
 .input>label {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;
+  /*font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;*/
   font-weight: bold;
   line-height: 1.2857;
   width: 50px;
@@ -789,7 +800,8 @@ html, body {
 }
 
 .input>input {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, hys;
+  /*font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, hys;*/
+  font-family: inherit;
   font-size: 14px;
   display: block;
   width: 100%;
@@ -819,7 +831,9 @@ html, body {
 }
 
 .text-area {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, cnx, bla;
+  /*font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, cnx, bla;*/
+  /*font-weight: bold;*/
+  font-family: inherit;
   font-weight: bold;
   line-height: 1.2857;
   width: 100%;
@@ -841,8 +855,8 @@ html, body {
 }
 
 .file-select {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;
-  font-weight: 700;
+  /*font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;
+  font-weight: 700;*/
   position: relative;
   display: flex;
   width: 100%;
@@ -864,8 +878,8 @@ html, body {
 }
 
 .submit-button {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  font-family: sans-serif;
+  /*font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: sans-serif;*/
   font-weight: 700;
   line-height: 1.42857143;
   min-height: 1em;
@@ -894,7 +908,7 @@ html, body {
 }*/
 
 .unit {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;
+  /*font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;*/
   display: flex;
   flex-direction: row;
   height: 30px;
@@ -978,7 +992,7 @@ html, body {
 }
 
 .tag {
-  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;
+  /*font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif, bla;*/
   position: relative;
   display: flex;
   width: 80px;
@@ -1069,7 +1083,7 @@ html, body {
 }
 
 .dropZone {
-  font-family: bla;
+  /*font-family: bla;*/
   line-height: 400px;
   /* float: right; */
   position: absolute;
@@ -1169,7 +1183,7 @@ html, body {
   background: linear-gradient(rgba(33, 34, 39, .81), rgba(31, 31, 31, .85) 30%, rgba(24, 25, 29, .87));
   color: rgb(235, 239, 232);
   box-shadow: 1px 4px 9px 0px rgba(8, 8, 8, .5);
-  font-family: avr, bla;
+  /*font-family: avr, bla;*/
   font-size: 15px;
   position: relative;
 }
@@ -1255,9 +1269,7 @@ html, body {
 }
 
 .item-title {
-  font-family: cnx;
   font-size: 16px;
-  font-weight: bolder;
 }
 
 .item-content {
@@ -1320,12 +1332,13 @@ html, body {
 }
 
 .searchResult .result-item .header{
-  font-family: hys;
+  font-family: avr,hyz;
+  font-weight: bold;
 }
 
 .searchResult .result-item .meta{
   font-size: small;
-  font-family: hys;
+  font-family: avr,hyz;
 }
 
 .chat-user {
@@ -1421,5 +1434,5 @@ html, body {
 
 .chat-block.own{
   align-self: flex-end;
-  color: rgb(177, 210, 253);
+
 }

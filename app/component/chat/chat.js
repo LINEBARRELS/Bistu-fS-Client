@@ -82,6 +82,7 @@ function sendMessage(){
 }
 
 function addFriends(event,data){
+  console.log(data);
   this.props.dispatch({type:'userInit',userinfo:data});
 }
 
