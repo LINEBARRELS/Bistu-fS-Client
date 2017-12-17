@@ -238,7 +238,6 @@ html, body {
   overflow: hidden;
   box-sizing: border-box;
   height: calc(100vh - 40px);
-  margin-left: 160px;
   transition: all .2s;
   color: #1c1c1c;
   background-color: rgba(255, 255, 254, .95);
@@ -268,7 +267,6 @@ html, body {
   z-index: 4;
   display: flex;
   height: 40px;
-  margin-left: 160px;
   padding-left: 10px;
   background: rgba(254, 254, 254, .98);
   box-shadow: 0 0 7px 0 rgba(0, 0, 0, .6);
@@ -819,6 +817,7 @@ html, body {
   /*    border-right: 0px;*/
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  line-height:28px;
 }
 
 .input.right>input {
@@ -1434,5 +1433,6 @@ html, body {
 
 .chat-block.own{
   align-self: flex-end;
+  background: rgba(96, 243, 115, 0.87);
 
 }

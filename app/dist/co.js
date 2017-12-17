@@ -134,3 +134,7 @@ so.on('connection_wrong', function(data) {
     }
   } //fm
 })
+
+so.on('redis_test_message',(message)=>{
+    console.log(message)
+})

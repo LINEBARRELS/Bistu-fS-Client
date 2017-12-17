@@ -23,18 +23,17 @@ window.st = store;
 
 ipc.on('userinfo', function(event, user, uid ) {
   console.log(uid);
-  // window.so=so
-  // so.username=arg;
+
   window.username = user;
   window.uid = uid;
-  // so.emit('onLine',arg);
-  // ipc.send('roomInit',so.username);
-  // console.log(AppR)
+
   ReactDOM.render(
     <Provider store={store}>
     <AppR/>
   </Provider>, layout);
 });
+
+
 
 window.Bit = function(num) {
   if (num < 1048576) {

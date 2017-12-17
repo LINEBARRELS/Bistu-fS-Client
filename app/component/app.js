@@ -1,22 +1,26 @@
 var React = require('react');
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 
-import {Main} from "./main.js"
+import {Main} from "./main.js";
 import {TopBar} from "./topBar/topBar.js"
+//
+// import {SideBar} from "./util/sideBar.js"
+// import {SideBarItem} from "./util/barItem.js"
+// import {Input} from './util/input.js'
 
-import {SideBar} from "./util/sideBar.js"
-import {SideBarItem} from "./util/barItem.js"
-import {Input} from './util/input.js'
+import {Layout, Menu, Icon} from 'antd';
+const {Sider, Content} = Layout;
 
-import {pageAction} from "./Action/Page.js"
-import {sideBarAction} from './Action/SideBar.js'
+import {pageAction} from "./Action/Page.js";
+import {sideBarAction} from './Action/SideBar.js';
+
+const Fragment = React.Fragment;
 
 class App extends React.Component {
   constructor(args) {
     super(args);
-
   }
 
   fa(e) {
@@ -28,27 +32,51 @@ class App extends React.Component {
   render() {
 
     var dispatch = this.props.dispatch;
+    const LayoutStyle = {
+        width:'100vw',
+        height:'100vh'
+    }
+    const siderStyle = {
+      height:'100vh',
+      position: 'fixed',
+      left: 0
+    }
 
-    return <div onDrap={this.fa.bind(this)}>
-      <TopBar cur={this.props.current} onLogoClick={() => {
-        dispatch(sideBarAction());
-      }}><Input onKeyDown={(event) => {
-      console.log(event.key)
-    }} type='dark' id='top-search'/>
-      </TopBar>
+    const contentStyle = {
+      height:'100vh',
+      margin:'0 0 0 160px'
+    }
 
-      <SideBar visiable={this.props.barState} className='sideBar' itemEvent={(data) => {
-        dispatch(pageAction(data));
-      }} itemClass='side-item' active={this.props.current}>
-        <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\index.png' data='index' disc='主页'/>
-        <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\download.png' data='download' disc='下载'/>
-        <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\upload.png' data='upload' disc='上传文件'/>
-        <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\chat.png' data='chat' disc='信息'/>
-        <SideBarItem img='D:\frontEnd\Bistu-fS-Client\app\img\user set.png' data='user' disc='设置'/>
-      </SideBar>
-
-      <Main cur={this.props.current} loading={this.props.loading}/>
-      
+    return <div>
+      <Layout style={LayoutStyle}>
+        <Sider style={siderStyle} width={160}>
+          <Menu mode='inline' theme='dark' onClick={(item) => {
+             dispatch(pageAction(item.key));
+           }}>
+              <div id='logo'>fs client</div>
+              <Menu.Item key = 'index'>
+                  <Icon type="appstore" />
+                  <span>主页</span>
+              </Menu.Item>
+              <Menu.Item key = 'download'>
+                  <Icon type="download" />
+                  <span>下载任务</span>
+              </Menu.Item>
+              <Menu.Item key = 'upload'>
+                  <Icon type="cloud-upload-o" />
+                  <span>上传文件</span>
+              </Menu.Item>
+              <Menu.Item key = 'chat'>
+                  <Icon type="message"/>
+                  <span>即时通信</span>
+              </Menu.Item>
+          </Menu>
+        </Sider>
+        <Content style={contentStyle}>
+           <TopBar />
+           <Main cur={this.props.current} loading={this.props.loading}/>
+        </Content>
+      </Layout>
     </div>
   }
 }

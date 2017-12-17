@@ -6,7 +6,6 @@ var ipc = electron.ipcRenderer;
 import {Input} from '../util/input.js'
 import {Unit} from '../util/unit.js'
 import {UnitItem} from '../util/unitItem.js'
-import {Tag} from '../util/tag.js'
 
 import {Map, List, is} from 'immutable';
 
@@ -92,7 +91,6 @@ class UpLoad extends React.Component {
           <UnitItem data='doc'>doc</UnitItem>
         </Unit>
         <textarea className='text-area' label='简介,不大于100' onChange={this.handleChange.bind(this)} name='intro' ></textarea>
-        <Tag onChange={tagSelect.bind(this)}/>
       </div>
       <div className='col col-6 upload-col'>
         <div className='file-select' onDrop={fileSelect.bind(this)}>把文件拖放至此<small>记得把文件放入客户端所在的file文件夹中,否则无法共享</small>

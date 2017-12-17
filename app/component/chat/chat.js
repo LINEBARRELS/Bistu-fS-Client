@@ -3,7 +3,6 @@ var electron= require('electron');
 import {connect} from 'react-redux'
 
 import {Input} from '../util/input.js'
-import {ItemGroup} from '../util/itemGroup.js'
 import {Item} from '../util/item.js'
 import {Search} from '../util/search.js'
 
@@ -60,10 +59,7 @@ class Chat extends React.Component {
 
     return <div className='col-container'>
       <div className='col col-2 chat-user'>
-        <Search resultClick={addFriends.bind(this)}/>
-        <ItemGroup>
-          {groupContent}
-        </ItemGroup>
+      
       </div>
       <div className='col col-5 chat-content'>
         {result}
